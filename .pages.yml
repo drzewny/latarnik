@@ -1,0 +1,197 @@
+media:
+  input: public/assets
+  output: /assets
+  rename: safe
+  extensions: [png, jpg, jpeg, webp, avif, svg]
+
+content:
+  - name: site
+    label: Ustawienia strony
+    type: file
+    path: content/site.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - { name: name, label: Nazwa, type: string, required: true }
+      - { name: description, label: Opis SEO, type: text, required: true }
+      - { name: email, label: Publiczny e-mail, type: string }
+      - { name: phone, label: Telefon, type: string }
+      - { name: location, label: Lokalizacja, type: string }
+      - { name: linkedin, label: LinkedIn URL, type: string }
+      - { name: github, label: GitHub URL, type: string }
+
+  - name: home
+    label: Strona główna
+    type: file
+    path: content/home.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: hero
+        label: Hero
+        type: object
+        fields:
+          - { name: eyebrow, label: Nadtytuł, type: string, required: true }
+          - { name: title, label: Nagłówek, type: string, required: true }
+          - { name: accent, label: Niebieska część nagłówka, type: string, required: true }
+          - { name: lead, label: Opis, type: text, required: true }
+          - { name: note, label: Notatka przy obrazie, type: string }
+      - name: usp
+        label: Wyróżniki w hero
+        type: object
+        list: true
+        fields:
+          - name: icon
+            type: select
+            options:
+              values: [zap, chart, smile, clock, shield, user]
+          - { name: text, label: Tekst, type: string, required: true }
+      - name: services
+        label: Usługi
+        type: object
+        fields:
+          - { name: title, label: Nagłówek, type: string, required: true }
+          - { name: intro, label: Wstęp, type: text, required: true }
+          - name: items
+            label: Karty usług
+            type: object
+            list: true
+            fields:
+              - name: icon
+                type: select
+                options:
+                  values: [workflow, cube, grid, zap, chart, shield]
+              - { name: title, label: Nazwa usługi, type: string, required: true }
+              - { name: description, label: Opis, type: text, required: true }
+      - name: applications
+        label: Zastosowania
+        type: object
+        fields:
+          - { name: title, label: Nagłówek, type: string, required: true }
+          - { name: intro, label: Wstęp, type: text, required: true }
+      - name: about
+        label: O mnie
+        type: object
+        fields:
+          - { name: title, label: Nagłówek, type: string, required: true }
+          - { name: paragraphs, label: Akapity, type: text, list: true }
+          - { name: principles, label: Zasady współpracy, type: string, list: true }
+      - name: benefits
+        label: Dlaczego warto
+        type: object
+        fields:
+          - { name: title, label: Nagłówek, type: string, required: true }
+          - { name: intro, label: Wstęp, type: text, required: true }
+          - name: items
+            label: Korzyści
+            type: object
+            list: true
+            fields:
+              - name: icon
+                type: select
+                options:
+                  values: [clock, chart, user, shield, zap, smile]
+              - { name: title, label: Nazwa, type: string, required: true }
+              - { name: description, label: Opis, type: text, required: true }
+      - name: knowledge
+        label: Wiedza
+        type: object
+        fields:
+          - { name: title, label: Nagłówek, type: string, required: true }
+          - { name: intro, label: Wstęp, type: text, required: true }
+      - name: contact
+        label: Kontakt
+        type: object
+        fields:
+          - { name: title, label: Nagłówek, type: string, required: true }
+          - { name: intro, label: Wstęp, type: text, required: true }
+
+  - name: applications
+    label: Przykładowe zastosowania
+    type: collection
+    path: content/applications
+    format: json
+    filename: "{primary}.json"
+    exclude: [.gitkeep]
+    operations:
+      rename: false
+    view:
+      primary: title
+      sort: order
+      order: asc
+    fields:
+      - { name: title, label: Tytuł, type: string, required: true }
+      - { name: published, label: Opublikowane, type: boolean }
+      - { name: order, label: Kolejność, type: number, required: true }
+      - { name: category, label: Kategoria, type: string, required: true }
+      - { name: summary, label: Opis karty, type: text, required: true }
+      - { name: image, label: Obraz, type: image, required: true }
+      - name: blocks
+        label: Sekcje opisu
+        type: object
+        list: true
+        fields:
+          - { name: heading, label: Nagłówek, type: string, required: true }
+          - { name: text, label: Tekst, type: text, required: true }
+
+  - name: cases
+    label: Potwierdzone realizacje
+    type: collection
+    path: content/cases
+    format: json
+    filename: "{primary}.json"
+    exclude: [.gitkeep]
+    operations:
+      rename: false
+    view:
+      primary: title
+      sort: order
+      order: asc
+    fields:
+      - { name: title, label: Tytuł, type: string, required: true }
+      - { name: published, label: Opublikowane, type: boolean }
+      - { name: order, label: Kolejność, type: number, required: true }
+      - { name: category, label: Kategoria, type: string, required: true }
+      - { name: summary, label: Opis karty, type: text, required: true }
+      - { name: image, label: Obraz, type: image, required: true }
+      - { name: result, label: Potwierdzony wynik, type: string }
+      - { name: resultLabel, label: Opis wyniku, type: string }
+      - name: blocks
+        label: Sekcje realizacji
+        type: object
+        list: true
+        fields:
+          - { name: heading, label: Nagłówek, type: string, required: true }
+          - { name: text, label: Tekst, type: text, required: true }
+
+  - name: articles
+    label: Artykuły
+    type: collection
+    path: content/articles
+    format: json
+    filename: "{primary}.json"
+    exclude: [.gitkeep]
+    operations:
+      rename: false
+    view:
+      primary: title
+      sort: date
+      order: desc
+    fields:
+      - { name: title, label: Tytuł, type: string, required: true }
+      - { name: published, label: Opublikowane, type: boolean }
+      - { name: order, label: Kolejność na stronie głównej, type: number, required: true }
+      - { name: category, label: Kategoria, type: string, required: true }
+      - { name: date, label: Data, type: date, required: true }
+      - { name: summary, label: Zajawka, type: text, required: true }
+      - { name: image, label: Obraz, type: image, required: true }
+      - name: blocks
+        label: Treść artykułu
+        type: object
+        list: true
+        fields:
+          - { name: heading, label: Śródtytuł, type: string, required: true }
+          - { name: text, label: Akapit, type: text, required: true }
+

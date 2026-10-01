@@ -1,0 +1,12 @@
+{
+  "published": true,
+  "order": 2,
+  "category": "Aplikacja na miarę",
+  "title": "Jedno miejsce do pilnowania projektów",
+  "summary": "Przykład prostej aplikacji, która zbiera statusy, zadania i ważne informacje w jednym widoku.",
+  "image": "/assets/case-app.webp",
+  "blocks": [
+    { "heading": "Sytuacja", "text": "Informacje o projektach są rozproszone w arkuszach, wiadomościach i notatkach. Trudno szybko sprawdzić, co wymaga uwagi." },
+    { "heading": "Możliwe rozwiązanie", "text": "Niewielka aplikacja może pokazać aktualny stan prac, terminy i następne kroki. Zakres funkcji warto dobrać do zespołu, zamiast przenosić do niej każdy proces." }
+  ]
+}

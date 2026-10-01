@@ -1,0 +1,12 @@
+{
+  "published": true,
+  "order": 1,
+  "category": "Automatyzacja",
+  "title": "Od zapytania do odpowiedzi bez przepisywania danych",
+  "summary": "Przykładowy przepływ, w którym formularz, lista zadań i wiadomości e-mail tworzą jeden uporządkowany proces.",
+  "image": "/assets/case-automation.webp",
+  "blocks": [
+    { "heading": "Sytuacja", "text": "Zapytania wpływają różnymi kanałami, a najważniejsze informacje trzeba ręcznie przenosić między narzędziami." },
+    { "heading": "Możliwe rozwiązanie", "text": "Formularz może zapisywać dane w jednym miejscu, tworzyć zadanie i przygotowywać potwierdzenie dla klienta. Szczegóły zawsze zależą od używanych narzędzi i sposobu pracy." }
+  ]
+}
