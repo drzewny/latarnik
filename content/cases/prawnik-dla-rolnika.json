@@ -1,0 +1,23 @@
+{
+  "published": true,
+  "order": 2,
+  "category": "Strona internetowa",
+  "title": "Prawnik dla Rolnika",
+  "summary": "Serwis kancelarii prezentuje pomoc prawną dla rolników, producentów rolnych i właścicieli gruntów.",
+  "image": "/assets/case-prawnikdlarolnika.jpg",
+  "externalUrl": "https://www.prawnikdlarolnika.pl/",
+  "blocks": [
+    {
+      "heading": "Cel strony",
+      "text": "Witryna kieruje informacje prawne do rolników, producentów rolnych i właścicieli gruntów oraz przedstawia zakres wsparcia kancelarii."
+    },
+    {
+      "heading": "Co zawiera",
+      "text": "Serwis przedstawia specjalizacje, publikuje praktyczne artykuły i umożliwia wysłanie zapytania przez formularz kontaktowy."
+    },
+    {
+      "heading": "Autorstwo",
+      "text": "Jestem autorem strony internetowej Prawnik dla Rolnika."
+    }
+  ]
+}

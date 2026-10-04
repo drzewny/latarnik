@@ -1,0 +1,36 @@
+{
+  "lead": "Dobra strona szybko wyjaśnia, czym zajmuje się Twoja firma, komu pomaga i jak można zrobić kolejny krok. Projektuję i wdrażam strony, które porządkują ofertę, dobrze działają na telefonie i ułatwiają klientom kontakt.",
+  "sections": [
+    {
+      "heading": "Klient ma wiedzieć, co zrobić dalej",
+      "text": "Strona firmowa powinna odpowiadać na pytania, które pojawiają się przed kontaktem: co oferujesz, dla kogo pracujesz i jak się z Tobą skontaktować. Układam treści i strukturę wokół tych potrzeb, żeby odbiorca nie musiał szukać najważniejszych informacji."
+    },
+    {
+      "heading": "Wygląd dopasowany do firmy i jej klientów",
+      "text": "Zaczynam od Twojej oferty, odbiorców i celu strony. Na tej podstawie dobieram układ, treści i elementy wizualne. Strona ma być czytelna na komputerze i telefonie, a jej obsługa — prosta dla Ciebie i Twoich klientów."
+    },
+    {
+      "heading": "Bez zbędnych dodatków",
+      "text": "Zakres strony dopasowuję do tego, czego naprawdę potrzebuje firma: od klarownej prezentacji usług po rozbudowaną strukturę z dodatkowymi podstronami. Ustalamy, co ma znaleźć się na stronie, przygotowuję ją do publikacji i sprawdzam działanie na różnych urządzeniach."
+    }
+  ],
+  "processTitle": "Od ustalenia celu do gotowej strony",
+  "steps": [
+    {
+      "title": "Ustalamy potrzeby",
+      "text": "Rozmawiamy o Twojej ofercie, klientach i zadaniu, które strona ma spełniać. Ustalamy też zakres, treści i materiały potrzebne do pracy."
+    },
+    {
+      "title": "Układam treść i strukturę",
+      "text": "Porządkuję informacje i projektuję układ tak, by klient szybko znalazł to, czego szuka, a Tobie łatwo było przedstawić ofertę."
+    },
+    {
+      "title": "Wdrożenie",
+      "text": "Buduję stronę, sprawdzam ją na komputerze i telefonie, a następnie publikuję pod ustalonym adresem."
+    }
+  ],
+  "examples": {
+    "title": "Zobacz strony przygotowane dla firm",
+    "intro": "Przejrzyj działające witryny i zobacz, jak przedstawiają ofertę oraz prowadzą klienta do kontaktu."
+  }
+}

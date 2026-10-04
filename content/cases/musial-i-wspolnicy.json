@@ -1,0 +1,23 @@
+{
+  "published": true,
+  "order": 1,
+  "category": "Strona internetowa",
+  "title": "Musiał i Wspólnicy",
+  "summary": "Strona kancelarii prawnej przedstawia obsługę firm, specjalizacje zespołu i sposób kontaktu.",
+  "image": "/assets/case-musial.jpg",
+  "externalUrl": "https://www.musial.pl/",
+  "blocks": [
+    {
+      "heading": "Cel strony",
+      "text": "Witryna przedstawia kancelarię wspierającą przedsiębiorców w sprawach biznesowych, nowych technologii i innych obszarach prawa."
+    },
+    {
+      "heading": "Co zawiera",
+      "text": "Opisuje między innymi obsługę prawną firm, prawo nowych technologii i cyberbezpieczeństwo, branżę B+R, projekty finansowane ze środków UE, ochronę środowiska, własności intelektualnej i danych osobowych. Przedstawia też kancelarię oraz jej dane kontaktowe."
+    },
+    {
+      "heading": "Autorstwo",
+      "text": "Jestem autorem strony internetowej Musiał i Wspólnicy."
+    }
+  ]
+}

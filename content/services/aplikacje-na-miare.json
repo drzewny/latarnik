@@ -1,0 +1,17 @@
+{
+  "lead": "Gotowe narzędzia są tworzone z myślą o wielu firmach naraz. Jeśli Twój sposób pracy jest inny, możesz zbudować aplikację wokół własnych procesów — z funkcjami i widokami, których naprawdę potrzebuje Twój zespół.",
+  "sections": [
+    {
+      "heading": "To proces wyznacza kształt aplikacji",
+      "text": "Nie musisz zmieniać sprawdzonego sposobu pracy tylko dlatego, że gotowy system nie daje się do niego dopasować. Wspólnie określamy, co aplikacja ma ułatwić, kto będzie z niej korzystać i jakie informacje powinny być pod ręką. Projektuję rozwiązanie pod te potrzeby, bez funkcji, które tylko zaciemniają codzienną obsługę."
+    },
+    {
+      "heading": "Jedno narzędzie, którego potrzebuje firma",
+      "text": "Aplikacja może porządkować zgłoszenia, usprawniać obieg informacji, zbierać dane w jednym miejscu lub wspierać konkretny etap obsługi klienta. Zakres ustalamy na podstawie rzeczywistych zadań i budżetu, a rozwiązanie można rozwijać wraz ze zmianą potrzeb firmy."
+    },
+    {
+      "heading": "Web, iOS i Android",
+      "text": "Tworzę aplikacje webowe dostępne w przeglądarce oraz aplikacje mobilne na iOS i Android. Dobieramy formę do tego, gdzie i jak pracują użytkownicy — przy biurku, w terenie czy w obu tych miejscach. Celem jest narzędzie, które wygodnie wpisuje się w ich dzień pracy."
+    }
+  ]
+}

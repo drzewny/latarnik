@@ -35,7 +35,7 @@ content:
         fields:
           - { name: eyebrow, label: Nadtytuł, type: string, required: true }
           - { name: title, label: Nagłówek, type: string, required: true }
-          - { name: accent, label: Niebieska część nagłówka, type: string, required: true }
+          - { name: accent, label: Niebieska część nagłówka, type: string }
           - { name: lead, label: Opis, type: text, required: true }
           - { name: note, label: Notatka przy obrazie, type: string }
       - name: usp
@@ -63,14 +63,13 @@ content:
                 type: select
                 options:
                   values: [workflow, cube, grid, zap, chart, shield]
+              - name: slug
+                label: Adres podstrony
+                type: select
+                options:
+                  values: [automatyzacja, aplikacje-na-miare, ai, strony-internetowe]
               - { name: title, label: Nazwa usługi, type: string, required: true }
               - { name: description, label: Opis, type: text, required: true }
-      - name: applications
-        label: Zastosowania
-        type: object
-        fields:
-          - { name: title, label: Nagłówek, type: string, required: true }
-          - { name: intro, label: Wstęp, type: text, required: true }
       - name: about
         label: O mnie
         type: object
@@ -108,36 +107,30 @@ content:
           - { name: title, label: Nagłówek, type: string, required: true }
           - { name: intro, label: Wstęp, type: text, required: true }
 
-  - name: applications
-    label: Przykładowe zastosowania
-    type: collection
-    path: content/applications
+  - name: website_service
+    label: Usługa: strony internetowe
+    type: file
+    path: content/services/strony-internetowe.json
     format: json
-    filename: "{primary}.json"
-    exclude: [.gitkeep]
     operations:
-      rename: false
-    view:
-      primary: title
-      sort: order
-      order: asc
+      delete: false
     fields:
-      - { name: title, label: Tytuł, type: string, required: true }
-      - { name: published, label: Opublikowane, type: boolean }
-      - { name: order, label: Kolejność, type: number, required: true }
-      - { name: category, label: Kategoria, type: string, required: true }
-      - { name: summary, label: Opis karty, type: text, required: true }
-      - { name: image, label: Obraz, type: image, required: true }
-      - name: blocks
-        label: Sekcje opisu
+      - name: steps
+        label: Etapy współpracy
         type: object
         list: true
         fields:
-          - { name: heading, label: Nagłówek, type: string, required: true }
+          - { name: title, label: Nazwa etapu, type: string, required: true }
           - { name: text, label: Tekst, type: text, required: true }
+      - name: examples
+        label: Wdrożenia
+        type: object
+        fields:
+          - { name: title, label: Nagłówek, type: string, required: true }
+          - { name: intro, label: Wstęp, type: text, required: true }
 
   - name: cases
-    label: Potwierdzone realizacje
+    label: Przykłady wdrożeń
     type: collection
     path: content/cases
     format: json
@@ -156,10 +149,11 @@ content:
       - { name: category, label: Kategoria, type: string, required: true }
       - { name: summary, label: Opis karty, type: text, required: true }
       - { name: image, label: Obraz, type: image, required: true }
+      - { name: externalUrl, label: Adres działającej witryny, type: string, required: true }
       - { name: result, label: Potwierdzony wynik, type: string }
       - { name: resultLabel, label: Opis wyniku, type: string }
       - name: blocks
-        label: Sekcje realizacji
+        label: Sekcje opisu wdrożenia
         type: object
         list: true
         fields:
@@ -194,4 +188,3 @@ content:
         fields:
           - { name: heading, label: Śródtytuł, type: string, required: true }
           - { name: text, label: Akapit, type: text, required: true }
-

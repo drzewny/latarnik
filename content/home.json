@@ -1,36 +1,36 @@
 {
   "hero": {
-    "eyebrow": "Automatyzacje · Aplikacje · Strony WWW",
-    "title": "Duże rozwiązania",
-    "accent": "dla małych firm",
-    "lead": "Wykorzystaj technologię, aby mała firma działała szybciej, prościej i bardziej efektywnie. Automatyzacje, aplikacje na miarę i nowoczesne strony internetowe — bez zbędnego nadęcia.",
+    "eyebrow": "Automatyzacje · Aplikacje · AI · WWW",
+    "title": "Duże rozwiązania dla małych firm",
+    "lead": "Wykorzystaj technologię, aby Twoja firma działała szybciej, prościej i bardziej efektywnie. Rozwiązania, które do tej pory były dostępne tylko dla dużych firm i dużych budżetów, teraz mogą być w zasięgu Twojej ręki.",
     "note": "Technologia, która pracuje na Twój spokój"
   },
   "usp": [
-    { "icon": "zap", "text": "Mniej ręcznej pracy" },
-    { "icon": "chart", "text": "Więcej czasu na rozwój" },
-    { "icon": "smile", "text": "Rozwiązania dla Twojej firmy" }
+    { "icon": "smile", "text": "Mniej ręcznej pracy" },
+    { "icon": "clock", "text": "Więcej czasu na rozwój" },
+    { "icon": "workflow", "text": "Rozwiązania dla Twojej firmy" }
   ],
   "services": {
     "title": "Technologia dopasowana do Twoich potrzeb",
-    "intro": "Pomagam małym firmom korzystać z nowoczesnych narzędzi w praktyczny sposób. Bez zbędnego żargonu, z naciskiem na codzienną użyteczność.",
+    "intro": "Pomagam małym firmom korzystać z nowoczesnych narzędzi w praktyczny sposób.",
     "items": [
-      { "icon": "workflow", "title": "Automatyzacja procesów", "description": "Eliminuję powtarzalne zadania i łączę Twoje narzędzia w spójny ekosystem. Mniej klikania, więcej efektów." },
-      { "icon": "cube", "title": "Aplikacje na miarę", "description": "Tworzę proste i skuteczne aplikacje dostosowane do Twojego biznesu. Dokładnie takie, jakich potrzebujesz — bez przepłacania." },
-      { "icon": "grid", "title": "Strony internetowe", "description": "Projektuję nowoczesne, szybkie i skuteczne strony, które naprawdę wspierają Twój biznes." }
+      { "icon": "settings", "slug": "automatyzacja", "title": "Automatyzacja", "description": "Odzyskaj czas i uwagę, które dziś pochłaniają powtarzalne czynności. Automatyzuję zadania, które nie muszą za każdym razem angażować człowieka." },
+      { "icon": "blocks", "slug": "aplikacje-na-miare", "title": "Aplikacje na miarę", "description": "Zamiast dopasowywać firmę do gotowego systemu, zbuduj narzędzie wokół swojego sposobu pracy — webowe albo mobilne na iOS i Android." },
+      { "icon": "zap", "slug": "ai", "title": "AI", "description": "Włącz AI do codziennej pracy tam, gdzie pomaga szybciej porządkować informacje, przygotowywać treści i podejmować kolejne kroki." },
+      { "icon": "layout-template", "slug": "strony-internetowe", "title": "Strony internetowe", "description": "Pokaż jasno, czym zajmuje się Twoja firma i ułatw klientom kolejny krok. Projektuję szybkie strony dopasowane do Twojej oferty." }
     ]
   },
-  "applications": {
-    "title": "Pomysły, które można przełożyć na działanie",
-    "intro": "Trzy przykładowe scenariusze pokazują, jak technologia może uporządkować codzienną pracę. To ilustracje możliwości, a nie opisy realizacji klientów."
+  "examples": {
+    "title": "Strony stworzone dla prawdziwych firm",
+    "intro": "Zobacz działające witryny i poznaj ich najważniejsze elementy."
   },
   "about": {
     "title": "Łączę technologię z praktyką biznesową",
     "paragraphs": [
-      "Nazywam się Jakub. W Latarniku skupiam się na rozwiązaniach, które odpowiadają na rzeczywiste potrzeby małych firm.",
-      "Zaczynam od zrozumienia sposobu pracy. Potem szukam prostego narzędzia lub procesu, który może tę pracę ułatwić."
+      "Nazywam się Jakub. Jestem doświadczonym specjalistą IT i programistą, z doświadczeniem w branżach FMCG, farmaceutycznej, paliwowej i prawniczej. Pracowałem w zespołach wszelkich rozmiarów, korzystających z dziesiątek różnych narzędzi i procesów. Dzięki temu wiem, jak ważne jest dopasowanie technologii do realnych potrzeb firmy.",
+      "Latarnik to mój pomysł na przenoszenie najlepszych praktyk i udostępnianie małym firmom technologii, które do tej pory były dostępne tylko dla dużych przedsiębiorstw. Wspieram właścicieli firm w usprawnianiu procesów i wdrażaniu narzędzi, które pozwalają im pracować szybciej i efektywniej."
     ],
-    "principles": ["Zrozumiały język", "Praktyczny zakres", "Bezpośrednia współpraca"]
+    "principles": ["Bezpośrednia współpraca", "Wieloletnie doświadczenie", "Indywidualne podejście"]
   },
   "benefits": {
     "title": "Technologia, która naprawdę pomaga",
@@ -39,7 +39,7 @@
       { "icon": "clock", "title": "Oszczędzasz czas", "description": "Mniej ręcznej pracy pozwala skupić się na tym, co naprawdę ważne." },
       { "icon": "chart", "title": "Zwiększasz efektywność", "description": "Lepsze narzędzia pomagają uporządkować procesy i codzienne zadania." },
       { "icon": "user", "title": "Masz partnera", "description": "Rozmawiasz bezpośrednio z osobą, która poznaje potrzeby Twojej firmy." },
-      { "icon": "shield", "title": "Rozwiązania na miarę", "description": "Zakres projektu dopasowujemy do celów i możliwości Twojej firmy." }
+      { "icon": "ruler", "title": "Rozwiązania na miarę", "description": "Zakres projektu dopasowujemy do celów i możliwości Twojej firmy." }
     ]
   },
   "knowledge": {
