@@ -36,6 +36,7 @@ type Entry = {
   image: string;
   blocks: Block[];
   date?: string;
+  author?: string;
   result?: string;
   resultLabel?: string;
   externalUrl?: string;
@@ -83,6 +84,24 @@ function safeExternalUrl(value: string): string {
   try { url = new URL(value); } catch { throw new Error(`Nieprawidłowy adres zewnętrzny: ${value}`); }
   if (url.protocol !== 'https:' || url.username || url.password) throw new Error(`Nieprawidłowy adres zewnętrzny: ${value}`);
   return esc(url.toString());
+}
+
+function renderBlockText(text: string): string {
+  return text.split(/\n\s*\n/).filter(Boolean).map((paragraph) => {
+    const lines = paragraph.split('\n');
+    if (lines.every((line) => /^- /.test(line))) {
+      return `<ul>${lines.map((line) => `<li>${renderInlineText(line.slice(2))}</li>`).join('')}</ul>`;
+    }
+    return `<p>${lines.map(renderInlineText).join('<br>')}</p>`;
+  }).join('');
+}
+
+function renderInlineText(text: string): string {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part) =>
+    part.startsWith('**') && part.endsWith('**')
+      ? `<strong>${esc(part.slice(2, -2))}</strong>`
+      : esc(part),
+  ).join('');
 }
 
 function icon(name: IconName, className = ''): string {
@@ -211,7 +230,7 @@ function renderDetail(entry: Entry, kind: 'case' | 'article'): string {
   const parentLabel = isCase ? 'Strony internetowe' : 'Wiedza';
   const parentHref = isCase ? '/uslugi/strony-internetowe/#wdrozenia' : '/wiedza/';
   const liveSite = isCase && entry.externalUrl ? `<a class="button button-primary live-site-link" href="${safeExternalUrl(entry.externalUrl)}" target="_blank" rel="noopener noreferrer">Zobacz działającą stronę ${icon('arrow')}</a>` : '';
-  return `<article class="detail-page"><div class="container"><nav class="breadcrumbs" aria-label="Ścieżka strony"><a href="/">Strona główna</a><span aria-hidden="true">/</span><a href="${parentHref}">${parentLabel}</a></nav><header class="detail-header">${eyebrow(entry.category)}<h1>${esc(entry.title)}</h1><p>${esc(entry.summary)}</p>${!isCase && entry.date ? `<time datetime="${esc(entry.date)}">${esc(new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long' }).format(new Date(entry.date)))}</time>` : ''}</header><figure class="detail-cover"><img src="${safeAsset(entry.image)}" width="680" height="340" alt="" fetchpriority="high"></figure><div class="detail-content">${isCase && entry.result ? `<div class="detail-result"><strong>${esc(entry.result)}</strong><span>${esc(entry.resultLabel)}</span></div>` : ''}${entry.blocks.map((block) => `<section><h2>${esc(block.heading)}</h2><p>${esc(block.text)}</p></section>`).join('')}${liveSite}<a class="text-link back-link" href="${parentHref}">← Wróć do: ${parentLabel}</a></div></div></article>`;
+  return `<article class="detail-page"><div class="container"><nav class="breadcrumbs" aria-label="Ścieżka strony"><a href="/">Strona główna</a><span aria-hidden="true">/</span><a href="${parentHref}">${parentLabel}</a></nav><header class="detail-header">${eyebrow(entry.category)}<h1>${esc(entry.title)}</h1><p>${esc(entry.summary)}</p>${!isCase && entry.date ? `<time datetime="${esc(entry.date)}">${esc(new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long' }).format(new Date(entry.date)))}</time>` : ''}${!isCase && entry.author ? `<p class="article-author"><img src="/assets/jakub-portret.jpg" width="32" height="32" alt="" aria-hidden="true"><span>${esc(entry.author)}</span></p>` : ''}</header><figure class="detail-cover"><img src="${safeAsset(entry.image)}" width="680" height="340" alt="" fetchpriority="high"></figure><div class="detail-content">${isCase && entry.result ? `<div class="detail-result"><strong>${esc(entry.result)}</strong><span>${esc(entry.resultLabel)}</span></div>` : ''}${entry.blocks.map((block) => `<section>${block.heading ? `<h2>${esc(block.heading)}</h2>` : ''}${renderBlockText(block.text)}</section>`).join('')}${liveSite}<a class="text-link back-link" href="${parentHref}">← Wróć do: ${parentLabel}</a></div></div></article>`;
 }
 
 function redirectPage(target: string, destination: string): string {

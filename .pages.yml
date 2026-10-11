@@ -179,6 +179,7 @@ content:
       - { name: order, label: Kolejność na stronie głównej, type: number, required: true }
       - { name: category, label: Kategoria, type: string, required: true }
       - { name: date, label: Data, type: date, required: true }
+      - { name: author, label: Autor, type: string, required: true }
       - { name: summary, label: Zajawka, type: text, required: true }
       - { name: image, label: Obraz, type: image, required: true }
       - name: blocks
@@ -186,5 +187,5 @@ content:
         type: object
         list: true
         fields:
-          - { name: heading, label: Śródtytuł, type: string, required: true }
+          - { name: heading, label: Śródtytuł, type: string }
           - { name: text, label: Akapit, type: text, required: true }
