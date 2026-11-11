@@ -1,0 +1,80 @@
+name: Deploy to prod on demand
+
+# Buduje stronę z brancha main i wgrywa dist/ do <DEPLOY_PATH>/public_html na hostingu OVH (SFTP).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build i wdrożenie strony
+    runs-on: ubuntu-24.04
+    environment:
+      name: Production
+      url: https://latarnik.dev/
+    steps:
+      - name: Sprawdź konfigurację
+        env:
+          TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
+          SFTP_HOST: ${{ vars.SFTP_HOST }}
+          SFTP_USER: ${{ vars.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+        run: |
+          missing=0
+          for name in TURNSTILE_SITE_KEY SFTP_HOST SFTP_USER SFTP_PASSWORD DEPLOY_PATH; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Brak ${name} w środowisku Production (Settings → Environments → Production)."
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+        env:
+          TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
+
+      - name: Sprawdź wynik buildu
+        run: |
+          test -f dist/index.html
+          test -f dist/api/kontakt.php
+          if grep -rq '1x00000000000000000000AA' dist --include='*.html'; then
+            echo "::error::Build zawiera testowy klucz Turnstile."
+            exit 1
+          fi
+
+      - name: Wgraj dist/ przez SFTP
+        uses: ./.github/actions/sftp-mirror
+        with:
+          local-dir: dist
+          remote-dir: ${{ vars.DEPLOY_PATH }}/public_html
+          # Pliki zarządzane przez OVH lub dodane ręcznie – mirror ich nie usuwa.
+          excludes: |
+            ^\.well-known/
+            ^\.htaccess$
+            ^\.ovhconfig$
+          host: ${{ vars.SFTP_HOST }}
+          port: ${{ vars.SFTP_PORT || '22' }}
+          user: ${{ vars.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          known-hosts: ${{ vars.SFTP_KNOWN_HOSTS }}

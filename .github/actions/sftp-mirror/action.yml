@@ -1,0 +1,108 @@
+name: SFTP mirror
+description: >
+  Wgrywa katalog na serwer przez SFTP (lftp mirror --reverse --delete).
+  Hasło trafia do lftp przez zmienną środowiskową, nie przez linię poleceń.
+
+inputs:
+  local-dir:
+    description: Lokalny katalog do wgrania (np. dist).
+    required: true
+  remote-dir:
+    description: Katalog docelowy względem katalogu domowego SFTP (np. latarnik/public_html).
+    required: true
+  excludes:
+    description: Wyrażenia regularne lftp (po jednym w linii) dla ścieżek, których mirror nie wgrywa ani nie usuwa.
+    required: false
+    default: ''
+  post-commands:
+    description: Dodatkowe polecenia lftp wykonywane w katalogu docelowym po synchronizacji.
+    required: false
+    default: ''
+  host:
+    required: true
+  port:
+    required: false
+    default: '22'
+  user:
+    required: true
+  password:
+    required: true
+  known-hosts:
+    description: Linie known_hosts serwera (wynik ssh-keyscan). Bez nich klucz jest pobierany przy każdym uruchomieniu.
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Zainstaluj lftp
+      shell: bash
+      run: |
+        if ! command -v lftp >/dev/null; then
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+        fi
+
+    - name: Przygotuj known_hosts
+      shell: bash
+      env:
+        HOST: ${{ inputs.host }}
+        PORT: ${{ inputs.port }}
+        KNOWN_HOSTS: ${{ inputs.known-hosts }}
+      run: |
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        if [ -n "$KNOWN_HOSTS" ]; then
+          printf '%s\n' "$KNOWN_HOSTS" >> ~/.ssh/known_hosts
+        else
+          echo "::warning::Brak zmiennej SFTP_KNOWN_HOSTS – klucz serwera pobrany przez ssh-keyscan bez weryfikacji."
+          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
+        fi
+        chmod 600 ~/.ssh/known_hosts
+
+    - name: Synchronizuj przez SFTP
+      shell: bash
+      env:
+        LOCAL_DIR: ${{ inputs.local-dir }}
+        REMOTE_DIR: ${{ inputs.remote-dir }}
+        EXCLUDES: ${{ inputs.excludes }}
+        POST_COMMANDS: ${{ inputs.post-commands }}
+        HOST: ${{ inputs.host }}
+        PORT: ${{ inputs.port }}
+        SFTP_USER: ${{ inputs.user }}
+        LFTP_PASSWORD: ${{ inputs.password }}
+      run: |
+        set -euo pipefail
+
+        # Zabezpieczenie przed mirror --delete w złym miejscu.
+        case "$REMOTE_DIR" in
+          ''|/*|*..*) echo "::error::Niepoprawny katalog docelowy: '$REMOTE_DIR'"; exit 1 ;;
+        esac
+        if [ ! -d "$LOCAL_DIR" ]; then
+          echo "::error::Brak lokalnego katalogu $LOCAL_DIR"; exit 1
+        fi
+
+        exclude_args=""
+        while IFS= read -r pattern; do
+          [ -z "$pattern" ] && continue
+          exclude_args+=" --exclude '${pattern}'"
+        done <<< "$EXCLUDES"
+
+        script="$(mktemp)"
+        cat > "$script" <<LFTP
+        set cmd:fail-exit yes
+        set net:max-retries 3
+        set net:timeout 30
+        set net:reconnect-interval-base 5
+        set sftp:auto-confirm no
+        set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=yes"
+        open --env-password -u "$SFTP_USER" -p "$PORT" "sftp://$HOST"
+        mkdir -pf "$REMOTE_DIR"
+        cd "$REMOTE_DIR"
+        mirror --reverse --delete --verbose --parallel=4${exclude_args} "$LOCAL_DIR/" .
+        $POST_COMMANDS
+        bye
+        LFTP
+
+        lftp -f "$script"
+        rm -f "$script"

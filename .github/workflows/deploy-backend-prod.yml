@@ -1,0 +1,96 @@
+name: Deploy backend to prod on demand
+
+# Instaluje zależności PHP formularza kontaktowego, generuje config.php z sekretów
+# i wgrywa server/ do <DEPLOY_PATH>/server na hostingu OVH (SFTP).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Wdrożenie backendu formularza
+    runs-on: ubuntu-24.04
+    environment:
+      name: Production
+      url: https://latarnik.dev/#kontakt
+    steps:
+      - name: Sprawdź konfigurację
+        env:
+          SFTP_HOST: ${{ vars.SFTP_HOST }}
+          SFTP_USER: ${{ vars.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+        run: |
+          missing=0
+          for name in SFTP_HOST SFTP_USER SFTP_PASSWORD DEPLOY_PATH; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Brak ${name} w środowisku Production (Settings → Environments → Production)."
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: curl, mbstring
+          tools: composer:v2
+          coverage: none
+
+      - name: Composer install
+        working-directory: server
+        run: |
+          composer validate --no-check-publish --no-interaction
+          composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+      - name: Wygeneruj config.php
+        env:
+          CONFIG_PATH: server/config.php
+          TURNSTILE_SECRET: ${{ secrets.TURNSTILE_SECRET }}
+          TURNSTILE_HOSTNAMES: ${{ vars.TURNSTILE_HOSTNAMES }}
+          ALLOWED_ORIGINS: ${{ vars.ALLOWED_ORIGINS }}
+          SMTP_HOST: ${{ vars.SMTP_HOST }}
+          SMTP_PORT: ${{ vars.SMTP_PORT }}
+          SMTP_ENCRYPTION: ${{ vars.SMTP_ENCRYPTION }}
+          SMTP_USERNAME: ${{ vars.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          MAIL_FROM: ${{ vars.MAIL_FROM }}
+          MAIL_FROM_NAME: ${{ vars.MAIL_FROM_NAME }}
+          MAIL_TO: ${{ vars.MAIL_TO }}
+        run: php .github/scripts/render-config.php
+
+      - name: Sprawdź backend
+        run: |
+          php -l server/config.php
+          php -l server/bootstrap.php
+          php -l server/src/ContactForm.php
+          php -r 'require "server/vendor/autoload.php"; exit(class_exists("Latarnik\\ContactForm") && class_exists("PHPMailer\\PHPMailer\\PHPMailer") ? 0 : 1);'
+
+      - name: Wgraj server/ przez SFTP
+        uses: ./.github/actions/sftp-mirror
+        with:
+          local-dir: server
+          remote-dir: ${{ vars.DEPLOY_PATH }}/server
+          # storage/ zawiera pliki limitu wysyłek tworzone na serwerze – nie nadpisujemy ich i nie usuwamy.
+          excludes: |
+            ^storage/
+            ^\.gitignore$
+            ^config\.example\.php$
+          post-commands: |
+            mkdir -pf storage
+            chmod 600 config.php
+          host: ${{ vars.SFTP_HOST }}
+          port: ${{ vars.SFTP_PORT || '22' }}
+          user: ${{ vars.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          known-hosts: ${{ vars.SFTP_KNOWN_HOSTS }}

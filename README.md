@@ -40,13 +40,34 @@ latarnik/
 └── public_html/   ← zawartość dist/
 ```
 
-Wdrożenie:
+Wdrożenie (hosting OVH, SFTP) odbywa się ręcznie uruchamianymi workflowami GitHub Actions (zakładka Actions → wybierz workflow → Run workflow). Oba zawsze wdrażają branch `main`:
 
-1. W panelu Cloudflare → Turnstile dodaj widżet dla `latarnik.dev` (tryb Managed). Skopiuj Site key i Secret key.
-2. Utwórz `.env` na podstawie `.env.example` i wpisz `TURNSTILE_SITE_KEY`. Bez niego build używa klucza testowego i wypisuje ostrzeżenie.
-3. `npm run build`, a następnie wgraj `dist/` do `latarnik/public_html/`.
-4. W `server/` uruchom `composer install --no-dev` i skopiuj `config.example.php` jako `config.php`. Uzupełnij sekret Turnstile, dane SMTP i adresy. Wgraj cały `server/` (z `vendor/` i `config.php`) do `latarnik/server/`.
-5. Katalog `latarnik/server/storage/` musi być zapisywalny przez PHP (limit wysyłek).
+- **Deploy to prod on demand** (`.github/workflows/deploy-prod.yml`) – `npm ci`, typecheck, build z `TURNSTILE_SITE_KEY` i synchronizacja `dist/` z `<DEPLOY_PATH>/public_html/`. Usuwa z serwera pliki, których nie ma w buildzie (poza `.well-known/`, `.htaccess`, `.ovhconfig`).
+- **Deploy backend to prod on demand** (`.github/workflows/deploy-backend-prod.yml`) – `composer install --no-dev`, wygenerowanie `config.php` z sekretów (`.github/scripts/render-config.php`) i synchronizacja `server/` z `<DEPLOY_PATH>/server/`. Katalog `storage/` na serwerze nie jest nadpisywany. Uruchom go przy pierwszym wdrożeniu, po zmianie kodu w `server/` i po zmianie sekretów SMTP/Turnstile.
+
+Konfiguracja leży w środowisku GitHub `Production` (Settings → Environments → Production):
+
+| Rodzaj | Nazwa | Opis |
+|---|---|---|
+| Secret | `SFTP_PASSWORD` | Hasło użytkownika FTP/SFTP z panelu OVH |
+| Secret | `TURNSTILE_SECRET` | Secret key widżetu Turnstile |
+| Secret | `SMTP_PASSWORD` | Hasło skrzynki nadawczej |
+| Variable | `SFTP_HOST` | np. `ftp.clusterXXX.hosting.ovh.net` |
+| Variable | `SFTP_USER` | Login FTP/SFTP |
+| Variable | `SFTP_PORT` | Opcjonalnie, domyślnie `22` |
+| Variable | `SFTP_KNOWN_HOSTS` | Zalecane: wynik `ssh-keyscan -p 22 <SFTP_HOST>` |
+| Variable | `DEPLOY_PATH` | Katalog względem katalogu domowego SFTP, np. `latarnik` |
+| Variable | `TURNSTILE_SITE_KEY` | Site key Turnstile (publiczny) |
+| Variable | `SMTP_HOST` | np. `ssl0.ovh.net` |
+| Variable | `SMTP_USERNAME` | np. `kontakt@latarnik.dev` |
+| Variable | `MAIL_TO` | Adres, na który trafiają wiadomości |
+| Variable | `SMTP_PORT`, `SMTP_ENCRYPTION` | Opcjonalnie, domyślnie `465` i `ssl` (`587` + `tls` dla STARTTLS) |
+| Variable | `MAIL_FROM`, `MAIL_FROM_NAME` | Opcjonalnie, domyślnie `SMTP_USERNAME` i „Formularz latarnik.dev” |
+| Variable | `TURNSTILE_HOSTNAMES`, `ALLOWED_ORIGINS` | Opcjonalnie, listy po przecinku; domyślnie `latarnik.dev` i `www.latarnik.dev` |
+
+Wymagania po stronie hostingu: katalog główny domeny (Multisite) ustawiony na `<DEPLOY_PATH>/public_html`, PHP ≥ 8.3 z rozszerzeniami `curl` i `mbstring`. Turnstile: w panelu Cloudflare → Turnstile dodaj widżet dla `latarnik.dev` (tryb Managed).
+
+Wdrożenie ręczne (awaryjnie): `npm run build` z `TURNSTILE_SITE_KEY` w `.env` i wgranie `dist/` do `latarnik/public_html/`; w `server/` `composer install --no-dev`, `config.php` na podstawie `config.example.php` i wgranie całego `server/` (z `vendor/` i `config.php`) do `latarnik/server/`. Katalog `latarnik/server/storage/` musi być zapisywalny przez PHP (limit wysyłek).
 
 Błędy (SMTP, Turnstile) trafiają do logu PHP z prefiksem `[kontakt]`; użytkownik widzi tylko ogólny komunikat.
 
