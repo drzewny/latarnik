@@ -1,0 +1,36 @@
+{
+  "title": "Portfolio — realne projekty, realne efekty | latarnik.",
+  "description": "Wybrane realizacje stron internetowych, dedykowanych aplikacji i automatyzacji dla małych firm.",
+  "hero": {
+    "eyebrow": "PORTFOLIO",
+    "title": "Realne projekty,\nrealne efekty",
+    "description": "Zobacz, jak pomagam małym firmom działać szybciej, prościej i skuteczniej. Każdy projekt to konkretne wyzwanie, praktyczne rozwiązanie i mierzalny efekt.",
+    "image": "/assets/portfolio/hero-laptop-dashboard.webp",
+    "actionLabel": "Porozmawiajmy o Twoim projekcie",
+    "processLabel": "Zobacz, jak pracuję"
+  },
+  "projects": {
+    "eyebrow": "WYBRANE PROJEKTY",
+    "title": "Różne branże,\npodobne wyzwania",
+    "description": "Automatyzacje, aplikacje i strony internetowe skrojone pod realne potrzeby małych firm.",
+    "emptyText": "Brak projektów w wybranej kategorii.",
+    "resetLabel": "Pokaż wszystkie"
+  },
+  "process": {
+    "eyebrow": "JAK PRACUJĘ",
+    "title": "Od pomysłu do wdrożenia\nw kilku jasnych krokach",
+    "steps": [
+      { "icon": "pencil-ruler", "title": "Rozmowa o potrzebach", "description": "Zaczynamy od zrozumienia Twojej firmy, celów i wyzwań." },
+      { "icon": "square-pen", "title": "Propozycja rozwiązania", "description": "Przygotowuję konkretny plan i wycenę." },
+      { "icon": "rocket", "title": "Realizacja i wdrożenie", "description": "Buduję, testuję i uruchamiam rozwiązanie." },
+      { "icon": "cube", "title": "Wsparcie i rozwój", "description": "Pomagam w dalszym rozwoju i dostosowaniach." }
+    ]
+  },
+  "contact": {
+    "eyebrow": "TWÓJ PROJEKT",
+    "title": "Masz podobne wyzwanie?",
+    "description": "Porozmawiajmy o tym, jak mogę pomóc w Twojej firmie.\nNie musisz mieć gotowego pomysłu – wystarczy, że opowiesz o swoim celu.",
+    "actionLabel": "Porozmawiajmy",
+    "href": "/#kontakt"
+  }
+}

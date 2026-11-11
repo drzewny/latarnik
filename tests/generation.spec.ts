@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
@@ -19,8 +19,22 @@ test('generator publikuje tylko zatwierdzone treści CMS', () => {
       blocks: [{ heading: 'Zakres', text: 'Opis zakresu.' }],
     };
     writeFileSync(join(fixture, 'content/cases/potwierdzony-projekt.json'), JSON.stringify(entry));
+    writeFileSync(join(fixture, 'content/cases/integracja-testowa.json'), JSON.stringify({
+      ...entry, title: 'Integracja testowa', order: 0, portfolioCategory: 'integration', externalUrl: undefined,
+      image: '/assets/portfolio/integracja.webp', imagePresentation: 'logo',
+      portfolioImage: '/assets/portfolio/integracja.webp', portfolioImageAlt: 'Integracja narzędzi firmy',
+    }));
+    writeFileSync(join(fixture, 'content/cases/ukryty-projekt.json'), JSON.stringify({ ...entry, title: 'Ukryty projekt', published: false }));
     writeFileSync(join(fixture, 'content/articles/pierwszy-artykul.json'), JSON.stringify({ ...entry, title: 'Pierwszy artykuł', date: '2026-10-01' }));
     writeFileSync(join(fixture, 'content/articles/szkic.json'), JSON.stringify({ ...entry, title: 'Szkic', published: false }));
+    writeFileSync(join(fixture, 'content/articles/niegotowy.json'), '{');
+    const oldArticle = join(fixture, '.generated/wiedza/pierwszy-artykul');
+    mkdirSync(oldArticle, { recursive: true });
+    writeFileSync(join(fixture, '.generated/wiedza/index.html'), '<h1>Wiedza</h1>');
+    writeFileSync(join(oldArticle, 'index.html'), '<h1>Pierwszy artykuł</h1>');
+    const oldWebsiteService = join(fixture, '.generated/uslugi/strony-internetowe');
+    mkdirSync(oldWebsiteService, { recursive: true });
+    writeFileSync(join(oldWebsiteService, 'index.html'), '<h1>Strony internetowe</h1>');
 
     execFileSync(process.execPath, ['--import', 'tsx', resolve('scripts/generate.ts')], {
       cwd: resolve('.'),
@@ -31,30 +45,80 @@ test('generator publikuje tylko zatwierdzone treści CMS', () => {
     expect(existsSync(join(pages, 'uslugi/automatyzacja/index.html'))).toBe(true);
     expect(existsSync(join(pages, 'uslugi/aplikacje-na-miare/index.html'))).toBe(true);
     expect(existsSync(join(pages, 'uslugi/ai/index.html'))).toBe(true);
-    expect(existsSync(join(pages, 'uslugi/strony-internetowe/index.html'))).toBe(true);
+    expect(existsSync(join(pages, 'uslugi/strony-internetowe/index.html'))).toBe(false);
     expect(existsSync(join(pages, 'uslugi/strony-internetowe/potwierdzony-projekt/index.html'))).toBe(true);
     expect(existsSync(join(pages, 'przyklady/index.html'))).toBe(false);
     expect(existsSync(join(pages, 'zastosowania/index.html'))).toBe(false);
     expect(existsSync(join(pages, 'realizacje/index.html'))).toBe(true);
-    expect(existsSync(join(pages, 'wiedza/pierwszy-artykul/index.html'))).toBe(true);
-    expect(existsSync(join(pages, 'wiedza/szkic/index.html'))).toBe(false);
+    expect(existsSync(join(pages, 'wiedza'))).toBe(false);
+    for (const filename of readdirSync(pages, { recursive: true }).filter((name) => name.endsWith('.html'))) {
+      const html = readFileSync(join(pages, filename), 'utf8');
+      expect(html).not.toContain('/wiedza');
+      expect(html).not.toContain('Pierwszy artykuł');
+      expect(html).not.toMatch(/href="\/uslugi\/strony-internetowe\/(?:[?#][^"]*)?"/);
+    }
     const home = readFileSync(join(pages, 'index.html'), 'utf8');
     expect(home).toContain('Dowiedz się więcej');
+    for (const href of ['/favicon.ico', '/favicon.svg', '/apple-touch-icon.png', '/site.webmanifest']) {
+      expect(home).toContain(`href="${href}"`);
+      expect(existsSync(join('public', href))).toBe(true);
+    }
     expect(home).not.toContain('Potwierdzony projekt');
     expect(home).not.toContain('Przykłady');
     expect(home).not.toContain('/przyklady/');
-    expect(home).toContain('Pierwszy artykuł');
+    expect(home).not.toContain('id="wiedza"');
+    expect(home).not.toContain('Artykuły w przygotowaniu');
     expect(home).not.toContain('>Szkic<');
-    const websiteService = readFileSync(join(pages, 'uslugi/strony-internetowe/index.html'), 'utf8');
-    expect(websiteService).toContain('Rozmowa');
-    expect(websiteService).toContain('Projekt');
-    expect(websiteService).toContain('Wdrożenie');
-    expect(websiteService).toContain('Potwierdzony projekt');
+    const portfolio = readFileSync(join(pages, 'portfolio/index.html'), 'utf8');
+    expect(portfolio).toContain('Potwierdzony projekt');
+    expect(portfolio).not.toContain('Ukryty projekt');
+    expect(portfolio).toContain('data-project-category="integration"');
+    expect(portfolio).toContain('src="/assets/portfolio/integracja.webp"');
+    expect(portfolio).toContain('alt="Integracja narzędzi firmy"');
+    expect(portfolio).toContain('class="pf-card-media pf-card-media--logo"');
+    expect(portfolio.indexOf('Integracja testowa')).toBeLessThan(portfolio.indexOf('Potwierdzony projekt'));
+    expect(portfolio).toContain('class="site-header"');
+    expect(portfolio).toContain('class="site-footer"');
+    const integration = readFileSync(join(pages, 'portfolio/integracja-testowa/index.html'), 'utf8');
+    expect(integration).toContain('class="detail-cover detail-cover--logo"');
+    expect(integration).toContain('width="180" height="180" alt="Integracja narzędzi firmy"');
+    expect(integration).toContain('href="/portfolio/?category=integration#projekty"');
+    expect(existsSync(join(pages, 'uslugi/strony-internetowe/integracja-testowa/index.html'))).toBe(false);
     const detail = readFileSync(join(pages, 'uslugi/strony-internetowe/potwierdzony-projekt/index.html'), 'utf8');
+    expect(detail).toContain('class="detail-cover"');
+    expect(detail).not.toContain('detail-cover--logo');
     expect(detail).toContain('href="https://example.com/projekt/"');
     expect(detail).toContain('Zobacz działającą stronę');
+    expect(detail).toContain('href="/portfolio/?category=website#projekty"');
     const redirect = readFileSync(join(pages, 'realizacje/index.html'), 'utf8');
-    expect(redirect).toContain("window.location.replace('/uslugi/strony-internetowe/#wdrozenia')");
+    expect(redirect).toContain("window.location.replace('/portfolio/?category=website#projekty')");
+  } finally {
+    rmSync(fixture, { recursive: true, force: true });
+  }
+});
+
+test('portfolio obsługuje pustą kolekcję i edycję treści CMS', () => {
+  const fixture = mkdtempSync(join(tmpdir(), 'latarnik-portfolio-'));
+  try {
+    cpSync(resolve('content'), join(fixture, 'content'), { recursive: true });
+    for (const filename of readdirSync(join(fixture, 'content/cases')).filter((name) => name.endsWith('.json'))) {
+      const path = join(fixture, 'content/cases', filename);
+      const entry = JSON.parse(readFileSync(path, 'utf8'));
+      writeFileSync(path, JSON.stringify({ ...entry, published: false }));
+    }
+    const portfolioPath = join(fixture, 'content/portfolio.json');
+    const content = JSON.parse(readFileSync(portfolioPath, 'utf8'));
+    content.hero.title = 'Nowy nagłówek z CMS';
+    content.contact.href = 'https://example.com/kontakt';
+    writeFileSync(portfolioPath, JSON.stringify(content));
+    execFileSync(process.execPath, ['--import', 'tsx', resolve('scripts/generate.ts')], {
+      cwd: resolve('.'), env: { ...process.env, LATARNIK_ROOT: fixture },
+    });
+    const html = readFileSync(join(fixture, '.generated/portfolio/index.html'), 'utf8');
+    expect(html).toContain('Nowy nagłówek z CMS');
+    expect(html).toContain('href="https://example.com/kontakt"');
+    expect(html).not.toContain('data-project-category=');
+    expect(html).toContain('data-portfolio-empty>');
   } finally {
     rmSync(fixture, { recursive: true, force: true });
   }

@@ -1,31 +1,31 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { basename, join, resolve } from 'node:path';
+import { portfolioCategories, portfolioHref, servicePortfolioCategories, type PortfolioCategory } from '../src/portfolio-config';
 
-type IconName = 'zap' | 'chart' | 'smile' | 'workflow' | 'cube' | 'grid' | 'clock' | 'user' | 'shield' | 'arrow' | 'mail' | 'phone' | 'pin' | 'menu' | 'close' | 'settings' | 'layout-template' | 'blocks' | 'ruler';
+type IconName = 'zap' | 'chart' | 'smile' | 'workflow' | 'cube' | 'grid' | 'clock' | 'user' | 'shield' | 'arrow' | 'mail' | 'phone' | 'pin' | 'menu' | 'close' | 'settings' | 'layout-template' | 'blocks' | 'ruler' | 'pencil-ruler' | 'square-pen' | 'rocket' | 'circle-play';
 type Item = { icon: IconName; title: string; description: string };
 type Service = Item & { slug: string };
 type Site = { name: string; description: string; email: string; phone: string; location: string; linkedin: string; github: string };
 type Home = {
   hero: { eyebrow: string; title: string; accent?: string; lead: string; note: string };
-  usp: { icon: IconName; text: string }[];
   services: { title: string; intro: string; items: Service[] };
   about: { title: string; paragraphs: string[]; principles: string[] };
   benefits: { title: string; intro: string; items: Item[] };
-  knowledge: { title: string; intro: string };
   contact: { title: string; intro: string };
-};
-type WebsiteServiceContent = {
-  lead: string;
-  sections: { heading: string; text: string }[];
-  processTitle: string;
-  steps: { title: string; text: string }[];
-  examples: { title: string; intro: string };
 };
 type ServicePageContent = {
   lead: string;
   sections: { heading: string; text: string }[];
 };
 type Block = { heading: string; text: string };
+type PortfolioContent = {
+  title: string;
+  description: string;
+  hero: { eyebrow: string; title: string; description: string; image: string; actionLabel: string; processLabel: string };
+  projects: { eyebrow: string; title: string; description: string; emptyText: string; resetLabel: string };
+  process: { eyebrow: string; title: string; steps: { icon: IconName; title: string; description: string }[] };
+  contact: { eyebrow: string; title: string; description: string; actionLabel: string; href: string };
+};
 type Entry = {
   slug: string;
   published: boolean;
@@ -34,12 +34,14 @@ type Entry = {
   title: string;
   summary: string;
   image: string;
+  imagePresentation?: 'cover' | 'logo';
   blocks: Block[];
-  date?: string;
-  author?: string;
   result?: string;
   resultLabel?: string;
   externalUrl?: string;
+  portfolioCategory?: PortfolioCategory;
+  portfolioImage?: string;
+  portfolioImageAlt?: string;
 };
 
 const root = resolve(process.env.LATARNIK_ROOT ?? '.');
@@ -47,10 +49,8 @@ const generated = join(root, '.generated');
 const content = join(root, 'content');
 const site = readJson<Site>(join(content, 'site.json'));
 const home = readJson<Home>(join(content, 'home.json'));
+const portfolio = readJson<PortfolioContent>(join(content, 'portfolio.json'));
 const cases = readEntries('cases');
-const articles = readEntries('articles');
-const websiteService = readJson<WebsiteServiceContent>(join(content, 'services/strony-internetowe.json'));
-const servicePages = new Map<string, ServicePageContent>();
 
 function readJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, 'utf8')) as T;
@@ -64,7 +64,14 @@ function readEntries(folder: string): Entry[] {
       if (typeof item.title !== 'string' || typeof item.summary !== 'string' || !Array.isArray(item.blocks)) {
         throw new Error(`Nieprawidłowa treść: ${folder}/${name}`);
       }
-      return { ...item, slug: basename(name, '.json') };
+      if (item.imagePresentation !== undefined && !['cover', 'logo'].includes(item.imagePresentation)) {
+        throw new Error(`Nieprawidłowy sposób wyświetlania obrazu: ${folder}/${name}`);
+      }
+      const portfolioCategory = folder === 'cases' ? item.portfolioCategory ?? 'website' : undefined;
+      if (portfolioCategory !== undefined && !portfolioCategories.some((category) => category.value !== 'all' && category.value === portfolioCategory)) {
+        throw new Error(`Nieprawidłowa kategoria portfolio: ${folder}/${name}`);
+      }
+      return { ...item, portfolioCategory, slug: basename(name, '.json') };
     })
     .filter((item) => item.published)
     .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title, 'pl'));
@@ -84,6 +91,11 @@ function safeExternalUrl(value: string): string {
   try { url = new URL(value); } catch { throw new Error(`Nieprawidłowy adres zewnętrzny: ${value}`); }
   if (url.protocol !== 'https:' || url.username || url.password) throw new Error(`Nieprawidłowy adres zewnętrzny: ${value}`);
   return esc(url.toString());
+}
+
+function safeContactHref(value: string): string {
+  if (/^\/(?!\/)[a-zA-Z0-9/_?#=&%-]*$/.test(value) || /^mailto:[^\s<>"']+@[^\s<>"']+$/.test(value)) return esc(value);
+  return safeExternalUrl(value);
 }
 
 function renderBlockText(text: string): string {
@@ -125,20 +137,23 @@ function icon(name: IconName, className = ''): string {
     'layout-template': '<rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/>',
     blocks: '<rect width="7" height="7" x="14" y="3" rx="1"/><path d="M10 21V8a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H3"/>',
     ruler: '<path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0z"/><path d="m14.5 12.5 2-2m-5-1 2-2m-5-1 2-2m7 11 2-2"/>',
+    'pencil-ruler': '<path d="m14 4 6 6M3 21l4-1 14-14a2.1 2.1 0 0 0-3-3L4 17l-1 4Z"/><path d="m4 3 5 5-3 3-5-5 3-3Zm12 12 5 5-3 3-5-5m-7-13 2-2m10 15 2-2"/>',
+    'square-pen': '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="m8 16 1-4 6-6 3 3-6 6-4 1Zm6-9 3 3M7 18h10"/>',
+    rocket: '<path d="M12 16 8 12c2-6 6-9 13-9 0 7-3 11-9 13Z"/><circle cx="16" cy="8" r="1.5"/><path d="m8 12-4-1 4-5 4 1m0 9 1 4 5-4-1-4M7 16c-3 0-4 2-4 5 3 0 5-1 5-4"/>',
+    'circle-play': '<circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4V8Z"/>',
   };
   return `<svg class="icon ${esc(className)}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${shapes[name]}</svg>`;
 }
 
 function logo(): string {
   const brandText = site.name.endsWith('.') ? site.name.slice(0, -1) : site.name;
-  return `<a class="brand" href="/" aria-label="${esc(site.name)} — strona główna"><span class="brand-mark" aria-hidden="true"><span></span></span><span>${esc(brandText)}<span class="brand-dot">.</span></span></a>`;
+  return `<a class="brand" href="/" aria-label="${esc(site.name)} — strona główna"><span>${esc(brandText)}<span class="brand-dot">.</span></span></a>`;
 }
 
 function nav(current: string): string {
   const links = [
     ['/#uslugi', 'Usługi', 'uslugi'],
     ['/#o-mnie', 'O mnie', 'o-mnie'],
-    ['/wiedza/', 'Wiedza', 'wiedza'],
     ['/#kontakt', 'Kontakt', 'kontakt'],
   ];
   return links.map(([href, label, id]) => `<a href="${href}"${current === id ? ' aria-current="page"' : ''}>${label}</a>`).join('');
@@ -159,13 +174,13 @@ function footer(): string {
     ['github', site.github, 'GitHub'],
   ].filter(([, url]) => typeof url === 'string' && /^https:\/\//.test(url));
   return `<footer class="site-footer"><div class="container footer-main">${logo()}
-    <nav aria-label="Menu w stopce"><a href="/#uslugi">Usługi</a><a href="/uslugi/strony-internetowe/">Strony internetowe</a><a href="/wiedza/">Wiedza</a><a href="/#kontakt">Kontakt</a></nav>
+    <nav aria-label="Menu w stopce"><a href="/#uslugi">Usługi</a><a href="/portfolio/">Portfolio</a><a href="/#kontakt">Kontakt</a></nav>
     <div class="footer-meta"><div class="social-links">${socials.map(([, url, label]) => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" aria-label="${label}">${label}</a>`).join('')}</div><small>© ${new Date().getFullYear()} ${esc(site.name)}</small></div>
   </div></footer>`;
 }
 
-function documentPage(title: string, description: string, body: string, current = ''): string {
-  return `<!doctype html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#ffffff"><meta name="description" content="${esc(description)}"><title>${esc(title)} — ${esc(site.name)}</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin><script type="module" src="/src/main.ts"></script></head><body>${header(current)}<main id="main" tabindex="-1">${body}</main>${footer()}</body></html>`;
+function documentPage(title: string, description: string, body: string, current = '', portfolioPage = false): string {
+  return `<!doctype html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#ffffff"><meta name="description" content="${esc(description)}"><title>${esc(portfolioPage ? title : `${title} — ${site.name}`)}</title><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin><script type="module" src="/src/main.ts"></script></head><body${portfolioPage ? ' class="portfolio-page"' : ''}>${header(current)}<main id="main" tabindex="-1">${body}</main>${footer()}</body></html>`;
 }
 
 function eyebrow(text: string): string { return `<p class="eyebrow">${esc(text)}</p>`; }
@@ -175,22 +190,43 @@ function sectionHeading(label: string, title: string, intro = ''): string {
 function arrowLink(label: string, href: string, className = ''): string {
   return `<a class="text-link ${className}" href="${esc(href)}">${esc(label)} ${icon('arrow')}</a>`;
 }
-function entryHref(kind: 'case' | 'article', entry: Entry): string {
-  return kind === 'case'
-    ? `/uslugi/strony-internetowe/${encodeURIComponent(entry.slug)}/`
-    : `/wiedza/${encodeURIComponent(entry.slug)}/`;
+function entryHref(entry: Entry): string {
+  return entry.portfolioCategory === 'website' ? `/uslugi/strony-internetowe/${encodeURIComponent(entry.slug)}/` : `/portfolio/${encodeURIComponent(entry.slug)}/`;
 }
-function card(entry: Entry, kind: 'case' | 'article'): string {
-  const date = kind === 'article' && entry.date ? `<time datetime="${esc(entry.date)}">${esc(new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long' }).format(new Date(entry.date)))}</time>` : '';
-  const result = kind === 'case' && entry.result ? `<span class="card-result">${esc(entry.result)}<small>${esc(entry.resultLabel)}</small></span>` : '';
-  const typeLabel = kind === 'case' ? 'Wdrożenie' : 'Artykuł';
-  return `<article class="story-card"><a class="story-card-link" href="${entryHref(kind, entry)}">
-    <div class="story-image"><img src="${safeAsset(entry.image)}" alt="" width="352" height="185" loading="lazy" decoding="async"></div>
-    <div class="story-content"><span class="story-category">${esc(entry.category)}</span><h3>${esc(entry.title)}</h3><p>${esc(entry.summary)}</p><div class="story-bottom">${result || date || `<span class="story-type">${typeLabel}</span>`}<span class="circle-arrow">${icon('arrow')}</span></div></div>
-  </a></article>`;
+
+function renderPortfolio(): string {
+  const lineBreaks = (text: string): string => esc(text).replace(/\n/g, '<br> ');
+  const projectCards = cases.map((entry) => {
+    const categoryLabels: Record<PortfolioCategory, string> = {
+      website: 'Strona internetowa', automation: 'Automatyzacje', 'web-app': 'Aplikacja', integration: 'Integracje',
+    };
+    const category = entry.portfolioCategory ?? 'website';
+    const isLogo = entry.imagePresentation === 'logo';
+    return `<article class="pf-card" data-project-category="${category}"><a class="pf-card-link" href="${entryHref(entry)}" aria-label="Zobacz projekt: ${esc(entry.title)}">
+      <div class="pf-card-media${isLogo ? ' pf-card-media--logo' : ''}"><img src="${safeAsset(entry.portfolioImage || entry.image)}" alt="${esc(entry.portfolioImageAlt || `Podgląd projektu ${entry.title}`)}" width="${isLogo ? 180 : 800}" height="${isLogo ? 180 : 560}" loading="lazy" decoding="async"></div>
+      <div class="pf-card-body"><p class="pf-card-category">${categoryLabels[category]}</p><h3>${esc(entry.title)}</h3><p class="pf-card-description">${esc(entry.summary)}</p><span class="pf-card-arrow" aria-hidden="true">${icon('arrow')}</span></div>
+    </a></article>`;
+  }).join('');
+  return `<header class="pf-hero"><div class="pf-container pf-hero-inner"><div class="pf-hero-copy">
+    ${eyebrow(portfolio.hero.eyebrow)}<h1>${lineBreaks(portfolio.hero.title)}</h1><p class="pf-hero-description">${esc(portfolio.hero.description)}</p>
+    <div class="pf-hero-actions"><a class="pf-button" href="#kontakt">${esc(portfolio.hero.actionLabel)}${icon('arrow')}</a><a class="pf-text-button" href="#proces">${esc(portfolio.hero.processLabel)}${icon('circle-play')}</a></div>
+    </div></div><img class="pf-hero-image" src="${safeAsset(portfolio.hero.image)}" width="1600" height="1000" alt="" aria-hidden="true" fetchpriority="high" decoding="async"></header>
+    <section class="pf-projects" id="projekty" aria-labelledby="pf-projects-title" data-portfolio>
+      <div class="pf-container pf-projects-heading"><div>${eyebrow(portfolio.projects.eyebrow)}<h2 id="pf-projects-title">${lineBreaks(portfolio.projects.title)}</h2></div><p>${esc(portfolio.projects.description)}</p></div>
+      <div class="pf-filter-container"><div class="pf-filters" role="group" aria-label="Filtruj projekty">${portfolioCategories.map(({ value, label }) => `<button class="pf-filter" type="button" data-portfolio-filter="${value}" aria-pressed="${value === 'all'}" aria-controls="pf-project-grid">${label}</button>`).join('')}</div></div>
+      <p class="pf-sr-only" role="status" aria-live="polite" aria-atomic="true" data-portfolio-status></p>
+      <div class="pf-project-grid" id="pf-project-grid">${projectCards}</div>
+      <div class="pf-empty" data-portfolio-empty${cases.length ? ' hidden' : ''}><p>${esc(portfolio.projects.emptyText)}</p><button class="pf-text-button" type="button" data-portfolio-reset>${esc(portfolio.projects.resetLabel)}${icon('arrow')}</button></div>
+    </section>
+    <section class="pf-process pf-container" id="proces" aria-labelledby="pf-process-title">${eyebrow(portfolio.process.eyebrow)}<h2 id="pf-process-title">${lineBreaks(portfolio.process.title)}</h2>
+      <ol class="pf-process-steps">${portfolio.process.steps.map((step) => `<li class="pf-process-step"><span class="pf-process-icon">${icon(step.icon)}</span><h3>${esc(step.title)}</h3><p>${esc(step.description)}</p><span class="pf-process-connector" aria-hidden="true">${icon('arrow')}</span></li>`).join('')}</ol>
+    </section>
+    <section class="pf-contact" id="kontakt" aria-labelledby="pf-contact-title"><div class="pf-container pf-contact-inner"><div class="pf-contact-copy">${eyebrow(portfolio.contact.eyebrow)}<h2 id="pf-contact-title">${esc(portfolio.contact.title)}</h2><p>${lineBreaks(portfolio.contact.description)}</p><a class="pf-button" href="${safeContactHref(portfolio.contact.href)}">${esc(portfolio.contact.actionLabel)}${icon('arrow')}</a></div></div><div class="pf-mark" aria-hidden="true">l<span class="pf-mark-dot">.</span></div></section>`;
 }
-function emptyState(title: string, text: string): string {
-  return `<div class="empty-state"><span class="empty-symbol" aria-hidden="true">L.</span><div><h3>${esc(title)}</h3><p>${esc(text)}</p></div></div>`;
+
+function servicePortfolioHref(slug: string): string {
+  const category = servicePortfolioCategories[slug];
+  return category ? portfolioHref(category) : '/portfolio/#projekty';
 }
 
 function renderHome(): string {
@@ -199,18 +235,12 @@ function renderHome(): string {
     site.phone ? `<li>${icon('phone')}<a href="tel:${esc(site.phone.replace(/[^+\d]/g, ''))}">${esc(site.phone)}</a></li>` : '',
     site.location ? `<li>${icon('pin')}<span>${esc(site.location)}</span></li>` : '',
   ].filter(Boolean).join('');
-  const knowledgeContent = articles.length ? `<div class="story-grid">${articles.slice(0, 3).map((item) => card(item, 'article')).join('')}</div>` : `<div class="knowledge-empty"><img src="/assets/knowledge-illustration.webp" width="258" height="145" alt="" loading="lazy"><div>${emptyState('Artykuły w przygotowaniu', 'Pierwsze poradniki opublikujemy po przygotowaniu i sprawdzeniu treści.')}${arrowLink('Otwórz dział wiedzy', '/wiedza/')}</div></div>`;
   const accent = home.hero.accent ? ` <span>${esc(home.hero.accent)}</span>` : '';
-  return `<section class="hero" id="start"><div class="container hero-grid"><div class="hero-copy">${eyebrow(home.hero.eyebrow)}<h1>${esc(home.hero.title)}${accent}</h1><p class="hero-lead">${esc(home.hero.lead)}</p><div class="hero-actions"><a class="button button-primary" href="/#kontakt">Porozmawiajmy ${icon('arrow')}</a><a class="button button-secondary" href="#uslugi"><span class="play-mark" aria-hidden="true">▶</span>Poznaj usługi</a></div></div><div class="hero-visual"><img src="/assets/hero-laptop.webp" srcset="/assets/hero-laptop-480.webp 480w, /assets/hero-laptop.webp 680w" sizes="(max-width: 900px) 100vw, 50vw" width="680" height="424" alt="Makieta aplikacji z panelem zadań i wykresami na ekranie laptopa" fetchpriority="high" decoding="async"><div class="hero-note" aria-hidden="true">${esc(home.hero.note)}<span>↙</span></div><span class="mockup-label">Makieta poglądowa</span></div><div class="hero-usp">${home.usp.map((item) => `<div><span class="usp-icon">${icon(item.icon)}</span><span>${esc(item.text)}</span></div>`).join('')}</div></div></section>
-  <section class="section-pad services-section" id="uslugi"><div class="container"><div class="section-top">${sectionHeading('Usługi', home.services.title)}<p class="section-intro">${esc(home.services.intro)}</p></div><div class="service-grid">${home.services.items.map((item) => `<article class="service-card"><span class="service-icon">${icon(item.icon)}</span><h3>${esc(item.title)}</h3><p>${esc(item.description)}</p>${arrowLink('Dowiedz się więcej', `/uslugi/${encodeURIComponent(item.slug)}/`)}</article>`).join('')}</div></div></section>
+  return `<section class="hero" id="start"><div class="container hero-grid"><div class="hero-copy">${eyebrow(home.hero.eyebrow)}<h1>${esc(home.hero.title)}${accent}</h1><p class="hero-lead">${esc(home.hero.lead)}</p><div class="hero-actions"><a class="button button-secondary" href="#uslugi"><span class="play-mark" aria-hidden="true">▶</span>Poznaj usługi</a><a class="button button-primary" href="/#kontakt">Porozmawiajmy ${icon('arrow')}</a></div></div><div class="hero-visual"><img src="/assets/hero-laptop.webp" srcset="/assets/hero-laptop-480.webp 480w, /assets/hero-laptop.webp 680w" sizes="(max-width: 900px) 100vw, 50vw" width="680" height="424" alt="Makieta aplikacji z panelem zadań i wykresami na ekranie laptopa" fetchpriority="high" decoding="async"><div class="hero-note" aria-hidden="true">${esc(home.hero.note)}<span>↙</span></div><span class="mockup-label">Makieta poglądowa</span></div></div></section>
+  <section class="section-pad services-section" id="uslugi"><div class="container"><div class="section-top">${sectionHeading('Usługi', home.services.title)}<p class="section-intro">${esc(home.services.intro)}</p></div><div class="service-grid">${home.services.items.map((item) => `<article class="service-card"><span class="service-icon">${icon(item.icon)}</span><h3>${esc(item.title)}</h3><p>${esc(item.description)}</p>${arrowLink('Dowiedz się więcej', servicePortfolioHref(item.slug))}</article>`).join('')}</div></div></section>
   <section class="section-pad about-section" id="o-mnie"><div class="container about-grid"><div class="about-copy">${sectionHeading('O mnie', home.about.title)}${home.about.paragraphs.map((p) => `<p>${esc(p)}</p>`).join('')}${arrowLink('Porozmawiajmy', '/#kontakt')}</div><div class="about-visual"><div class="about-image"><img src="/assets/jakub-portret.jpg" width="886" height="886" alt="Portret Jakuba" loading="lazy" decoding="async"></div><div class="principles">${home.about.principles.map((item) => `<span>${esc(item)}</span>`).join('')}</div></div></div></section>
   <section class="section-pad benefits-section"><div class="container"><div class="section-top">${sectionHeading('Dlaczego warto', home.benefits.title)}<p class="section-intro">${esc(home.benefits.intro)}</p></div><div class="benefits-grid">${home.benefits.items.map((item) => `<article><span class="benefit-icon">${icon(item.icon)}</span><h3>${esc(item.title)}</h3><p>${esc(item.description)}</p></article>`).join('')}</div></div></section>
-  <section class="section-pad knowledge-section" id="wiedza"><div class="container"><div class="section-top">${sectionHeading('Warto wiedzieć', home.knowledge.title)}<div class="section-side"><p>${esc(home.knowledge.intro)}</p>${arrowLink('Dział wiedzy', '/wiedza/')}</div></div>${knowledgeContent}</div></section>
   <section class="section-pad contact-section" id="kontakt"><div class="container contact-grid"><div class="contact-copy">${sectionHeading('Kontakt', home.contact.title)}${contactItems ? `<ul class="contact-list">${contactItems}</ul>` : '<p class="contact-pending">Zweryfikowane dane kontaktowe pojawią się tutaj przed publikacją.</p>'}</div><div class="contact-form-column"><p>${esc(home.contact.intro)}</p><form class="contact-form" data-contact-form><div class="form-row"><div class="field"><label for="name">Twoje imię</label><input id="name" name="name" autocomplete="name" required minlength="2"><span class="field-error" id="name-error" data-error-for="name"></span></div><div class="field"><label for="email">Adres e-mail</label><input id="email" name="email" type="email" autocomplete="email" required><span class="field-error" id="email-error" data-error-for="email"></span></div></div><div class="field"><label for="message">O czym chcesz porozmawiać?</label><textarea id="message" name="message" required minlength="10"></textarea><span class="field-error" id="message-error" data-error-for="message"></span></div><button class="button button-primary form-button" type="submit">Sprawdź formularz ${icon('arrow')}</button><p class="form-disclaimer">Podgląd formularza — wiadomości nie są wysyłane.</p><p class="form-status" role="status" aria-live="polite" data-form-status></p></form></div></div></section>`;
-}
-
-function renderArticleList(entries: Entry[]): string {
-  return `<section class="inner-hero"><div class="container">${eyebrow('Warto wiedzieć')}<h1>Wiedza</h1><p>Praktyczne artykuły dla małych firm.</p></div></section><section class="section-pad listing-section"><div class="container">${entries.length ? `<div class="story-grid">${entries.map((item) => card(item, 'article')).join('')}</div>` : emptyState('Artykuły w przygotowaniu', 'Pierwsze poradniki pojawią się po przygotowaniu i sprawdzeniu treści.')}</div></section>`;
 }
 
 function renderServicePage(service: Service, content: ServicePageContent): string {
@@ -218,19 +248,14 @@ function renderServicePage(service: Service, content: ServicePageContent): strin
   return `<section class="inner-hero service-hero"><div class="container">${eyebrow('Usługi')}<h1>${esc(service.title)}</h1><p>${esc(content.lead)}</p></div></section><section class="section-pad service-copy"><div class="container"><div class="detail-content">${sections}<a class="button button-primary" href="/#kontakt">Omówmy potrzeby Twojej firmy ${icon('arrow')}</a></div></div></section>`;
 }
 
-function renderWebsiteService(service: Service): string {
-  const steps = websiteService.steps.map((step, index) => `<article class="process-step"><span class="process-step-number">${String(index + 1).padStart(2, '0')}</span><h3>${esc(step.title)}</h3><p>${esc(step.text)}</p></article>`).join('');
-  const sections = websiteService.sections.map((section) => `<section><h2>${esc(section.heading)}</h2><p>${esc(section.text)}</p></section>`).join('');
-  const examples = cases.length ? `<section class="section-pad website-cases" id="wdrozenia"><div class="container"><div class="section-top">${sectionHeading('Wdrożenia', websiteService.examples.title, websiteService.examples.intro)}</div><div class="story-grid">${cases.map((entry) => card(entry, 'case')).join('')}</div></div></section>` : '';
-  return `<section class="inner-hero service-hero"><div class="container">${eyebrow('Usługi')}<h1>${esc(service.title)}</h1><p>${esc(websiteService.lead)}</p></div></section>${examples}<section class="section-pad service-copy"><div class="container"><div class="detail-content">${sections}</div></div></section><section class="section-pad process-section"><div class="container"><div class="section-top">${sectionHeading('Jak pracuję', websiteService.processTitle)}</div><div class="process-steps">${steps}</div><a class="button button-primary process-cta" href="/#kontakt">Porozmawiajmy o Twojej stronie ${icon('arrow')}</a></div></section><section class="section-pad website-contact"><div class="container">${sectionHeading('Masz pytania?', 'Sprawdźmy, jakiej strony potrzebuje Twoja firma')}<a class="button button-primary" href="/#kontakt">Porozmawiajmy ${icon('arrow')}</a></div></section>`;
-}
-
-function renderDetail(entry: Entry, kind: 'case' | 'article'): string {
-  const isCase = kind === 'case';
-  const parentLabel = isCase ? 'Strony internetowe' : 'Wiedza';
-  const parentHref = isCase ? '/uslugi/strony-internetowe/#wdrozenia' : '/wiedza/';
-  const liveSite = isCase && entry.externalUrl ? `<a class="button button-primary live-site-link" href="${safeExternalUrl(entry.externalUrl)}" target="_blank" rel="noopener noreferrer">Zobacz działającą stronę ${icon('arrow')}</a>` : '';
-  return `<article class="detail-page"><div class="container"><nav class="breadcrumbs" aria-label="Ścieżka strony"><a href="/">Strona główna</a><span aria-hidden="true">/</span><a href="${parentHref}">${parentLabel}</a></nav><header class="detail-header">${eyebrow(entry.category)}<h1>${esc(entry.title)}</h1><p>${esc(entry.summary)}</p>${!isCase && entry.date ? `<time datetime="${esc(entry.date)}">${esc(new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long' }).format(new Date(entry.date)))}</time>` : ''}${!isCase && entry.author ? `<p class="article-author"><img src="/assets/jakub-portret.jpg" width="32" height="32" alt="" aria-hidden="true"><span>${esc(entry.author)}</span></p>` : ''}</header><figure class="detail-cover"><img src="${safeAsset(entry.image)}" width="680" height="340" alt="" fetchpriority="high"></figure><div class="detail-content">${isCase && entry.result ? `<div class="detail-result"><strong>${esc(entry.result)}</strong><span>${esc(entry.resultLabel)}</span></div>` : ''}${entry.blocks.map((block) => `<section>${block.heading ? `<h2>${esc(block.heading)}</h2>` : ''}${renderBlockText(block.text)}</section>`).join('')}${liveSite}<a class="text-link back-link" href="${parentHref}">← Wróć do: ${parentLabel}</a></div></div></article>`;
+function renderDetail(entry: Entry): string {
+  const isWebsite = entry.portfolioCategory === 'website';
+  const isLogo = entry.imagePresentation === 'logo';
+  const coverAlt = entry.image === entry.portfolioImage ? entry.portfolioImageAlt ?? '' : '';
+  const parentLabel = isWebsite ? 'Strony internetowe' : 'Portfolio';
+  const parentHref = portfolioHref(entry.portfolioCategory ?? 'website');
+  const liveSite = entry.externalUrl ? `<a class="button button-primary live-site-link" href="${safeExternalUrl(entry.externalUrl)}" target="_blank" rel="noopener noreferrer">Zobacz działającą stronę ${icon('arrow')}</a>` : '';
+  return `<article class="detail-page"><div class="container"><nav class="breadcrumbs" aria-label="Ścieżka strony"><a href="/">Strona główna</a><span aria-hidden="true">/</span><a href="${parentHref}">${parentLabel}</a></nav><header class="detail-header">${eyebrow(entry.category)}<h1>${esc(entry.title)}</h1><p>${esc(entry.summary)}</p></header><figure class="detail-cover${isLogo ? ' detail-cover--logo' : ''}"><img src="${safeAsset(entry.image)}" width="${isLogo ? 180 : 1440}" height="${isLogo ? 180 : 1008}" alt="${esc(coverAlt)}" fetchpriority="high"></figure><div class="detail-content">${entry.result ? `<div class="detail-result"><strong>${esc(entry.result)}</strong><span>${esc(entry.resultLabel)}</span></div>` : ''}${entry.blocks.map((block) => `<section>${block.heading ? `<h2>${esc(block.heading)}</h2>` : ''}${renderBlockText(block.text)}</section>`).join('')}${liveSite}<a class="text-link back-link" href="${parentHref}">← Wróć do: ${parentLabel}</a></div></div></article>`;
 }
 
 function redirectPage(target: string, destination: string): string {
@@ -250,18 +275,17 @@ const serviceSlugs = home.services.items.map((service) => service.slug);
 if (serviceSlugs.some((slug) => !/^[a-z0-9-]+$/.test(slug)) || new Set(serviceSlugs).size !== serviceSlugs.length) {
   throw new Error('Każda usługa musi mieć unikalny adres z małych liter, cyfr i łączników.');
 }
-if (!serviceSlugs.includes('strony-internetowe')) throw new Error('Brak usługi „Strony internetowe”.');
 writePage('', documentPage('Technologia dla małych firm', site.description, renderHome()));
-for (const service of home.services.items) {
-  const isWebsiteService = service.slug === 'strony-internetowe';
+writePage('portfolio', documentPage(portfolio.title, portfolio.description, renderPortfolio(), 'portfolio', true));
+const servicePages = home.services.items.filter((service) => service.slug !== 'strony-internetowe');
+for (const service of servicePages) {
   const pageContentPath = join(content, `services/${service.slug}.json`);
-  const body = isWebsiteService ? renderWebsiteService(service) : renderServicePage(service, readJson<ServicePageContent>(pageContentPath));
+  const body = renderServicePage(service, readJson<ServicePageContent>(pageContentPath));
   writePage(join('uslugi', service.slug), documentPage(service.title, service.description, body, service.slug));
-  if (isWebsiteService) {
-    for (const entry of cases) writePage(join('uslugi', service.slug, entry.slug), documentPage(entry.title, entry.summary, renderDetail(entry, 'case'), service.slug));
-  }
 }
-writePage('wiedza', documentPage('Wiedza', site.description, renderArticleList(articles), 'wiedza'));
-for (const article of articles) writePage(join('wiedza', article.slug), documentPage(article.title, article.summary, renderDetail(article, 'article'), 'wiedza'));
-writePage('realizacje', redirectPage('/uslugi/strony-internetowe/#wdrozenia', 'Strony internetowe'));
-console.log(`Wygenerowano ${1 + home.services.items.length + cases.length + 1 + articles.length + 1} stron.`);
+for (const entry of cases) {
+  const route = entry.portfolioCategory === 'website' ? join('uslugi', 'strony-internetowe', entry.slug) : join('portfolio', entry.slug);
+  writePage(route, documentPage(entry.title, entry.summary, renderDetail(entry), 'portfolio'));
+}
+writePage('realizacje', redirectPage(portfolioHref('website'), 'Strony internetowe'));
+console.log(`Wygenerowano ${2 + servicePages.length + cases.length + 1} stron.`);

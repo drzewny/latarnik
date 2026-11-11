@@ -38,16 +38,6 @@ content:
           - { name: accent, label: Niebieska część nagłówka, type: string }
           - { name: lead, label: Opis, type: text, required: true }
           - { name: note, label: Notatka przy obrazie, type: string }
-      - name: usp
-        label: Wyróżniki w hero
-        type: object
-        list: true
-        fields:
-          - name: icon
-            type: select
-            options:
-              values: [zap, chart, smile, clock, shield, user]
-          - { name: text, label: Tekst, type: string, required: true }
       - name: services
         label: Usługi
         type: object
@@ -94,12 +84,6 @@ content:
                   values: [clock, chart, user, shield, zap, smile]
               - { name: title, label: Nazwa, type: string, required: true }
               - { name: description, label: Opis, type: text, required: true }
-      - name: knowledge
-        label: Wiedza
-        type: object
-        fields:
-          - { name: title, label: Nagłówek, type: string, required: true }
-          - { name: intro, label: Wstęp, type: text, required: true }
       - name: contact
         label: Kontakt
         type: object
@@ -107,30 +91,66 @@ content:
           - { name: title, label: Nagłówek, type: string, required: true }
           - { name: intro, label: Wstęp, type: text, required: true }
 
-  - name: website_service
-    label: Usługa: strony internetowe
+  - name: portfolio
+    label: Strona portfolio
     type: file
-    path: content/services/strony-internetowe.json
+    path: content/portfolio.json
     format: json
     operations:
       delete: false
     fields:
-      - name: steps
-        label: Etapy współpracy
-        type: object
-        list: true
-        fields:
-          - { name: title, label: Nazwa etapu, type: string, required: true }
-          - { name: text, label: Tekst, type: text, required: true }
-      - name: examples
-        label: Wdrożenia
+      - { name: title, label: Tytuł SEO, type: string, required: true }
+      - { name: description, label: Opis SEO, type: text, required: true }
+      - name: hero
+        label: Hero
         type: object
         fields:
+          - { name: eyebrow, label: Nadtytuł, type: string, required: true }
+          - { name: title, label: Nagłówek (nowa linia zachowuje podział), type: text, required: true }
+          - { name: description, label: Opis, type: text, required: true }
+          - { name: image, label: Grafika, type: image, required: true }
+          - { name: actionLabel, label: Przycisk kontaktu, type: string, required: true }
+          - { name: processLabel, label: Link do procesu, type: string, required: true }
+      - name: projects
+        label: Projekty
+        type: object
+        fields:
+          - { name: eyebrow, label: Nadtytuł, type: string, required: true }
+          - { name: title, label: Nagłówek, type: text, required: true }
+          - { name: description, label: Opis, type: text, required: true }
+          - { name: emptyText, label: Komunikat pustej kategorii, type: string, required: true }
+          - { name: resetLabel, label: Przycisk resetu, type: string, required: true }
+      - name: process
+        label: Jak pracuję
+        type: object
+        fields:
+          - { name: eyebrow, label: Nadtytuł, type: string, required: true }
+          - { name: title, label: Nagłówek, type: text, required: true }
+          - name: steps
+            label: Kroki współpracy
+            type: object
+            list: true
+            fields:
+              - name: icon
+                label: Ikona
+                type: select
+                required: true
+                options:
+                  values: [pencil-ruler, square-pen, rocket, cube]
+              - { name: title, label: Nazwa kroku, type: string, required: true }
+              - { name: description, label: Opis, type: text, required: true }
+      - name: contact
+        label: Końcowe CTA
+        type: object
+        fields:
+          - { name: eyebrow, label: Nadtytuł, type: string, required: true }
           - { name: title, label: Nagłówek, type: string, required: true }
-          - { name: intro, label: Wstęp, type: text, required: true }
+          - { name: description, label: Opis, type: text, required: true }
+          - { name: actionLabel, label: Przycisk, type: string, required: true }
+          - { name: href, label: Adres kontaktu, type: string, required: true }
 
   - name: cases
-    label: Przykłady wdrożeń
+    label: Portfolio — wdrożenia
     type: collection
     path: content/cases
     format: json
@@ -149,7 +169,28 @@ content:
       - { name: category, label: Kategoria, type: string, required: true }
       - { name: summary, label: Opis karty, type: text, required: true }
       - { name: image, label: Obraz, type: image, required: true }
-      - { name: externalUrl, label: Adres działającej witryny, type: string, required: true }
+      - name: portfolioCategory
+        label: Filtr portfolio
+        type: select
+        default: website
+        required: true
+        options:
+          values:
+            - { name: website, label: Strony internetowe }
+            - { name: automation, label: Automatyzacje }
+            - { name: web-app, label: Aplikacje }
+            - { name: integration, label: Integracje }
+      - { name: portfolioImage, label: Makieta na stronie portfolio (opcjonalnie), type: image }
+      - { name: portfolioImageAlt, label: Opis alternatywny makiety, type: string }
+      - name: imagePresentation
+        label: Sposób wyświetlania obrazu
+        type: select
+        default: cover
+        options:
+          values:
+            - { name: cover, label: Grafika wypełniająca obszar }
+            - { name: logo, label: Logo na jasnym tle }
+      - { name: externalUrl, label: Adres działającej witryny (opcjonalnie), type: string }
       - { name: result, label: Potwierdzony wynik, type: string }
       - { name: resultLabel, label: Opis wyniku, type: string }
       - name: blocks

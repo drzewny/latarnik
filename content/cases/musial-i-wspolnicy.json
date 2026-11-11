@@ -3,21 +3,32 @@
   "order": 1,
   "category": "Strona internetowa",
   "title": "Musiał i Wspólnicy",
-  "summary": "Strona kancelarii prawnej przedstawia obsługę firm, specjalizacje zespołu i sposób kontaktu.",
+  "summary": "Strona internetowa poznańskiej kancelarii prawnej dla firm. Sześć specjalizacji, od prawa nowych technologii po projekty unijne, zebranych na jednej stronie.",
   "image": "/assets/case-musial.jpg",
+  "portfolioCategory": "website",
+  "portfolioImage": "/assets/portfolio/musial-i-wspolnicy.webp",
+  "portfolioImageAlt": "Zrzut strony głównej Musiał i Wspólnicy z panoramą miasta i nagłówkiem Technologia, Środowisko, MY.",
   "externalUrl": "https://www.musial.pl/",
   "blocks": [
     {
-      "heading": "Cel strony",
-      "text": "Witryna przedstawia kancelarię wspierającą przedsiębiorców w sprawach biznesowych, nowych technologii i innych obszarach prawa."
+      "heading": "Kancelaria prawna dla firm z Poznania",
+      "text": "Musiał i Wspólnicy to kancelaria z historycznego centrum Poznania. Obsługuje przedsiębiorców, spółki i instytucje, również zdalnie, bo akta prowadzi w całości cyfrowo.\n\nOd strony oczekiwano, że od pierwszego ekranu powie, do kogo kancelaria kieruje ofertę: do firm, w tym z branży IT, badawczej i środowiskowej. Stąd nagłówek złożony z haseł Technologia, Środowisko, Biznes, Bezpieczeństwo i krótkie zdanie pod nim: „Jesteśmy kancelarią prawną dla firm”."
     },
     {
-      "heading": "Co zawiera",
-      "text": "Opisuje między innymi obsługę prawną firm, prawo nowych technologii i cyberbezpieczeństwo, branżę B+R, projekty finansowane ze środków UE, ochronę środowiska, własności intelektualnej i danych osobowych. Przedstawia też kancelarię oraz jej dane kontaktowe."
+      "heading": "Jedna strona, trzy pozycje w menu",
+      "text": "Witryna jest jednostronicowa. Menu ma trzy pozycje: Usługi, Kontakt i MY. Każda prowadzi do sekcji na tej samej stronie.\n\nOsoba szukająca kancelarii chce zwykle szybko sprawdzić dwie rzeczy: czy kancelaria zajmuje się jej sprawą i jak się z nią skontaktować. Przy sześciu obszarach praktyki obie odpowiedzi mieszczą się na jednej stronie, bez klikania po podstronach."
     },
     {
-      "heading": "Autorstwo",
-      "text": "Jestem autorem strony internetowej Musiał i Wspólnicy."
+      "heading": "Specjalizacje opisane na przykładach",
+      "text": "Każdy obszar praktyki ma krótki opis z przykładami spraw i branż:\n\n- **Obsługa prawna firm**: umowy, dokumentacja wewnętrzna, obsługa korporacyjna spółek, transakcje M&A.\n- **Prawo nowych technologii i cyberbezpieczeństwo**: umowy IT, regulaminy, SaaS i e-commerce, NIS2, DORA.\n- **Branża B+R**: komercjalizacja technologii, projekty finansowane przez NCBiR, NCN i PARP.\n- **Fundusze Europejskie**: doradztwo na każdym etapie projektu unijnego, pomoc publiczna.\n- **Ochrona środowiska**: gospodarka odpadami, decyzje administracyjne, kontrole i spory z organami.\n- **Własność intelektualna i dane osobowe**: prawa autorskie, znaki towarowe, know-how, RODO.\n\nDzięki temu właściciel software house’u, który szuka pomocy przy NIS2, widzi to pojęcie na stronie i wie, że trafił we właściwe miejsce."
+    },
+    {
+      "heading": "Kontakt i dane kancelarii",
+      "text": "Sekcja kontaktowa zawiera adres, telefon, e-mail oraz dane rejestrowe spółki. Kto chce zadzwonić albo napisać, ma wszystko w jednym miejscu."
+    },
+    {
+      "heading": "Mój udział",
+      "text": "Jestem autorem strony internetowej Musiał i Wspólnicy. Dla tej samej kancelarii przygotowałem też wewnętrzną aplikację, która automatyzuje część codziennej pracy, oraz serwis Prawnik dla Rolnika, prowadzony przez radców prawnych współpracujących z kancelarią."
     }
   ]
 }

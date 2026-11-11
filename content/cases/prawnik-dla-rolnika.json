@@ -3,21 +3,36 @@
   "order": 2,
   "category": "Strona internetowa",
   "title": "Prawnik dla Rolnika",
-  "summary": "Serwis kancelarii prezentuje pomoc prawną dla rolników, producentów rolnych i właścicieli gruntów.",
+  "summary": "Serwis prawny dla rolników i właścicieli gruntów: sześć specjalizacji, od służebności przesyłu po obrót ziemią rolną, artykuły poradnikowe i formularz zapytania.",
   "image": "/assets/case-prawnikdlarolnika.jpg",
+  "portfolioCategory": "website",
+  "portfolioImage": "/assets/portfolio/prawnik-dla-rolnika.webp",
+  "portfolioImageAlt": "Zrzut strony głównej Prawnik dla Rolnika z krajobrazem pól i nagłówkiem Prawo zakorzenione w polskiej ziemi.",
   "externalUrl": "https://www.prawnikdlarolnika.pl/",
   "blocks": [
     {
-      "heading": "Cel strony",
-      "text": "Witryna kieruje informacje prawne do rolników, producentów rolnych i właścicieli gruntów oraz przedstawia zakres wsparcia kancelarii."
+      "heading": "Dla kogo jest serwis",
+      "text": "Prawnik dla Rolnika to projekt radców prawnych współpracujących z poznańską kancelarią Musiał i Wspólnicy. Jest skierowany do rolników, właścicieli gruntów rolnych i osób prowadzących gospodarstwa, przede wszystkim z Wielkopolski.\n\nSprawy tych osób rzadko zaczynają się od pytania o przepis. Zwykle zaczynają się od konkretnej sytuacji: firma proponuje dzierżawę pola pod farmę fotowoltaiczną, przez działkę ma przejść linia przesyłowa, gmina uchwala plan, który zmienia przeznaczenie gruntu. Strona jest ułożona wokół takich sytuacji."
     },
     {
-      "heading": "Co zawiera",
-      "text": "Serwis przedstawia specjalizacje, publikuje praktyczne artykuły i umożliwia wysłanie zapytania przez formularz kontaktowy."
+      "heading": "Sześć specjalizacji, każda na osobnej podstronie",
+      "text": "Serwis opisuje obszary, w których kancelaria pomaga rolnikom:\n\n- Proces inwestycyjny\n- Prawo ogólne\n- Energetyka i infrastruktura przesyłowa na gruntach rolnych\n- Służebności\n- Producenci rolni\n- Obrót gruntami rolnymi\n\nKażda specjalizacja ma własną podstronę z opisem. Adresy używają słów, które ludzie faktycznie wpisują w wyszukiwarkę, na przykład /pv-slupy-wiatraki-i-energetyka/. Na stronie głównej przy każdym obszarze jest przycisk „Zapytaj o tę usługę”, który prowadzi prosto do formularza."
     },
     {
-      "heading": "Autorstwo",
-      "text": "Jestem autorem strony internetowej Prawnik dla Rolnika."
+      "heading": "Artykuły odpowiadające na konkretne pytania",
+      "text": "Dział Artykuły zawiera poradniki o sprawach, z którymi rolnicy przychodzą do kancelarii, na przykład:\n\n- Służebność przesyłu na działce rolnej: czy za słup, gazociąg lub rurę w ziemi należy się wynagrodzenie?\n- Umowa dzierżawy gruntu pod fotowoltaikę, wiatraki i magazyny energii\n- Sprzedaż ziemi rolnej: zasady, ograniczenia i formalności\n- Plany ogólne gmin i ich wpływ na nieruchomości rolne\n\nKażdy wpis ma kategorię i szacowany czas czytania. Artykuły pomagają czytelnikowi zrozumieć jego sytuację, zanim zadzwoni, a wyszukiwarce dają powód, by pokazywać serwis przy takich pytaniach."
+    },
+    {
+      "heading": "Formularz zapytania",
+      "text": "Główną drogą kontaktu jest formularz na stronie głównej, z dopiskiem o bezpłatnym wstępnym rozpoznaniu sprawy. Formularz ma tylko cztery pola: imię i nazwisko, telefon lub e-mail, temat sprawy wybierany z listy specjalizacji oraz krótki opis sytuacji.\n\nNa kontakt wystarczy jedno pole, w którym można wpisać telefon albo e-mail, zależnie od tego, co komu wygodniej. Dzięki wyborowi tematu z listy kancelaria od razu wie, czego dotyczy zapytanie. Formularz jest zabezpieczony przed spamem."
+    },
+    {
+      "heading": "Wygląd",
+      "text": "Strona otwiera się zdjęciem pól i nagłówkiem „Prawo zakorzenione w polskiej ziemi”. Pod nim są trzy krótkie zapewnienia: bezpieczeństwo gospodarstwa, znajomość realiów polskiej wsi oraz partnerska komunikacja."
+    },
+    {
+      "heading": "Mój udział",
+      "text": "Jestem autorem strony internetowej Prawnik dla Rolnika. Wcześniej przygotowałem stronę dla kancelarii Musiał i Wspólnicy, z którą współpracują autorzy serwisu."
     }
   ]
 }

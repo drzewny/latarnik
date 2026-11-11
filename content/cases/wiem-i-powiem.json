@@ -1,0 +1,30 @@
+{
+  "published": true,
+  "order": 3,
+  "category": "Strona internetowa",
+  "title": "Wiem i Powiem — strona internetowa",
+  "summary": "Strona usługi, która przejmuje od firm obsługę zgłoszeń sygnalistów: oferta, cennik, test obowiązku wdrożenia, FAQ i blog o ustawie o sygnalistach.",
+  "image": "/assets/portfolio/wiem-i-powiem.webp",
+  "portfolioCategory": "website",
+  "portfolioImage": "/assets/portfolio/wiem-i-powiem.webp",
+  "portfolioImageAlt": "Zrzut strony głównej Wiem i Powiem z ofertą obsługi zgłoszeń sygnalistów.",
+  "externalUrl": "https://www.wiemipowiem.pl/",
+  "blocks": [
+    {
+      "heading": "Usługa dla firm objętych ustawą o sygnalistach",
+      "text": "Od 25 września 2024 roku obowiązuje ustawa o ochronie sygnalistów. Firmy i instytucje, w których pracuje co najmniej 50 osób, muszą przyjmować zgłoszenia naruszeń prawa i odpowiednio je obsługiwać.\n\nWiem i Powiem przejmuje to zadanie od organizacji. Utrzymuje kanały zgłoszeń, dostarcza wzory dokumentów, wstępnie weryfikuje każde zgłoszenie i prowadzi komunikację z sygnalistą. Organizacja dostaje raport i rekomendacje dalszych działań."
+    },
+    {
+      "heading": "Od pytania „czy muszę?” do zamówienia",
+      "text": "Na stronę trafia najczęściej właściciel firmy, kadrowa albo osoba od compliance. Taka osoba chce się dowiedzieć, czy ustawa obejmuje jej organizację, jak działa usługa i ile kosztuje. Strona odpowiada na te pytania po kolei:\n\n- **Test obowiązku wdrożenia**: krótki kreator, który zaczyna od pytania o liczbę zatrudnionych.\n- **Jak to działa**: trzy kroki, czyli wdrożenie, zgłoszenie i obsługa.\n- **Kanały zgłoszeń**: formularz internetowy dostępny przez kod QR, telefon i list.\n- **Cennik**: roczny abonament dla organizacji do 200 osób w dwóch wariantach płatności.\n- **FAQ**: kto musi wdrożyć system, kto może być sygnalistą, czy zgłoszenia muszą być anonimowe.\n- **Formularz kontaktowy** do zamówienia usługi."
+    },
+    {
+      "heading": "Blog o obowiązkach pracodawcy",
+      "text": "Blog tłumaczy, co ustawa nakłada na pracodawców: procedurę zgłoszeń wewnętrznych, kanały zgłoszeniowe, wyznaczenie osoby przyjmującej zgłoszenia i podejmującej działania następcze. Wpisy są pogrupowane w kategorie, między innymi Obowiązki pracodawcy oraz Kanały i procedury.\n\nTo treści dla osób, które dopiero sprawdzają, co muszą zrobić, czyli dla tych samych osób, do których kierowana jest usługa."
+    },
+    {
+      "heading": "Projekt graficzny klienta",
+      "text": "Zbudowałem stronę na podstawie projektu graficznego dostarczonego przez klienta. Przygotowałem też aplikację, przez którą sygnaliści składają zgłoszenia online. Jest opisana osobno w portfolio jako Wiem i Powiem — aplikacja dla sygnalistów."
+    }
+  ]
+}

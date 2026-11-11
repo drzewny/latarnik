@@ -5,19 +5,14 @@
     "lead": "Wykorzystaj technologię, aby Twoja firma działała szybciej, prościej i bardziej efektywnie. Rozwiązania, które do tej pory były dostępne tylko dla dużych firm i dużych budżetów, teraz mogą być w zasięgu Twojej ręki.",
     "note": "Technologia, która pracuje na Twój spokój"
   },
-  "usp": [
-    { "icon": "smile", "text": "Mniej ręcznej pracy" },
-    { "icon": "clock", "text": "Więcej czasu na rozwój" },
-    { "icon": "workflow", "text": "Rozwiązania dla Twojej firmy" }
-  ],
   "services": {
     "title": "Technologia dopasowana do Twoich potrzeb",
     "intro": "Pomagam małym firmom korzystać z nowoczesnych narzędzi w praktyczny sposób.",
     "items": [
-      { "icon": "settings", "slug": "automatyzacja", "title": "Automatyzacja", "description": "Odzyskaj czas i uwagę, które dziś pochłaniają powtarzalne czynności. Automatyzuję zadania, które nie muszą za każdym razem angażować człowieka." },
-      { "icon": "blocks", "slug": "aplikacje-na-miare", "title": "Aplikacje na miarę", "description": "Zamiast dopasowywać firmę do gotowego systemu, zbuduj narzędzie wokół swojego sposobu pracy — webowe albo mobilne na iOS i Android." },
-      { "icon": "zap", "slug": "ai", "title": "AI", "description": "Włącz AI do codziennej pracy tam, gdzie pomaga szybciej porządkować informacje, przygotowywać treści i podejmować kolejne kroki." },
-      { "icon": "layout-template", "slug": "strony-internetowe", "title": "Strony internetowe", "description": "Pokaż jasno, czym zajmuje się Twoja firma i ułatw klientom kolejny krok. Projektuję szybkie strony dopasowane do Twojej oferty." }
+      { "icon": "layout-template", "slug": "strony-internetowe", "title": "Strony internetowe", "description": "Strona internetowa to wciąż fundament obecności Twojej firmy w sieci. Projektuję lekkie, responsywne i szybkie strony, które wywrą pozytywny odbiór u Twoich klientów ." },
+      { "icon": "blocks", "slug": "aplikacje-na-miare", "title": "Aplikacje na miarę", "description": "Małe firmy nie muszą być ograniczone do ogólnodostępnych, gotowych rozwiązań. Zbuduję dla Ciebie narzędzie dopasowane typowo pod Twoje potrzeby." },
+      { "icon": "settings", "slug": "automatyzacja", "title": "Automatyzacja", "description": "Powtarzalne czynności potrafią niepostrzeżenie drenować Twój czas i uwagę. Automatyzacja procesów pozwala skupić się na tym, co naprawdę ważne i zwiększyć efektywność." },
+      { "icon": "zap", "slug": "ai", "title": "Integracje AI", "description": "Modele językowe to dużo więcej niż chat, dowiedz się jak możesz wykorzystać je w swojej firmie." }
     ]
   },
   "examples": {
@@ -42,12 +37,8 @@
       { "icon": "ruler", "title": "Rozwiązania na miarę", "description": "Zakres projektu dopasowujemy do celów i możliwości Twojej firmy." }
     ]
   },
-  "knowledge": {
-    "title": "Praktyczna wiedza dla małych firm",
-    "intro": "Tu pojawią się konkretne porady o automatyzacji, narzędziach i stronach internetowych."
-  },
   "contact": {
     "title": "Porozmawiajmy o Twoim projekcie",
-    "intro": "Ta sekcja jest jeszcze podglądem. Dane kontaktowe i możliwość wysyłania wiadomości zostaną dodane przed publikacją strony."
+    "intro": "Masz pomysł na usprawnienie procesów w swojej firmie? Chcesz zbudować stronę internetową, aplikację lub wdrożyć automatyzację? Porozmawiajmy o tym, jak mogę Ci pomóc."
   }
 }

@@ -1,4 +1,62 @@
 import './styles.css';
+import './portfolio.css';
+import { isPortfolioFilter, type PortfolioFilter } from './portfolio-config';
+
+const portfolio = document.querySelector<HTMLElement>('[data-portfolio]');
+if (portfolio) {
+  const filters = [...portfolio.querySelectorAll<HTMLButtonElement>('[data-portfolio-filter]')];
+  const projects = [...portfolio.querySelectorAll<HTMLElement>('[data-project-category]')];
+  const empty = portfolio.querySelector<HTMLElement>('[data-portfolio-empty]');
+  const status = portfolio.querySelector<HTMLElement>('[data-portfolio-status]');
+  const filterScroller = portfolio.querySelector<HTMLElement>('.pf-filter-container');
+
+  function applyPortfolioFilter(category: PortfolioFilter, animate = false): void {
+    let visible = 0;
+    for (const project of projects) {
+      project.hidden = category !== 'all' && project.dataset.projectCategory !== category;
+      project.classList.remove('is-filter-result');
+      if (!project.hidden) {
+        visible++;
+        if (animate) project.classList.add('is-filter-result');
+      }
+    }
+    for (const filter of filters) filter.setAttribute('aria-pressed', String(filter.dataset.portfolioFilter === category));
+    const activeFilter = filters.find((filter) => filter.dataset.portfolioFilter === category);
+    if (filterScroller && activeFilter && filterScroller.scrollWidth > filterScroller.clientWidth) {
+      const left = activeFilter.getBoundingClientRect().left - filterScroller.getBoundingClientRect().left + filterScroller.scrollLeft;
+      filterScroller.scrollLeft = left - (filterScroller.clientWidth - activeFilter.offsetWidth) / 2;
+    }
+    if (empty) empty.hidden = visible > 0;
+    if (status) {
+      const label = filters.find((filter) => filter.dataset.portfolioFilter === category)?.textContent;
+      status.textContent = `${label}. Liczba projektów: ${visible}.`;
+    }
+  }
+
+  function readPortfolioFilter(): void {
+    const category = new URL(window.location.href).searchParams.get('category');
+    applyPortfolioFilter(isPortfolioFilter(category) ? category : 'all');
+  }
+
+  function selectPortfolioFilter(category: PortfolioFilter): void {
+    const url = new URL(window.location.href);
+    if (category === 'all') url.searchParams.delete('category');
+    else url.searchParams.set('category', category);
+    if (url.href !== window.location.href) window.history.pushState(null, '', url);
+    applyPortfolioFilter(category, true);
+  }
+
+  for (const filter of filters) filter.addEventListener('click', () => {
+    const category = filter.dataset.portfolioFilter ?? null;
+    if (isPortfolioFilter(category)) selectPortfolioFilter(category);
+  });
+  portfolio.querySelector('[data-portfolio-reset]')?.addEventListener('click', () => {
+    selectPortfolioFilter('all');
+    filters[0]?.focus({ preventScroll: true });
+  });
+  readPortfolioFilter();
+  window.addEventListener('popstate', readPortfolioFilter);
+}
 
 const header = document.querySelector<HTMLElement>('[data-header]');
 const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');

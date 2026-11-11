@@ -1,0 +1,35 @@
+{
+  "published": true,
+  "order": 4,
+  "category": "Aplikacja",
+  "title": "Wiem i Powiem — aplikacja dla sygnalistów",
+  "summary": "Formularz online do zgłaszania naruszeń przez sygnalistów, połączony z systemem kancelarii, w którym zgłoszenia są weryfikowane i obsługiwane.",
+  "image": "/assets/portfolio/wiem-i-powiem-logo.png",
+  "imagePresentation": "logo",
+  "portfolioCategory": "web-app",
+  "portfolioImage": "/assets/portfolio/wiem-i-powiem-logo.png",
+  "portfolioImageAlt": "Logo Wiem i Powiem",
+  "externalUrl": "https://www.wiemipowiem.pl/",
+  "blocks": [
+    {
+      "heading": "Internetowy kanał zgłoszeń",
+      "text": "W usłudze Wiem i Powiem sygnalista może zgłosić naruszenie na trzy sposoby: przez internet, telefonicznie lub listownie. Aplikacja obsługuje pierwszy z nich.\n\nOrganizacja, która korzysta z usługi, dostaje materiały informacyjne dla pracowników z kodem QR i adresem formularza. Zgłoszenie można więc złożyć z telefonu, bez instalowania czegokolwiek i bez szukania, gdzie to zrobić."
+    },
+    {
+      "heading": "Formularz zgłoszenia",
+      "text": "Wiem i Powiem przyjmuje zgłoszenia imienne. Formularz wymaga imienia i nazwiska oraz odpowiedzi na pytania dotyczące naruszenia. Adres e-mail jest opcjonalny.\n\nPytania porządkują zgłoszenie już na etapie składania. Prawnik, który je weryfikuje, dostaje opis sprawy w powtarzalnej, uporządkowanej formie."
+    },
+    {
+      "heading": "Połączenie z systemem kancelarii",
+      "text": "Zgłoszenie z formularza trafia bezpośrednio do systemu, z którego kancelaria korzysta na co dzień. Na potrzeby usługi system został rozbudowany o moduł do zarządzania zgłoszeniami sygnalistów.\n\nPrzyjęcie zgłoszenia i dalsza praca nad nim odbywają się w jednym narzędziu. Nikt nie przepisuje zgłoszeń ze skrzynki e-mail i nie prowadzi ich równolegle w osobnym programie."
+    },
+    {
+      "heading": "Terminy wynikające z ustawy",
+      "text": "Ustawa o ochronie sygnalistów wymaga potwierdzenia przyjęcia zgłoszenia w ciągu 7 dni i przekazania sygnaliście informacji zwrotnej najpóźniej w ciągu 3 miesięcy. Wiem i Powiem bierze tę komunikację na siebie. Ponieważ zgłoszenie od początku jest w systemie kancelarii, nie ginie między skrzynkami i można je obsłużyć w terminie."
+    },
+    {
+      "heading": "Nowa usługa na istniejącym oprogramowaniu",
+      "text": "Kancelaria nie kupowała osobnego systemu dla sygnalistów i nie musiała uczyć zespołu kolejnego programu. Rozbudowała narzędzie, którego już używa, a dla sygnalistów powstała prosta aplikacja z formularzem.\n\nPrzygotowałem też stronę internetową usługi. Jej opis znajdziesz w portfolio jako Wiem i Powiem — strona internetowa."
+    }
+  ]
+}

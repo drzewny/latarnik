@@ -1,0 +1,32 @@
+{
+  "published": true,
+  "order": 5,
+  "category": "Aplikacja",
+  "title": "Musiał i Wspólnicy — aplikacja wewnętrzna",
+  "summary": "Wewnętrzna aplikacja kancelarii prawnej, która automatyzuje powtarzalne czynności. Klient zgłasza, że część z nich zajmuje teraz o 80% mniej czasu.",
+  "image": "/assets/portfolio/musial-i-wspolnicy-logo.png",
+  "imagePresentation": "logo",
+  "portfolioCategory": "web-app",
+  "portfolioImage": "/assets/portfolio/musial-i-wspolnicy-logo.png",
+  "portfolioImageAlt": "Logo kancelarii Musiał i Wspólnicy",
+  "result": "80%",
+  "resultLabel": "krócej trwają wybrane czynności (dane klienta)",
+  "blocks": [
+    {
+      "heading": "Kancelaria pracująca na cyfrowych aktach",
+      "text": "Musiał i Wspólnicy to poznańska kancelaria prawna dla firm. Prowadzi akta w całości cyfrowo i obsługuje klientów także zdalnie.\n\nWiele czynności powtarza się jednak przy kolejnych sprawach i do niedawna trzeba było wykonywać je ręcznie. Do tego każdy w zespole może robić je trochę inaczej."
+    },
+    {
+      "heading": "Automatyzacja i jeden sposób pracy",
+      "text": "Wdrożyłem wewnętrzną aplikację, która przejmuje powtarzalne czynności i wykonuje je za zespół. Przy okazji ujednoliciła procesy: dana czynność przebiega tak samo bez względu na to, kto w kancelarii ją zleca."
+    },
+    {
+      "heading": "Efekt: do 80% mniej czasu",
+      "text": "Klient zgłasza, że niektóre czynności zajmują teraz o 80% mniej czasu niż przed wdrożeniem aplikacji. Ta liczba dotyczy wybranych, zautomatyzowanych zadań, a nie całej pracy kancelarii. W tych zadaniach zespół wykonuje dziś znacznie mniej pracy ręcznej."
+    },
+    {
+      "heading": "Rozwój moduł po module",
+      "text": "Aplikacja ma budowę modułową. Nie trzeba było projektować od razu całego systemu: kolejne moduły dodaję wtedy, gdy kancelaria zgłasza nową potrzebę, i każdy z nich rozwiązuje jeden konkretny problem.\n\nDla tej samej kancelarii przygotowałem też stronę internetową Musiał i Wspólnicy."
+    }
+  ]
+}
