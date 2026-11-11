@@ -91,14 +91,56 @@ test('menu mobilne zamyka się Escape i przywraca przewijanie', async ({ page },
   await expect(toggle).toBeFocused();
 });
 
-test('formularz waliduje i jasno informuje o braku wysyłki', async ({ page }) => {
-  await page.goto('/');
+// Zaślepka Turnstile: testy nie łączą się z Cloudflare, a widżet od razu zwraca token.
+const turnstileStub = `window.turnstile = {
+  render(container) { container.dataset.rendered = 'true'; return 'widget-1'; },
+  reset() { window.__turnstileResets = (window.__turnstileResets || 0) + 1; },
+  getResponse() { return 'test-token'; },
+};`;
+
+test.beforeEach(async ({ page }) => {
+  await page.route('https://challenges.cloudflare.com/**', (route) => route.fulfill({ contentType: 'text/javascript', body: turnstileStub }));
+});
+
+async function fillContactForm(page: import('@playwright/test').Page) {
   const form = page.locator('[data-contact-form]');
-  await form.getByRole('button', { name: 'Sprawdź formularz' }).click();
-  await expect(form.locator('#name')).toHaveAttribute('aria-invalid', 'true');
   await form.locator('#name').fill('Anna');
   await form.locator('#email').fill('anna@example.com');
   await form.locator('#message').fill('Chcę omówić pomysł na aplikację.');
-  await form.getByRole('button', { name: 'Sprawdź formularz' }).click();
-  await expect(form.getByRole('status')).toContainText('wiadomość nie została wysłana');
+  return form;
+}
+
+test('formularz waliduje pola i wysyła wiadomość z tokenem Turnstile', async ({ page }) => {
+  let payload = '';
+  await page.route('**/api/kontakt.php', (route) => {
+    payload = route.request().postData() ?? '';
+    return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true }) });
+  });
+  await page.goto('/');
+  const form = page.locator('[data-contact-form]');
+  await form.getByRole('button', { name: 'Wyślij wiadomość' }).click();
+  await expect(form.locator('#name')).toHaveAttribute('aria-invalid', 'true');
+  await fillContactForm(page);
+  await form.getByRole('button', { name: 'Wyślij wiadomość' }).click();
+  await expect(form.getByRole('status')).toContainText('Wiadomość wysłana');
+  await expect(form.locator('[data-turnstile]')).toHaveAttribute('data-rendered', 'true');
+  expect(payload).toContain('test-token');
+  expect(payload).toContain('anna@example.com');
+  await expect(form.locator('#name')).toHaveValue('');
+  expect(await page.evaluate(() => (window as unknown as { __turnstileResets?: number }).__turnstileResets)).toBe(1);
+});
+
+test('formularz pokazuje błędy zwrócone przez serwer', async ({ page }) => {
+  await page.route('**/api/kontakt.php', (route) => route.fulfill({
+    status: 422,
+    contentType: 'application/json',
+    body: JSON.stringify({ ok: false, error: 'Popraw zaznaczone pola.', fields: { email: 'Podaj poprawny adres e-mail.' } }),
+  }));
+  await page.goto('/');
+  const form = await fillContactForm(page);
+  await form.getByRole('button', { name: 'Wyślij wiadomość' }).click();
+  await expect(form.getByRole('status')).toContainText('Popraw zaznaczone pola.');
+  await expect(form.locator('#email')).toHaveAttribute('aria-invalid', 'true');
+  await expect(form.locator('#email-error')).toHaveText('Podaj poprawny adres e-mail.');
+  await expect(form.locator('#name')).toHaveValue('Anna');
 });

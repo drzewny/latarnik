@@ -26,7 +26,7 @@ function contentReload(): Plugin {
         debounceTimer = setTimeout(() => {
           generation = generation.then(async () => {
             try {
-              await execFileAsync(process.execPath, ['--import', 'tsx', 'scripts/generate.ts']);
+              await execFileAsync(process.execPath, ['--env-file-if-exists=.env', '--import', 'tsx', 'scripts/generate.ts']);
               server.ws.send({ type: 'full-reload' });
               server.config.logger.info('Treść przebudowana; odświeżono stronę.', { timestamp: true });
             } catch (error) {
@@ -55,5 +55,9 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: { input: htmlEntries(generatedRoot) },
   },
-  server: { fs: { allow: [resolve('.')] } },
+  server: {
+    fs: { allow: [resolve('.')] },
+    // Endpoint PHP formularza: uruchom równolegle `npm run dev:php`.
+    proxy: { '/api': 'http://127.0.0.1:8000' },
+  },
 });

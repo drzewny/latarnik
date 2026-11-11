@@ -26,7 +26,31 @@ Konfiguracja CMS znajduje się w `.pages.yml`. Aby edytować treści przez inter
 
 Linki „Dowiedz się więcej” na stronie głównej prowadzą do `/portfolio/?category=…#projekty`. Kategorie są przypisane do stałych slugów usług, więc zmiana ich kolejności w CMS nie zmienia działania linków. Wybór filtra zapisuje się w adresie i historii przeglądarki. Nowe grafiki portfolio i prompty opisuje [dokumentacja assetów](docs/portfolio-assets.md).
 
-Formularz na stronie głównej służy do podglądu i walidacji. Nie wysyła ani nie przechowuje wiadomości. Przed publiczną publikacją potrzebne są prawdziwe dane kontaktowe, obsługa wysyłki i potwierdzone materiały o firmie. Portret w sekcji „O mnie” jest zdjęciem ilustracyjnym.
+Portret w sekcji „O mnie” jest zdjęciem ilustracyjnym.
+
+## Formularz kontaktowy
+
+Formularz wysyła dane do `/api/kontakt.php` (plik `public/api/kontakt.php`, kopiowany do `dist/api/`). Endpoint ładuje logikę z katalogu `server/`, który na hostingu leży poza katalogiem publicznym. Ochronę przed botami zapewnia [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/), a wysyłkę PHPMailer przez SMTP. Serwer sprawdza też pola, nagłówek `Origin`, ukryte pole-pułapkę i limit 5 wiadomości na 15 minut z jednego IP.
+
+Układ na hostingu:
+
+```
+latarnik/
+├── server/        ← zawartość server/ z repozytorium (z vendor/ i config.php)
+└── public_html/   ← zawartość dist/
+```
+
+Wdrożenie:
+
+1. W panelu Cloudflare → Turnstile dodaj widżet dla `latarnik.dev` (tryb Managed). Skopiuj Site key i Secret key.
+2. Utwórz `.env` na podstawie `.env.example` i wpisz `TURNSTILE_SITE_KEY`. Bez niego build używa klucza testowego i wypisuje ostrzeżenie.
+3. `npm run build`, a następnie wgraj `dist/` do `latarnik/public_html/`.
+4. W `server/` uruchom `composer install --no-dev` i skopiuj `config.example.php` jako `config.php`. Uzupełnij sekret Turnstile, dane SMTP i adresy. Wgraj cały `server/` (z `vendor/` i `config.php`) do `latarnik/server/`.
+5. Katalog `latarnik/server/storage/` musi być zapisywalny przez PHP (limit wysyłek).
+
+Błędy (SMTP, Turnstile) trafiają do logu PHP z prefiksem `[kontakt]`; użytkownik widzi tylko ogólny komunikat.
+
+Lokalnie: utwórz `server/config.php` z testowym sekretem `1x0000000000000000000000000000000AA`, pustymi `turnstile_hostnames`, `allowed_origins` ustawionym na `['http://127.0.0.1:5173']` i SMTP bez szyfrowania (`'encryption' => 'none'`, np. Mailpit na porcie 1025). Potem uruchom w dwóch terminalach `npm run dev` i `npm run dev:php`. Vite przekazuje `/api` do serwera PHP na porcie 8000.
 
 ## Kontrola jakości
 
@@ -37,4 +61,4 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Testy sprawdzają szerokości 320–1440 px, trasy, stan pustych kolekcji, menu mobilne, formularz oraz publikowanie wpisów CMS. Favicony (`favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, ikony 192/512 i `site.webmanifest` w `public/`) odtwarza znak „l.” z sekcji kontaktu; po zmianie nazwy lub kolorów przebuduj je poleceniem `npm run favicons`. Lokalna czcionka Inter jest objęta licencją SIL OFL dołączoną w `public/fonts/OFL.txt`.
+Testy sprawdzają szerokości 320–1440 px, trasy, stan pustych kolekcji, menu mobilne, formularz (z zaślepką Turnstile i endpointu) oraz publikowanie wpisów CMS. Favicony (`favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, ikony 192/512 i `site.webmanifest` w `public/`) odtwarza znak „l.” z sekcji kontaktu; po zmianie nazwy lub kolorów przebuduj je poleceniem `npm run favicons`. Lokalna czcionka Inter jest objęta licencją SIL OFL dołączoną w `public/fonts/OFL.txt`.

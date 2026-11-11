@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate": "node --import tsx scripts/generate.ts",
+    "generate": "node --env-file-if-exists=.env --import tsx scripts/generate.ts",
     "dev": "npm run generate && vite --host 127.0.0.1",
+    "dev:php": "php -S 127.0.0.1:8000 -t public",
     "build": "npm run generate && vite build",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview --host 127.0.0.1",

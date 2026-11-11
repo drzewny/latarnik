@@ -116,19 +116,46 @@ if (menuButton && nav) {
   });
 }
 
+type TurnstileOptions = {
+  sitekey: string;
+  action?: string;
+  language?: string;
+  theme?: 'light' | 'dark' | 'auto';
+  size?: 'normal' | 'flexible' | 'compact';
+  callback?: (token: string) => void;
+  'expired-callback'?: () => void;
+  'error-callback'?: () => void;
+};
+type Turnstile = {
+  render: (container: HTMLElement, options: TurnstileOptions) => string | undefined;
+  reset: (widgetId?: string) => void;
+  getResponse: (widgetId?: string) => string | undefined;
+};
+declare global {
+  interface Window { turnstile?: Turnstile }
+}
+
+type FormField = HTMLInputElement | HTMLTextAreaElement;
+type ContactResponse = { ok: boolean; error?: string; fields?: Record<string, string> };
+
 const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
 const formStatus = form?.querySelector<HTMLElement>('[data-form-status]');
-const fields = form ? [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea')] : [];
+const submitButton = form?.querySelector<HTMLButtonElement>('[data-form-submit]');
+const submitLabel = form?.querySelector<HTMLElement>('[data-submit-label]');
+const turnstileContainer = form?.querySelector<HTMLElement>('[data-turnstile]');
+const fields = form ? [...form.querySelectorAll<FormField>('.field input, .field textarea')] : [];
+const turnstileScriptUrl = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+let turnstileWidgetId: string | undefined;
+let turnstileLoading: Promise<void> | undefined;
 
-function errorMessage(field: HTMLInputElement | HTMLTextAreaElement): string {
+function errorMessage(field: FormField): string {
   if (field.validity.valueMissing) return 'To pole jest wymagane.';
   if (field.validity.typeMismatch) return 'Podaj poprawny adres e-mail.';
   if (field.validity.tooShort) return `Wpisz co najmniej ${field.minLength} znaków.`;
   return 'Sprawdź tę wartość.';
 }
 
-function updateField(field: HTMLInputElement | HTMLTextAreaElement): void {
-  const message = field.validity.valid ? '' : errorMessage(field);
+function showFieldError(field: FormField, message: string): void {
   const error = form?.querySelector<HTMLElement>(`[data-error-for="${field.name}"]`);
   if (error) error.textContent = message;
   if (message) {
@@ -140,7 +167,127 @@ function updateField(field: HTMLInputElement | HTMLTextAreaElement): void {
   }
 }
 
+function updateField(field: FormField): void {
+  showFieldError(field, field.validity.valid ? '' : errorMessage(field));
+}
+
+function setStatus(message: string, state: 'info' | 'success' | 'error' = 'info'): void {
+  if (!formStatus) return;
+  formStatus.textContent = message;
+  formStatus.dataset.state = state;
+}
+
+function setSending(sending: boolean): void {
+  if (submitButton) submitButton.disabled = sending;
+  if (submitLabel) submitLabel.textContent = sending ? 'Wysyłanie…' : 'Wyślij wiadomość';
+  form?.setAttribute('aria-busy', String(sending));
+}
+
+function renderTurnstile(): void {
+  const sitekey = form?.dataset.turnstileSitekey;
+  if (!window.turnstile || !turnstileContainer || !sitekey || turnstileWidgetId !== undefined) return;
+  turnstileWidgetId = window.turnstile.render(turnstileContainer, {
+    sitekey,
+    action: 'contact',
+    language: 'pl',
+    theme: 'light',
+    // Tryb flexible wymaga co najmniej 300 px; na najwęższych ekranach używamy kompaktowego widżetu.
+    size: turnstileContainer.clientWidth < 300 ? 'compact' : 'flexible',
+    'error-callback': () => setStatus('Nie udało się wczytać zabezpieczenia. Odśwież stronę i spróbuj ponownie.', 'error'),
+  });
+}
+
+// Skrypt Turnstile ładujemy dopiero, gdy formularz zbliża się do ekranu, żeby nie spowalniać strony głównej.
+function loadTurnstile(): Promise<void> {
+  if (window.turnstile) {
+    renderTurnstile();
+    return Promise.resolve();
+  }
+  turnstileLoading ??= new Promise<void>((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = turnstileScriptUrl;
+    script.async = true;
+    script.addEventListener('load', () => {
+      renderTurnstile();
+      resolve();
+    });
+    script.addEventListener('error', () => {
+      turnstileLoading = undefined;
+      script.remove();
+      reject(new Error('Turnstile script failed to load'));
+    });
+    document.head.append(script);
+  });
+  return turnstileLoading;
+}
+
+function resetTurnstile(): void {
+  if (window.turnstile && turnstileWidgetId !== undefined) window.turnstile.reset(turnstileWidgetId);
+}
+
+async function submitContactForm(contactForm: HTMLFormElement): Promise<void> {
+  try {
+    await loadTurnstile();
+  } catch {
+    setStatus('Nie udało się wczytać zabezpieczenia formularza. Sprawdź połączenie i spróbuj ponownie.', 'error');
+    return;
+  }
+
+  const token = window.turnstile?.getResponse(turnstileWidgetId);
+  if (!token) {
+    setStatus('Poczekaj na weryfikację zabezpieczenia nad przyciskiem i wyślij ponownie.', 'error');
+    return;
+  }
+
+  const data = new FormData(contactForm);
+  data.set('cf-turnstile-response', token);
+
+  setSending(true);
+  setStatus('');
+  try {
+    const response = await fetch(contactForm.action, {
+      method: 'POST',
+      body: data,
+      headers: { Accept: 'application/json' },
+    });
+    const result = (await response.json().catch(() => ({ ok: false }))) as ContactResponse;
+
+    if (response.ok && result.ok) {
+      contactForm.reset();
+      fields.forEach((field) => showFieldError(field, ''));
+      setStatus('Wiadomość wysłana. Odpowiem na podany adres e-mail.', 'success');
+      return;
+    }
+
+    for (const field of fields) {
+      const message = result.fields?.[field.name];
+      if (message) showFieldError(field, message);
+    }
+    const firstInvalid = fields.find((field) => field.hasAttribute('aria-invalid'));
+    firstInvalid?.focus();
+    setStatus(result.error ?? 'Nie udało się wysłać wiadomości. Spróbuj ponownie za chwilę.', 'error');
+  } catch {
+    setStatus('Brak połączenia z serwerem. Sprawdź internet i wyślij ponownie.', 'error');
+  } finally {
+    setSending(false);
+    resetTurnstile();
+  }
+}
+
 if (form) {
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        observer.disconnect();
+        loadTurnstile().catch(() => undefined);
+      }
+    }, { rootMargin: '400px 0px' });
+    observer.observe(form);
+  } else {
+    loadTurnstile().catch(() => undefined);
+  }
+  form.addEventListener('focusin', () => { loadTurnstile().catch(() => undefined); }, { once: true });
+
   form.addEventListener('invalid', (event) => {
     if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) updateField(event.target);
   }, true);
@@ -149,8 +296,8 @@ if (form) {
   }));
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const data = new FormData(form);
-    if (!form.checkValidity() || !data.get('name') || !data.get('email') || !data.get('message')) return;
-    if (formStatus) formStatus.textContent = 'Dane wyglądają poprawnie. To podgląd formularza — wiadomość nie została wysłana.';
+    if (form.getAttribute('aria-busy') === 'true') return;
+    if (!form.checkValidity()) return;
+    void submitContactForm(form);
   });
 }
