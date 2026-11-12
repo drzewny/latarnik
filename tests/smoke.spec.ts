@@ -107,6 +107,7 @@ async function fillContactForm(page: import('@playwright/test').Page) {
   await form.locator('#name').fill('Anna');
   await form.locator('#email').fill('anna@example.com');
   await form.locator('#message').fill('Chcę omówić pomysł na aplikację.');
+  await form.getByRole('checkbox', { name: /Wyrażam zgodę na kontakt/ }).check();
   return form;
 }
 
@@ -121,12 +122,22 @@ test('formularz waliduje pola i wysyła wiadomość z tokenem Turnstile', async 
   await form.getByRole('button', { name: 'Wyślij wiadomość' }).click();
   await expect(form.locator('#name')).toHaveAttribute('aria-invalid', 'true');
   await fillContactForm(page);
+  const consent = form.locator('#consent');
+  await consent.uncheck();
+  await form.getByRole('button', { name: 'Wyślij wiadomość' }).click();
+  await expect(consent).toHaveAttribute('aria-invalid', 'true');
+  await expect(form.locator('#consent-error')).toHaveText('Zaznacz zgodę, aby wysłać wiadomość.');
+  expect(payload).toBe('');
+  await consent.check();
+  await expect(consent).not.toHaveAttribute('aria-invalid');
   await form.getByRole('button', { name: 'Wyślij wiadomość' }).click();
   await expect(form.getByRole('status')).toContainText('Wiadomość wysłana');
   await expect(form.locator('[data-turnstile]')).toHaveAttribute('data-rendered', 'true');
   expect(payload).toContain('test-token');
   expect(payload).toContain('anna@example.com');
+  expect(payload).toMatch(/name="consent"\r\n\r\n1\r\n/);
   await expect(form.locator('#name')).toHaveValue('');
+  await expect(consent).not.toBeChecked();
   expect(await page.evaluate(() => (window as unknown as { __turnstileResets?: number }).__turnstileResets)).toBe(1);
 });
 
@@ -143,4 +154,20 @@ test('formularz pokazuje błędy zwrócone przez serwer', async ({ page }) => {
   await expect(form.locator('#email')).toHaveAttribute('aria-invalid', 'true');
   await expect(form.locator('#email-error')).toHaveText('Podaj poprawny adres e-mail.');
   await expect(form.locator('#name')).toHaveValue('Anna');
+});
+
+test('polityka prywatności jest dostępna z formularza, ale nie z menu ani stopki', async ({ page }, testInfo) => {
+  await page.goto('/');
+  const link = page.locator('[data-contact-form]').getByRole('link', { name: 'polityką prywatności' });
+  await expect(link).toHaveAttribute('href', '/polityka-prywatnosci/');
+  await expect(page.locator('header a[href*="polityka-prywatnosci"], footer a[href*="polityka-prywatnosci"]')).toHaveCount(0);
+  await link.click();
+  await expect(page).toHaveURL(/\/polityka-prywatnosci\/$/);
+  await expect(page.getByRole('heading', { name: 'Polityka prywatności', level: 1 })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Administrator danych' })).toBeVisible();
+  await expect(page.locator('header a[href*="polityka-prywatnosci"], footer a[href*="polityka-prywatnosci"]')).toHaveCount(0);
+  await page.screenshot({ path: testInfo.outputPath('privacy-1440.png'), fullPage: true });
+  await page.setViewportSize({ width: 375, height: 800 });
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(1);
 });

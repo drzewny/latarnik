@@ -48,7 +48,9 @@ final class ContactForm
         $email = trim($this->input('email'));
         $message = trim(str_replace("\r\n", "\n", $this->input('message')));
 
-        $errors = $this->validate($name, $email, $message);
+        $consent = $this->input('consent') === '1';
+
+        $errors = $this->validate($name, $email, $message, $consent);
         if ($errors !== []) {
             $this->respond(422, ['ok' => false, 'error' => 'Popraw zaznaczone pola.', 'fields' => $errors]);
         }
@@ -83,7 +85,7 @@ final class ContactForm
     }
 
     /** @return array<string, string> */
-    private function validate(string $name, string $email, string $message): array
+    private function validate(string $name, string $email, string $message, bool $consent): array
     {
         $errors = [];
 
@@ -109,6 +111,10 @@ final class ContactForm
             $errors['message'] = 'Wpisz co najmniej 10 znaków.';
         } elseif ($messageLength > 5000) {
             $errors['message'] = 'Wpisz maksymalnie 5000 znaków.';
+        }
+
+        if (!$consent) {
+            $errors['consent'] = 'Zaznacz zgodę, aby wysłać wiadomość.';
         }
 
         // Odrzucamy niepoprawne UTF-8 i znaki sterujące (poza nową linią i tabulatorem w treści).
@@ -234,6 +240,7 @@ final class ContactForm
                 "E-mail: {$email}",
                 'Data: ' . (new \DateTimeImmutable('now', new \DateTimeZone('Europe/Warsaw')))->format('Y-m-d H:i:s'),
                 "IP: {$ip}",
+                'Zgoda na kontakt i polityka prywatności: zaakceptowane',
                 '',
                 $message,
                 '',

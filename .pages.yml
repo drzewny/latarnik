@@ -149,6 +149,26 @@ content:
           - { name: actionLabel, label: Przycisk, type: string, required: true }
           - { name: href, label: Adres kontaktu, type: string, required: true }
 
+  - name: privacy
+    label: Polityka prywatności
+    type: file
+    path: content/privacy.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - { name: title, label: Nagłówek, type: string, required: true }
+      - { name: description, label: Opis SEO, type: text, required: true }
+      - { name: updated, label: Data ostatniej aktualizacji, type: date, required: true }
+      - { name: lead, label: Wstęp, type: text, required: true }
+      - name: sections
+        label: Sekcje (lista w tekście — linie zaczynające się od „- ”, oddzielone pustą linią od akapitu)
+        type: object
+        list: true
+        fields:
+          - { name: heading, label: Nagłówek, type: string, required: true }
+          - { name: text, label: Tekst, type: text, required: true }
+
   - name: cases
     label: Portfolio — wdrożenia
     type: collection

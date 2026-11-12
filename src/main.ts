@@ -143,13 +143,13 @@ const formStatus = form?.querySelector<HTMLElement>('[data-form-status]');
 const submitButton = form?.querySelector<HTMLButtonElement>('[data-form-submit]');
 const submitLabel = form?.querySelector<HTMLElement>('[data-submit-label]');
 const turnstileContainer = form?.querySelector<HTMLElement>('[data-turnstile]');
-const fields = form ? [...form.querySelectorAll<FormField>('.field input, .field textarea')] : [];
+const fields = form ? [...form.querySelectorAll<FormField>('.field input, .field textarea, .form-consent input')] : [];
 const turnstileScriptUrl = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 let turnstileWidgetId: string | undefined;
 let turnstileLoading: Promise<void> | undefined;
 
 function errorMessage(field: FormField): string {
-  if (field.validity.valueMissing) return 'To pole jest wymagane.';
+  if (field.validity.valueMissing) return field.type === 'checkbox' ? 'Zaznacz zgodę, aby wysłać wiadomość.' : 'To pole jest wymagane.';
   if (field.validity.typeMismatch) return 'Podaj poprawny adres e-mail.';
   if (field.validity.tooShort) return `Wpisz co najmniej ${field.minLength} znaków.`;
   return 'Sprawdź tę wartość.';
