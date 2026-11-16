@@ -228,7 +228,6 @@ p { text-wrap: pretty; }
 .detail-result span { color: var(--body); }
 .back-link { display: flex; margin-top: 24px; }
 .privacy-hero .container, .privacy-copy .container { width: min(calc(100% - var(--gutter) * 2), 740px); }
-.inner-hero.privacy-hero p.privacy-updated { margin-top: 18px; color: var(--muted); font-size: 14px; }
 .privacy-copy .detail-content { margin-top: 0; }
 .section-pad.privacy-copy { padding-top: 8px; }
 .privacy-copy .detail-content h2 { font-size: 23px; letter-spacing: -.02em; }

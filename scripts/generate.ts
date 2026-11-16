@@ -118,11 +118,11 @@ function renderBlockText(text: string): string {
 }
 
 function renderInlineText(text: string): string {
-  return text.split(/(\*\*[^*]+\*\*)/g).map((part) =>
-    part.startsWith('**') && part.endsWith('**')
-      ? `<strong>${esc(part.slice(2, -2))}</strong>`
-      : esc(part),
-  ).join('');
+  return text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\(https:\/\/[^\s)]+\))/g).map((part) => {
+    if (part.startsWith('**') && part.endsWith('**')) return `<strong>${esc(part.slice(2, -2))}</strong>`;
+    const link = part.match(/^\[([^\]]+)\]\((https:\/\/[^\s)]+)\)$/);
+    return link?.[2] ? `<a href="${safeExternalUrl(link[2])}">${esc(link[1])}</a>` : esc(part);
+  }).join('');
 }
 
 function icon(name: IconName, className = ''): string {
@@ -258,10 +258,8 @@ function renderServicePage(service: Service, content: ServicePageContent): strin
 }
 
 function renderPrivacyPage(): string {
-  const updated = new Date(`${privacy.updated}T12:00:00Z`);
-  const updatedLabel = Number.isNaN(updated.getTime()) ? '' : `<p class="privacy-updated">Ostatnia aktualizacja: <time datetime="${esc(privacy.updated)}">${esc(updated.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }))}</time></p>`;
   const sections = privacy.sections.map((section) => `<section><h2>${esc(section.heading)}</h2>${renderBlockText(section.text)}</section>`).join('');
-  return `<section class="inner-hero privacy-hero"><div class="container"><h1>${esc(privacy.title)}</h1><p>${esc(privacy.lead)}</p>${updatedLabel}</div></section><section class="section-pad privacy-copy"><div class="container"><div class="detail-content">${sections}<a class="text-link back-link" href="/#kontakt">← Wróć do formularza kontaktowego</a></div></div></section>`;
+  return `<section class="inner-hero privacy-hero"><div class="container"><h1>${esc(privacy.title)}</h1>${renderBlockText(privacy.lead)}</div></section><section class="section-pad privacy-copy"><div class="container"><div class="detail-content">${sections}<a class="text-link back-link" href="/#kontakt">← Wróć do formularza kontaktowego</a></div></div></section>`;
 }
 
 function renderDetail(entry: Entry): string {

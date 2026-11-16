@@ -1,44 +1,44 @@
 {
-  "title": "Polityka prywatności",
-  "description": "Jak latarnik. przetwarza dane osobowe przesłane przez formularz kontaktowy i podczas korzystania ze strony.",
-  "updated": "2026-11-11",
-  "lead": "Ta strona wyjaśnia, jakie dane zbieram, gdy korzystasz z latarnik.dev i piszesz do mnie przez formularz kontaktowy, w jakim celu je przetwarzam i jakie masz prawa.",
+  "title": "Polityka Prywatności",
+  "description": "Polityka Prywatności określa w jakim celu i na jakich zasadach przetwarzamy dane osobowe.",
+  "updated": "2026-11-12",
+  "lead": "Przywiązujemy szczególną uwagę do poszanowania prywatności osób, których dane osobowe przetwarzamy, w tym również w związku z działalnością naszego serwisu internetowego oraz działań wykonywanych lub inicjowanych drogą elektroniczną.\n\nPolityka Prywatności określa w jakim celu i na jakich zasadach przetwarzamy dane osobowe.",
   "sections": [
     {
-      "heading": "Administrator danych",
-      "text": "Administratorem Twoich danych osobowych jest latarnik. (dalej: „ja”). We wszystkich sprawach dotyczących danych osobowych możesz napisać na adres **kontakt@latarnik.dev**."
+      "heading": "Administrator danych osobowych",
+      "text": "Administratorem danych osobowych jest Jakub Wolski, NIP: 5992997044."
     },
     {
-      "heading": "Jakie dane przetwarzam",
-      "text": "Gdy wysyłasz wiadomość przez formularz kontaktowy, otrzymuję:\n\n- imię,\n- adres e-mail,\n- treść wiadomości i wszystkie dane, które sam w niej podasz,\n- datę wysłania i adres IP, z którego wysłano formularz.\n\nNie proszę o dane szczególnych kategorii (np. o zdrowiu). Nie umieszczaj ich w wiadomości, jeśli nie jest to konieczne."
+      "heading": "Kontakt z Administratorem",
+      "text": "Możesz się z nami skontaktować mailowo pod adresem kontakt@latarnik.dev."
     },
     {
-      "heading": "Cel i podstawa przetwarzania",
-      "text": "- **Odpowiedź na Twoje zapytanie i dalszy kontakt w jego sprawie** — na podstawie Twojej zgody (art. 6 ust. 1 lit. a RODO), a jeśli zapytanie dotyczy współpracy, także w celu podjęcia działań przed zawarciem umowy na Twoje żądanie (art. 6 ust. 1 lit. b RODO).\n- **Ochrona formularza przed spamem i nadużyciami** — na podstawie mojego prawnie uzasadnionego interesu (art. 6 ust. 1 lit. f RODO).\n- **Ustalenie, dochodzenie lub obrona roszczeń**, jeśli zajdzie taka potrzeba — na podstawie prawnie uzasadnionego interesu (art. 6 ust. 1 lit. f RODO).\n\nPodanie danych jest dobrowolne, ale bez imienia, adresu e-mail i zgody na kontakt nie mogę odpowiedzieć na wiadomość wysłaną przez formularz. Zgodę możesz w każdej chwili wycofać, pisząc na kontakt@latarnik.dev. Wycofanie zgody nie wpływa na zgodność z prawem przetwarzania, które nastąpiło przed jej wycofaniem."
+      "heading": "Cele przetwarzania danych osobowych",
+      "text": "Przetwarzamy dane osobowe w następujących celach i w oparciu o następujące podstawy prawne:\n\n- w celu obsługi korespondencji za pośrednictwem poczty elektronicznej, telefonicznej, w tym wywołanej poprzez formularz kontaktowy zamieszczony na stronie – podstawą prawną jest przepis art. 6 ust. 1 lit. f) RODO, czyli nasz prawnie uzasadniony interes polegający na prowadzeniu i archiwizowaniu korespondencji z Tobą,\n- w celach realizacji obowiązków podatkowych i księgowych – podstawą prawną jest przepis art. 6 ust. 1 lit. c) RODO w związku z właściwymi przepisami prawa podatkowego lub rachunkowego,\n- w celu ewentualnej obrony, dochodzenia lub ustalenia roszczeń – podstawą prawną jest przepis art. 6 ust. 1 lit. f) RODO, czyli nasz prawnie uzasadniony interes polegający na obronie, dochodzeniu lub ustalaniu roszczeń – w razie takiej konieczności,\n- w celu analizy i statystyki – podstawa prawną jest przepis art. 6 ust. 1 lit. f) RODO, czyli nasz prawnie uzasadniony interes prawny polegający na tworzeniu, prowadzeniu i analizowaniu statystyk związanych z aktywnością użytkowników na naszych stronach internetowych,\n- w celu marketingu własnego – podstawą prawną jest przepis art. 6 ust. 1 lit. f) RODO, czyli nasz prawnie uzasadniony interes polegający na prowadzeniu marketingu bezpośredniego naszych usług i produktów."
     },
     {
-      "heading": "Zabezpieczenie formularza",
-      "text": "Formularz chroni Cloudflare Turnstile — usługa odróżniająca ludzi od botów. Aby ją wyświetlić i zweryfikować, Twoja przeglądarka łączy się z serwerami Cloudflare, Inc., które otrzymują m.in. adres IP i podstawowe informacje o przeglądarce. Cloudflare może przetwarzać te dane poza Europejskim Obszarem Gospodarczym, w tym w USA; podstawą przekazania jest decyzja Komisji Europejskiej w sprawie EU-US Data Privacy Framework oraz standardowe klauzule umowne. Więcej informacji znajdziesz w polityce prywatności Cloudflare.\n\nAby ograniczyć liczbę wiadomości wysyłanych z jednego adresu, serwer zapisuje na krótki czas jednokierunkowy skrót (hash) adresu IP i czas wysłania formularza."
+      "heading": "Analityka bez plików cookies",
+      "text": "Do tworzenia zbiorczych statystyk korzystamy z Umami Cloud, usługi świadczonej przez Umami Software, Inc., w wariancie przechowującym dane w regionie Unii Europejskiej. Tracker Umami nie zapisuje plików cookies ani danych w pamięci lokalnej przeglądarki.\n\nW ramach statystyk rejestrowane są odwiedzane podstrony, źródło wejścia, przybliżona lokalizacja, typ urządzenia, przeglądarka i system operacyjny oraz zbiorcze zdarzenia, takie jak kliknięcie odnośnika kontaktowego, rozpoczęcie i skuteczne wysłanie formularza oraz wybrana ogólna kategoria sprawy. Do Umami nie przekazujemy imienia i nazwiska, danych kontaktowych ani treści wiadomości wpisanej w formularzu. Nie korzystamy również z funkcji Distinct ID do identyfikowania użytkowników.\n\nAdres IP jest wykorzystywany do ustalenia przybliżonej lokalizacji i utworzenia anonimowego identyfikatora statystycznego, ale nie jest przechowywany. Tracker respektuje ustawienie Do Not Track i nie przesyła parametrów zapytania z adresu strony. Szczegółowe informacje opisują [zasady prywatności Umami](https://umami.is/privacy)."
     },
     {
-      "heading": "Komu przekazuję dane",
-      "text": "Nie sprzedaję Twoich danych. Mogą mieć do nich dostęp wyłącznie podmioty, które pomagają mi prowadzić stronę i obsługiwać korespondencję, i tylko w zakresie niezbędnym do świadczenia tych usług:\n\n- dostawca hostingu, na którym działa strona i formularz,\n- dostawca poczty e-mail, przez którego otrzymuję wiadomości i odpowiadam na nie,\n- Cloudflare, Inc. — w zakresie opisanym wyżej."
+      "heading": "Okres przechowywania danych osobowych",
+      "text": "Dane osobowe przechowywane będą przez okres niezbędny do celów, dla których są przetwarzane, a w szczególności:\n\n- Dane osobowe przetwarzane w celu obsługi korespondencji – dane będą przechowywane przez okres niezbędny do prowadzenia korespondencji w sprawie, której korespondencja dotyczy. W przypadku zakończenia korespondencji, zakończenia współpracy, korespondencja będzie archiwizowana, o ile nie będzie konieczności jej przetwarzania z uwagi na inne cele (np. konieczność obrony, dochodzenia, ustalenia roszczeń albo realizacja obowiązków podatkowych i księgowych);\n- Dane osobowe przetwarzane w celu realizacji obowiązków podatkowych i księgowych – dane będą przetwarzane przez okres wynikający z obowiązujących przepisów.\n- Dane osobowe przetwarzane w celu ewentualnej obrony, dochodzenia lub ustalenia roszczeń – dane będą przetwarzane do czasu przedawnienia ewentualnych roszczeń.\n- Dane osobowe przetwarzane w celu analizy i statystyki – dane będą przetwarzane do czasu zdezaktualizowania się lub utraty ich przydatności.\n- Dane osobowe przetwarzane w celu marketingu własnego – dane będą przetwarzane do czasu zdezaktualizowania się lub utraty ich przydatności."
     },
     {
-      "heading": "Jak długo przechowuję dane",
-      "text": "Korespondencję przechowuję przez czas potrzebny do obsługi Twojego zapytania, a następnie nie dłużej niż 12 miesięcy od ostatniego kontaktu. Jeśli rozpoczniemy współpracę, dane przechowuję przez czas jej trwania i tak długo, jak wymagają tego przepisy (np. podatkowe) albo jak mogą wystąpić roszczenia z nią związane. Jeśli wycofasz zgodę, usunę dane wcześniej, chyba że muszę je zachować na innej podstawie prawnej. Dane służące ochronie przed spamem są usuwane automatycznie po krótkim czasie."
+      "heading": "Odbiorcy danych osobowych",
+      "text": "Przekazujemy Twoje dane osobowe następującym podmiotom:\n\n**Podmioty przetwarzające**\n\nWspółpracujemy z podmiotami, które przetwarzają Twoje dane osobowe wyłącznie na nasze polecenie. W razie potrzeby przekazujemy Państwa dane osobowe podmiotom, które świadczą dla nas usługi finansowo-kadrowe, prawne, ubezpieczeniowe, hostingowe, dostarczają nam systemy do marketingu online, prowadzą wysyłkę wiadomości email, prowadzą analizy ruchu w serwisach internetowych, prowadzą analizy skuteczności kampanii marketingowych.\n\n**Organy państwowe**\n\nUdostępniamy Twoje dane osobowe, jeżeli zwrócą się do nas o to uprawnione organy państwowe, w szczególności jednostki organizacyjne prokuratury, Policja, Prezes Urzędu Ochrony Danych Osobowych, Prezes Urzędu Ochrony Konkurencji i Konsumentów lub Prezes Urzędu Komunikacji Elektronicznej. Każdy przypadek żądania udostępnienia danych osobowych analizujemy bardzo starannie i bardzo wnikliwie, aby nie doszło do przekazania informacji osobie nieuprawnionej.\n\nTwoje dane osobowe mogą być także przekazywane do urzędów skarbowych w zakresie niezbędnym do realizacji obowiązków wynikających z przepisów prawa.\n\n**Państwa trzecie.**\n\nJak większość przedsiębiorców, korzystamy z różnych popularnych usług i technologii, oferowanych przez takie podmioty, jak Facebook, Microsoft, Google. Dokładamy należytych starań, aby przekazywanie danych było zgodne z prawem i wdrożone zostały odpowiednie zabezpieczenia. Obejmuje to w szczególności stosowanie standardowych klauzul umownych zatwierdzonych przez Komisję Europejską oraz przekazywanie danych na podstawie decyzji Komisji Europejskiej stwierdzającej odpowiedni stopień ochrony."
     },
     {
-      "heading": "Twoje prawa",
-      "text": "Masz prawo do:\n\n- dostępu do swoich danych i otrzymania ich kopii,\n- sprostowania danych,\n- usunięcia danych,\n- ograniczenia przetwarzania,\n- przenoszenia danych,\n- wniesienia sprzeciwu wobec przetwarzania opartego na prawnie uzasadnionym interesie,\n- wycofania zgody w dowolnym momencie.\n\nAby skorzystać z tych praw, napisz na kontakt@latarnik.dev. Jeśli uważasz, że przetwarzam Twoje dane niezgodnie z prawem, możesz wnieść skargę do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa)."
+      "heading": "Twoje prawa związane z przetwarzaniem danych osobowych",
+      "text": "Przysługują Ci następujące prawa związane z przetwarzaniem Twoich danych osobowych:\n\n- prawo do cofnięcia zgody,\n- prawo dostępu do danych,\n- prawo do sprostowania danych,\n- prawo do usunięcia danych „Prawo do bycia zapomnianym”,\n- prawo do ograniczenia przetwarzania danych,\n- prawo do przenoszenia danych,\n- prawo do sprzeciwu wobec przetwarzania danych,\n- prawo wniesienia skargi do organu nadzorczego – Prezesa Urzędu Ochrony Danych Osobowych."
     },
     {
-      "heading": "Pliki cookies i analityka",
-      "text": "Strona nie używa własnych plików cookies, narzędzi analitycznych ani reklamowych. Czcionki są serwowane z tego samego serwera co strona. Jedynym zewnętrznym elementem jest opisany wyżej widżet Cloudflare Turnstile, który może zapisać w przeglądarce dane techniczne potrzebne do weryfikacji.\n\nSerwer hostingu, jak każdy serwer WWW, może automatycznie zapisywać w logach podstawowe informacje o żądaniach (m.in. adres IP, datę i czas, adres odwiedzanej podstrony, typ przeglądarki). Służą one wyłącznie zapewnieniu bezpieczeństwa i poprawnego działania strony."
+      "heading": "Obowiązek podania danych osobowych",
+      "text": "Podanie danych osobowych nie jest obowiązkowe, ale ich niepodanie może uniemożliwić realizację świadczeń, bądź zobowiązań, do wykonania których niezbędne jest podanie danych."
     },
     {
-      "heading": "Zautomatyzowane decyzje i zmiany polityki",
-      "text": "Nie podejmuję wobec Ciebie decyzji opartych wyłącznie na zautomatyzowanym przetwarzaniu, w tym profilowaniu. Jeśli polityka prywatności się zmieni, zaktualizuję tę stronę i datę ostatniej zmiany."
+      "heading": "Zautomatyzowane podejmowanie decyzji i profilowanie",
+      "text": "Nie stosujemy zautomatyzowanego podejmowania decyzji lub profilowania danych osobowych."
     }
   ]
 }

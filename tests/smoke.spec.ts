@@ -163,8 +163,9 @@ test('polityka prywatności jest dostępna z formularza, ale nie z menu ani stop
   await expect(page.locator('header a[href*="polityka-prywatnosci"], footer a[href*="polityka-prywatnosci"]')).toHaveCount(0);
   await link.click();
   await expect(page).toHaveURL(/\/polityka-prywatnosci\/$/);
-  await expect(page.getByRole('heading', { name: 'Polityka prywatności', level: 1 })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Administrator danych' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Polityka Prywatności', level: 1, exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Administrator danych osobowych', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'zasady prywatności Umami' })).toHaveAttribute('href', 'https://umami.is/privacy');
   await expect(page.locator('header a[href*="polityka-prywatnosci"], footer a[href*="polityka-prywatnosci"]')).toHaveCount(0);
   await page.screenshot({ path: testInfo.outputPath('privacy-1440.png'), fullPage: true });
   await page.setViewportSize({ width: 375, height: 800 });
