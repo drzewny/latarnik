@@ -3,7 +3,7 @@
   "order": 2,
   "category": "Strona internetowa",
   "title": "Prawnik dla Rolnika",
-  "summary": "Serwis prawny dla rolników i właścicieli gruntów: sześć specjalizacji, od służebności przesyłu po obrót ziemią rolną, artykuły poradnikowe i formularz zapytania.",
+  "summary": "Strona internetowa dla projektu poznańskiej kancelarii prawnej.",
   "image": "/assets/case-prawnikdlarolnika.jpg",
   "portfolioCategory": "website",
   "portfolioImage": "/assets/portfolio/prawnik-dla-rolnika.webp",
@@ -11,28 +11,8 @@
   "externalUrl": "https://www.prawnikdlarolnika.pl/",
   "blocks": [
     {
-      "heading": "Dla kogo jest serwis",
-      "text": "Prawnik dla Rolnika to projekt radców prawnych współpracujących z poznańską kancelarią Musiał i Wspólnicy. Jest skierowany do rolników, właścicieli gruntów rolnych i osób prowadzących gospodarstwa, przede wszystkim z Wielkopolski.\n\nSprawy tych osób rzadko zaczynają się od pytania o przepis. Zwykle zaczynają się od konkretnej sytuacji: firma proponuje dzierżawę pola pod farmę fotowoltaiczną, przez działkę ma przejść linia przesyłowa, gmina uchwala plan, który zmienia przeznaczenie gruntu. Strona jest ułożona wokół takich sytuacji."
-    },
-    {
-      "heading": "Sześć specjalizacji, każda na osobnej podstronie",
-      "text": "Serwis opisuje obszary, w których kancelaria pomaga rolnikom:\n\n- Proces inwestycyjny\n- Prawo ogólne\n- Energetyka i infrastruktura przesyłowa na gruntach rolnych\n- Służebności\n- Producenci rolni\n- Obrót gruntami rolnymi\n\nKażda specjalizacja ma własną podstronę z opisem. Adresy używają słów, które ludzie faktycznie wpisują w wyszukiwarkę, na przykład /pv-slupy-wiatraki-i-energetyka/. Na stronie głównej przy każdym obszarze jest przycisk „Zapytaj o tę usługę”, który prowadzi prosto do formularza."
-    },
-    {
-      "heading": "Artykuły odpowiadające na konkretne pytania",
-      "text": "Dział Artykuły zawiera poradniki o sprawach, z którymi rolnicy przychodzą do kancelarii, na przykład:\n\n- Służebność przesyłu na działce rolnej: czy za słup, gazociąg lub rurę w ziemi należy się wynagrodzenie?\n- Umowa dzierżawy gruntu pod fotowoltaikę, wiatraki i magazyny energii\n- Sprzedaż ziemi rolnej: zasady, ograniczenia i formalności\n- Plany ogólne gmin i ich wpływ na nieruchomości rolne\n\nKażdy wpis ma kategorię i szacowany czas czytania. Artykuły pomagają czytelnikowi zrozumieć jego sytuację, zanim zadzwoni, a wyszukiwarce dają powód, by pokazywać serwis przy takich pytaniach."
-    },
-    {
-      "heading": "Formularz zapytania",
-      "text": "Główną drogą kontaktu jest formularz na stronie głównej, z dopiskiem o bezpłatnym wstępnym rozpoznaniu sprawy. Formularz ma tylko cztery pola: imię i nazwisko, telefon lub e-mail, temat sprawy wybierany z listy specjalizacji oraz krótki opis sytuacji.\n\nNa kontakt wystarczy jedno pole, w którym można wpisać telefon albo e-mail, zależnie od tego, co komu wygodniej. Dzięki wyborowi tematu z listy kancelaria od razu wie, czego dotyczy zapytanie. Formularz jest zabezpieczony przed spamem."
-    },
-    {
-      "heading": "Wygląd",
-      "text": "Strona otwiera się zdjęciem pól i nagłówkiem „Prawo zakorzenione w polskiej ziemi”. Pod nim są trzy krótkie zapewnienia: bezpieczeństwo gospodarstwa, znajomość realiów polskiej wsi oraz partnerska komunikacja."
-    },
-    {
-      "heading": "Mój udział",
-      "text": "Jestem autorem strony internetowej Prawnik dla Rolnika. Wcześniej przygotowałem stronę dla kancelarii Musiał i Wspólnicy, z którą współpracują autorzy serwisu."
+      "heading": "",
+      "text": "Projekt „Prawnik dla Rolnika” powstał z inicjatywy poznańskiej Kancelarii Musiał i Wspólnicy, jako rozwinięcie jednej z jej głównych specjalizacji.\n\nZ założenia strona miała być szybka, przejrzysta i wygodna w obsłudze, a jednocześnie umożliwiać prawnikom samodzielne publikowanie artykułów.\n\nNa potrzeby projektu stworzyłem lekką stronę internetową o stonowanej kolorystyce, wyposażoną w system zarządzania artykułami oraz formularz kontaktowy.\n\nZależało mi na tym, aby technologia nie przeszkadzała użytkownikom. Dzięki odpowiednio dobranym rozwiązaniom strona oferuje pełną analitykę i formularz zabezpieczony przed botami oraz spamem, bez konieczności stosowania plików cookies czy tradycyjnych testów CAPTCHA.\n\nW efekcie odwiedzający nie są rozpraszani banerami, wyskakującymi okienkami ani zagadkami."
     }
   ]
 }

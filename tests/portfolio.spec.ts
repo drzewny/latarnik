@@ -24,8 +24,8 @@ async function expectContainedLogo(media: Locator) {
 for (const [service, category, label, count] of [
   ['Strony internetowe', 'website', 'Strony internetowe', 3],
   ['Aplikacje na miarę', 'web-app', 'Aplikacje', 2],
-  ['Automatyzacja', 'automation', 'Automatyzacje', 0],
-  ['Integracje AI', 'integration', 'Integracje', 0],
+  ['Automatyzacja', 'automation', 'Automatyzacje', 1],
+  ['Integracje AI', 'integration', 'Integracje', 1],
 ] as const) {
   test(`kafelek ${service} wybiera właściwy filtr portfolio`, async ({ page }) => {
     await page.goto('/');
@@ -40,7 +40,7 @@ for (const [service, category, label, count] of [
   });
 }
 
-test('filtry, reset i historia zachowują wybór oraz komunikują wyniki', async ({ page }) => {
+test('filtry i historia zachowują wybór oraz komunikują wyniki', async ({ page }) => {
   await page.goto('/portfolio/');
   const all = page.getByRole('button', { name: 'Wszystkie', exact: true });
   await expect(all).toHaveAttribute('aria-pressed', 'true');
@@ -48,10 +48,12 @@ test('filtry, reset i historia zachowują wybór oraz komunikują wyniki', async
     'Musiał i Wspólnicy', 'Prawnik dla Rolnika',
     'Wiem i Powiem — strona internetowa', 'Wiem i Powiem — aplikacja dla sygnalistów',
     'Musiał i Wspólnicy — aplikacja wewnętrzna',
+    'Latarnik — automatyzacja wsparcia użytkowników', 'Latarnik — baza wiedzy RAG i AI',
   ]);
   await page.getByRole('button', { name: 'Automatyzacje', exact: true }).click();
-  await expect(page.getByRole('status')).toHaveText('Automatyzacje. Liczba projektów: 0.');
-  await expect(page.getByText('Brak projektów w wybranej kategorii.')).toBeVisible();
+  await expect(page.getByRole('status')).toHaveText('Automatyzacje. Liczba projektów: 1.');
+  await expect(page.locator('.pf-card:visible h3')).toHaveText(['Latarnik — automatyzacja wsparcia użytkowników']);
+  await expect(page.locator('[data-portfolio-empty]')).toBeHidden();
   await page.getByRole('button', { name: 'Strony internetowe', exact: true }).click();
   await expect(page.locator('.pf-card:visible')).toHaveCount(3);
   await page.goBack();
@@ -64,14 +66,16 @@ test('filtry, reset i historia zachowują wybór oraz komunikują wyniki', async
   ]);
   await expect(page.getByRole('status')).toHaveText('Aplikacje. Liczba projektów: 2.');
   await page.getByRole('button', { name: 'Integracje', exact: true }).click();
-  await page.getByRole('button', { name: 'Pokaż wszystkie', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('Integracje. Liczba projektów: 1.');
+  await expect(page.locator('.pf-card:visible h3')).toHaveText(['Latarnik — baza wiedzy RAG i AI']);
+  await all.click();
   await expect(page).toHaveURL(/\/portfolio\/$/);
   await expect(all).toBeFocused();
   await expect(page.getByRole('button', { pressed: true })).toHaveCount(1);
-  await expect(page.locator('.pf-card:visible')).toHaveCount(5);
+  await expect(page.locator('.pf-card:visible')).toHaveCount(7);
   await page.goto('/portfolio/?category=nieznana');
   await expect(all).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('.pf-card:visible')).toHaveCount(5);
+  await expect(page.locator('.pf-card:visible')).toHaveCount(7);
 });
 
 for (const project of [
@@ -201,7 +205,7 @@ for (const width of [320, 390, 767, 768, 1023, 1024, 1440]) {
       await page.keyboard.press('Enter');
       await expect(page.getByRole('button', { name: 'Integracje', exact: true })).toHaveAttribute('aria-pressed', 'true');
       expect(await filters.evaluate((row) => row.scrollWidth)).toBeGreaterThan(width);
-      await page.getByRole('button', { name: 'Pokaż wszystkie' }).click();
+      await page.getByRole('button', { name: 'Wszystkie', exact: true }).click();
       const active = await page.getByRole('button', { name: 'Wszystkie', exact: true }).boundingBox();
       expect(active!.x).toBeGreaterThanOrEqual(0);
       expect(active!.x + active!.width).toBeLessThanOrEqual(width);

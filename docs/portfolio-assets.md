@@ -41,3 +41,9 @@ Oryginalne logo poziome pobrane bez zmian ze strony `https://www.wiemipowiem.pl/
 Plik: `public/assets/portfolio/musial-i-wspolnicy-logo.png`, 180 × 180 px, z przezroczystym tłem.
 
 Logo dostarczone przez użytkownika, skopiowane bez zmian z `apple-touch-icon-light.png`. Na karcie portfolio i podstronie realizacji jest wyśrodkowane na jasnym tle, bez powiększania ponad oryginalny rozmiar. Pole `imagePresentation` ma wartość `logo`; domyślny wariant pozostałych ilustracji to `cover`.
+
+## Latarnik — automatyzacja wsparcia i baza wiedzy RAG
+
+Plik: `public/assets/portfolio/latarnik-logo.svg`, z przezroczystym tłem.
+
+Logotyp „latarnik.” odpowiada istniejącemu znakowi w nagłówku: Inter 800, odstęp liter −0,065 em, granat `#0b1026` i niebieska kropka `#2457ff`. Litery zamieniono na ścieżki z lokalnego fontu `public/fonts/inter-latin.woff2`, dzięki czemu grafika nie wymaga ładowania fontu. Oba wpisy używają tej samej grafiki na karcie i podstronie w wariancie `imagePresentation: logo`.

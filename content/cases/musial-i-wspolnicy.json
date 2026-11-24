@@ -3,7 +3,7 @@
   "order": 1,
   "category": "Strona internetowa",
   "title": "Musiał i Wspólnicy",
-  "summary": "Strona internetowa poznańskiej kancelarii prawnej dla firm. Sześć specjalizacji, od prawa nowych technologii po projekty unijne, zebranych na jednej stronie.",
+  "summary": "Strona internetowa dla poznańskiej kancelarii prawnej.",
   "image": "/assets/case-musial.jpg",
   "portfolioCategory": "website",
   "portfolioImage": "/assets/portfolio/musial-i-wspolnicy.webp",
@@ -11,24 +11,8 @@
   "externalUrl": "https://www.musial.pl/",
   "blocks": [
     {
-      "heading": "Kancelaria prawna dla firm z Poznania",
-      "text": "Musiał i Wspólnicy to kancelaria z historycznego centrum Poznania. Obsługuje przedsiębiorców, spółki i instytucje, również zdalnie, bo akta prowadzi w całości cyfrowo.\n\nOd strony oczekiwano, że od pierwszego ekranu powie, do kogo kancelaria kieruje ofertę: do firm, w tym z branży IT, badawczej i środowiskowej. Stąd nagłówek złożony z haseł Technologia, Środowisko, Biznes, Bezpieczeństwo i krótkie zdanie pod nim: „Jesteśmy kancelarią prawną dla firm”."
-    },
-    {
-      "heading": "Jedna strona, trzy pozycje w menu",
-      "text": "Witryna jest jednostronicowa. Menu ma trzy pozycje: Usługi, Kontakt i MY. Każda prowadzi do sekcji na tej samej stronie.\n\nOsoba szukająca kancelarii chce zwykle szybko sprawdzić dwie rzeczy: czy kancelaria zajmuje się jej sprawą i jak się z nią skontaktować. Przy sześciu obszarach praktyki obie odpowiedzi mieszczą się na jednej stronie, bez klikania po podstronach."
-    },
-    {
-      "heading": "Specjalizacje opisane na przykładach",
-      "text": "Każdy obszar praktyki ma krótki opis z przykładami spraw i branż:\n\n- **Obsługa prawna firm**: umowy, dokumentacja wewnętrzna, obsługa korporacyjna spółek, transakcje M&A.\n- **Prawo nowych technologii i cyberbezpieczeństwo**: umowy IT, regulaminy, SaaS i e-commerce, NIS2, DORA.\n- **Branża B+R**: komercjalizacja technologii, projekty finansowane przez NCBiR, NCN i PARP.\n- **Fundusze Europejskie**: doradztwo na każdym etapie projektu unijnego, pomoc publiczna.\n- **Ochrona środowiska**: gospodarka odpadami, decyzje administracyjne, kontrole i spory z organami.\n- **Własność intelektualna i dane osobowe**: prawa autorskie, znaki towarowe, know-how, RODO.\n\nDzięki temu właściciel software house’u, który szuka pomocy przy NIS2, widzi to pojęcie na stronie i wie, że trafił we właściwe miejsce."
-    },
-    {
-      "heading": "Kontakt i dane kancelarii",
-      "text": "Sekcja kontaktowa zawiera adres, telefon, e-mail oraz dane rejestrowe spółki. Kto chce zadzwonić albo napisać, ma wszystko w jednym miejscu."
-    },
-    {
-      "heading": "Mój udział",
-      "text": "Jestem autorem strony internetowej Musiał i Wspólnicy. Dla tej samej kancelarii przygotowałem też wewnętrzną aplikację, która automatyzuje część codziennej pracy, oraz serwis Prawnik dla Rolnika, prowadzony przez radców prawnych współpracujących z kancelarią."
+      "heading": "",
+      "text": "Poznańska kancelaria prawna Musiał i Wspólnicy specjalizuje się w obsłudze przedsiębiorstw, spółek i instytucji.\n\nZaprojektowałem stronę podkreślającą jej poznański rodowód i więzi z miastem. W projekcie postawiłem na wyraziste czcionki, duże kontrasty i animacje, za sprawą których strona wygląda atrakcyjnie i pasuje do stylu nowoczesnej kancelarii.\n\nW ramach wdrożenia dostarczyłem również analitykę bez plików cookies, dzięki czemu udało się uniknąć uciążliwych bannerów i wyskakujących okienek."
     }
   ]
 }

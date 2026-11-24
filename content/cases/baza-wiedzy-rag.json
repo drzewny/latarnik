@@ -1,0 +1,18 @@
+{
+  "published": true,
+  "order": 7,
+  "category": "Integracje",
+  "title": "Latarnik — baza wiedzy RAG i AI",
+  "summary": "Połączenie poczty, dokumentacji aplikacji i AI, które przygotowuje odpowiedzi na podstawie bazy wiedzy.",
+  "image": "/assets/portfolio/latarnik-logo.svg",
+  "imagePresentation": "logo",
+  "portfolioCategory": "integration",
+  "portfolioImage": "/assets/portfolio/latarnik-logo.svg",
+  "portfolioImageAlt": "Logo Latarnik",
+  "blocks": [
+    {
+      "heading": "",
+      "text": "Na potrzeby własnej obsługi aplikacji wdrożonej u klienta połączyłem skrzynkę pocztową, bazę wiedzy i model AI. Dokumentacja opisuje możliwości aplikacji, instrukcje wykonywania czynności oraz jej ograniczenia.\n\nRozwiązanie korzysta z RAG: po otrzymaniu pytania najpierw wyszukuje odpowiednie fragmenty dokumentacji, a dopiero potem na ich podstawie przygotowuje odpowiedź. Źródłem informacji jest baza wiedzy, bez wyszukiwania w internecie.\n\nWażnym elementem projektu jest kontrola tego, co trafia do użytkownika. System sprawdza, czy odpowiedź ma oparcie w dokumentacji. Jeśli źródła są niepełne albo niejednoznaczne, sprawa trafia do mnie, zamiast kończyć się automatyczną odpowiedzią. To ogranicza ryzyko przekazania błędnej instrukcji.\n\nBazę wiedzy mogę aktualizować wraz z rozwojem aplikacji. Dodanie opisu funkcji lub nowej instrukcji rozszerza zakres wsparcia bez ponownego trenowania modelu."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "published": true,
+  "order": 6,
+  "category": "Automatyzacje",
+  "title": "Latarnik — automatyzacja wsparcia użytkowników",
+  "summary": "Automatyczna obsługa powtarzalnych pytań o aplikację, z przekazaniem trudniejszych spraw do ręcznej obsługi.",
+  "image": "/assets/portfolio/latarnik-logo.svg",
+  "imagePresentation": "logo",
+  "portfolioCategory": "automation",
+  "portfolioImage": "/assets/portfolio/latarnik-logo.svg",
+  "portfolioImageAlt": "Logo Latarnik",
+  "blocks": [
+    {
+      "heading": "",
+      "text": "W aplikacji wdrożonej u klienta użytkownicy mogą skorzystać z przycisku „Zadaj pytanie”, dzięki któremu mogą wysłac email do wsparcia. Część pytań dotyczy tych samych funkcji i czynności, więc ich ręczna obsługa oznaczała powtarzanie podobnych instrukcji.\n\nNa własne potrzeby przygotowałem automatyzację, która odbiera takie wiadomości i szuka odpowiedzi w dokumentacji aplikacji. Jeśli baza wiedzy zawiera potrzebne informacje, system odsyła użytkownikowi instrukcję mailem.\n\nJeżeli informacji brakuje albo są niejednoznaczne, system pozostawia wiadomość do ręcznej obsługi i wysyła mi powiadomienie. Nie trzeba przy tym zmieniać sposobu zadawania pytań ani dodawać kolejnego narzędzia po stronie użytkownika.\n\nDzięki temu mniej czasu poświęcam na powtarzalne pytania, a sprawy wymagające indywidualnego podejścia nadal trafiają bezpośrednio do mnie."
+    }
+  ]
+}
