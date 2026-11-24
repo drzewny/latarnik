@@ -1,0 +1,12 @@
+{
+  "category": "Website",
+  "title": "Wiem i Powiem",
+  "summary": "An emergency rebuild of an existing website.",
+  "portfolioImageAlt": "Wiem i Powiem homepage presenting its whistleblowing report handling service.",
+  "blocks": [
+    {
+      "heading": "",
+      "text": "The original Wiem i Powiem design was created by an external agency. The resulting website did not meet the Wiem i Powiem team’s expectations, so they approached Latarnik for help.\n\nUsing the existing site and the external agency’s visual design as a starting point, I rebuilt the Wiem i Powiem website from scratch. The existing content, blog articles and contact form were migrated to a new framework.\n\nI also refined the layout so the website looks appealing on both mobile and desktop devices."
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "title": "Polityka Prywatności",
   "description": "Polityka Prywatności określa w jakim celu i na jakich zasadach przetwarzamy dane osobowe.",
-  "updated": "2026-11-12",
+  "updated": "2026-11-24",
   "lead": "Przywiązujemy szczególną uwagę do poszanowania prywatności osób, których dane osobowe przetwarzamy, w tym również w związku z działalnością naszego serwisu internetowego oraz działań wykonywanych lub inicjowanych drogą elektroniczną.\n\nPolityka Prywatności określa w jakim celu i na jakich zasadach przetwarzamy dane osobowe.",
   "sections": [
     {
@@ -19,6 +19,10 @@
     {
       "heading": "Analityka bez plików cookies",
       "text": "Do tworzenia zbiorczych statystyk korzystamy z Umami Cloud, usługi świadczonej przez Umami Software, Inc., w wariancie przechowującym dane w regionie Unii Europejskiej. Tracker Umami nie zapisuje plików cookies ani danych w pamięci lokalnej przeglądarki.\n\nW ramach statystyk rejestrowane są odwiedzane podstrony, źródło wejścia, przybliżona lokalizacja, typ urządzenia, przeglądarka i system operacyjny oraz zbiorcze zdarzenia, takie jak kliknięcie odnośnika kontaktowego, rozpoczęcie i skuteczne wysłanie formularza oraz wybrana ogólna kategoria sprawy. Do Umami nie przekazujemy imienia i nazwiska, danych kontaktowych ani treści wiadomości wpisanej w formularzu. Nie korzystamy również z funkcji Distinct ID do identyfikowania użytkowników.\n\nAdres IP jest wykorzystywany do ustalenia przybliżonej lokalizacji i utworzenia anonimowego identyfikatora statystycznego, ale nie jest przechowywany. Tracker respektuje ustawienie Do Not Track i nie przesyła parametrów zapytania z adresu strony. Szczegółowe informacje opisują [zasady prywatności Umami](https://umami.is/privacy)."
+    },
+    {
+      "heading": "Zapamiętywanie języka",
+      "text": "Strona internetowa wykorzystuje pamięć lokalną przeglądarki (localStorage) wyłącznie w celu zapamiętania preferowanego języka wybranego przez użytkownika. Informacje te nie są wykorzystywane do celów analitycznych, marketingowych ani śledzenia użytkowników. Użytkownik może je usunąć w dowolnym momencie poprzez ustawienia swojej przeglądarki."
     },
     {
       "heading": "Okres przechowywania danych osobowych",

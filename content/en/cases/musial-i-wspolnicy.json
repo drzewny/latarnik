@@ -1,0 +1,12 @@
+{
+  "category": "Website",
+  "title": "Musiał i Wspólnicy",
+  "summary": "A website for a Poznań-based law firm.",
+  "portfolioImageAlt": "Musiał i Wspólnicy homepage with a city panorama and the headline “Technology, Environment, US”.",
+  "blocks": [
+    {
+      "heading": "",
+      "text": "Musiał i Wspólnicy is a Poznań-based law firm specialising in services for businesses, companies and institutions.\n\nI designed a website that highlights the firm’s roots in Poznań and its ties to the city. Bold typography, strong contrasts and animation give the site a distinctive look that suits a modern law firm.\n\nThe implementation also included analytics without cookies, avoiding intrusive banners and pop-ups."
+    }
+  ]
+}

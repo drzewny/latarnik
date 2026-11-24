@@ -1,0 +1,47 @@
+{
+  "title": "Privacy Policy",
+  "description": "This Privacy Policy explains why and how we process personal data.",
+  "lead": "We pay particular attention to respecting the privacy of the people whose personal data we process, including in connection with our website and activities carried out or initiated electronically.\n\nThis Privacy Policy explains why and how we process personal data.",
+  "sections": [
+    {
+      "heading": "Data controller",
+      "text": "The controller of your personal data is Jakub Wolski, Polish tax identification number (NIP): 5992997044."
+    },
+    {
+      "heading": "Contacting the controller",
+      "text": "You can contact us by email at kontakt@latarnik.dev."
+    },
+    {
+      "heading": "Purposes of processing personal data",
+      "text": "We process personal data for the following purposes and on the following legal bases:\n\n- handling correspondence by email or telephone, including enquiries submitted through the website’s contact form — the legal basis is Article 6(1)(f) of the GDPR: our legitimate interest in conducting and archiving correspondence with you,\n- meeting tax and accounting obligations — the legal basis is Article 6(1)(c) of the GDPR in conjunction with the applicable tax or accounting legislation,\n- establishing, pursuing or defending legal claims, where necessary — the legal basis is Article 6(1)(f) of the GDPR: our legitimate interest in establishing, pursuing or defending such claims,\n- analysis and statistics — the legal basis is Article 6(1)(f) of the GDPR: our legitimate interest in creating, maintaining and analysing statistics about activity on our websites,\n- marketing our own services and products — the legal basis is Article 6(1)(f) of the GDPR: our legitimate interest in directly marketing our services and products."
+    },
+    {
+      "heading": "Analytics without cookies",
+      "text": "We use Umami Cloud, a service provided by Umami Software, Inc., to produce aggregate statistics, with data stored in the European Union region. The Umami tracker does not store cookies or data in the browser’s local storage.\n\nStatistics include pages visited, referral sources, approximate location, device type, browser and operating system, as well as aggregate events such as clicking a contact link, starting and successfully submitting a form, and the selected general enquiry category. We do not send Umami your name, contact details or the content of messages entered in the form. We also do not use the Distinct ID feature to identify users.\n\nThe IP address is used to determine approximate location and create an anonymous statistical identifier, but is not stored. The tracker respects the Do Not Track setting and does not send query parameters from the page URL. Further details are available in the [Umami privacy policy](https://umami.is/privacy)."
+    },
+    {
+      "heading": "Remembering your language",
+      "text": "The website uses the browser’s local storage (localStorage) solely to remember the preferred language selected by the user. This information is not used for analytics, marketing or tracking users. Users can delete it at any time through their browser settings."
+    },
+    {
+      "heading": "How long personal data is kept",
+      "text": "Personal data is kept for as long as necessary for the purposes for which it is processed, in particular:\n\n- Data processed to handle correspondence is kept for the period necessary to deal with the matter concerned. Once correspondence or cooperation has ended, it is archived unless it needs to be retained for other purposes, such as defending or pursuing claims, or meeting tax or accounting obligations.\n- Data processed to meet tax and accounting obligations is kept for the period required by applicable law.\n- Data processed to establish, pursue or defend claims is kept until the limitation period for those claims expires.\n- Data processed for analysis and statistics is kept until it becomes outdated or no longer useful.\n- Data processed to market our own services and products is kept until it becomes outdated or no longer useful."
+    },
+    {
+      "heading": "Recipients of personal data",
+      "text": "We share your personal data with the following recipients:\n\n**Data processors**\n\nWe work with entities that process your personal data only on our instructions. Where necessary, we share data with providers of finance and HR services, legal services, insurance, hosting, online marketing systems, email delivery, website traffic analysis and marketing campaign effectiveness analysis.\n\n**Public authorities**\n\nWe disclose personal data to public authorities where they request it under the law, in particular the public prosecution service, the Police, the President of the Personal Data Protection Office, the President of the Office of Competition and Consumer Protection or the President of the Office of Electronic Communications. We carefully examine each request to ensure data is not disclosed to an unauthorised party.\n\nYour personal data may also be shared with tax authorities where necessary to meet obligations under tax law.\n\n**Third countries**\n\nLike most businesses, we use popular services and technologies offered by providers such as Facebook, Microsoft and Google. We take care to ensure transfers comply with the law and appropriate safeguards are in place. These include standard contractual clauses approved by the European Commission and transfers based on adequacy decisions adopted by the European Commission."
+    },
+    {
+      "heading": "Your rights concerning personal data",
+      "text": "You have the following rights concerning the processing of your personal data:\n\n- the right to withdraw consent,\n- the right of access,\n- the right to rectification,\n- the right to erasure (“the right to be forgotten”),\n- the right to restriction of processing,\n- the right to data portability,\n- the right to object to processing,\n- the right to lodge a complaint with the supervisory authority — the President of the Personal Data Protection Office."
+    },
+    {
+      "heading": "Providing personal data",
+      "text": "Providing personal data is not mandatory. However, if you do not provide it, we may be unable to provide services or fulfil obligations that require such data."
+    },
+    {
+      "heading": "Automated decision-making and profiling",
+      "text": "We do not use automated decision-making or profiling of personal data."
+    }
+  ]
+}

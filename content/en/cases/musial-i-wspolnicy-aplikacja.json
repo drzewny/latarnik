@@ -1,0 +1,12 @@
+{
+  "category": "Application",
+  "title": "Musiał i Wspólnicy — internal application",
+  "summary": "An internal law firm application that automates repetitive tasks. The client reports that some now take 80% less time.",
+  "portfolioImageAlt": "Musiał i Wspólnicy law firm logo",
+  "blocks": [
+    {
+      "heading": "",
+      "text": "Musiał i Wspólnicy is a Poznań-based law firm specialising in services for businesses, companies and institutions.\n\nThe firm asked whether I could create a tool to speed up one of its repetitive tasks.\n\nAfter discussing their needs and mapping the process, I proposed an internal application to serve as a hub for collaboration across the firm.\n\nThe application is modular. New modules are added when the firm identifies another need. Each module addresses one specific problem and is built specifically for the firm’s requirements.\n\nThe client reports that some tasks now take 80% less time than before the application was introduced, because the team does much less manual work."
+    }
+  ]
+}

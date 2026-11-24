@@ -1,0 +1,46 @@
+{
+  "title": "Portfolio — real projects, real results | latarnik.",
+  "description": "Selected websites, custom applications and automation projects for small businesses.",
+  "hero": {
+    "eyebrow": "Portfolio",
+    "title": "Real projects,\nreal results",
+    "description": "See how I help small businesses work faster, more simply and more effectively. Every project addresses a specific challenge with a practical solution and a measurable result.",
+    "actionLabel": "Let’s talk about your project",
+    "processLabel": "How I work"
+  },
+  "projects": {
+    "eyebrow": "Selected projects",
+    "title": "Different industries,\nsimilar challenges",
+    "description": "Automation, applications and websites built around the real needs of small businesses.",
+    "emptyText": "There are no projects in this category.",
+    "resetLabel": "Show all"
+  },
+  "process": {
+    "eyebrow": "How I work",
+    "title": "From idea to launch\nin a few clear steps",
+    "steps": [
+      {
+        "title": "Understanding your needs",
+        "description": "We start with your business, goals and challenges."
+      },
+      {
+        "title": "A proposed solution",
+        "description": "I prepare a clear plan and a quote."
+      },
+      {
+        "title": "Development and launch",
+        "description": "I build, test and launch the solution."
+      },
+      {
+        "title": "Support and development",
+        "description": "I help you develop and adapt it as your needs change."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Your project",
+    "title": "Facing a similar challenge?",
+    "description": "Let’s discuss how I can help your business.\nYou don’t need a finished idea — just tell me what you want to achieve.",
+    "actionLabel": "Let’s talk"
+  }
+}

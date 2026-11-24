@@ -1,0 +1,12 @@
+{
+  "category": "Automation",
+  "title": "Latarnik — user support automation",
+  "summary": "Automated replies to recurring questions about an application, with more complex cases passed on for manual handling.",
+  "portfolioImageAlt": "Latarnik logo",
+  "blocks": [
+    {
+      "heading": "",
+      "text": "Users of an application deployed for a client can use an “Ask a question” button to email support. Some questions concern the same features and tasks, so answering them manually meant repeating similar instructions.\n\nFor my own support work, I built an automation that receives these messages and looks for answers in the application documentation. If the knowledge base contains the information needed, the system emails instructions back to the user.\n\nIf information is missing or ambiguous, the system leaves the message for manual handling and sends me a notification. Users do not have to change how they ask questions or start using another tool.\n\nThis means I spend less time on recurring questions, while cases that need an individual approach still reach me directly."
+    }
+  ]
+}

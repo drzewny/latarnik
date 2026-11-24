@@ -1,0 +1,12 @@
+{
+  "category": "Integrations",
+  "title": "Latarnik — RAG knowledge base and AI",
+  "summary": "Email, application documentation and AI connected to prepare answers grounded in a knowledge base.",
+  "portfolioImageAlt": "Latarnik logo",
+  "blocks": [
+    {
+      "heading": "",
+      "text": "To support an application deployed for a client, I connected an email inbox, a knowledge base and an AI model. The documentation covers the application’s capabilities, task instructions and limitations.\n\nThe solution uses RAG: when a question arrives, it first retrieves relevant passages from the documentation, then uses them to prepare a response. The knowledge base is the source of information; the system does not search the internet.\n\nControlling what reaches the user is an important part of the project. The system checks whether the documentation supports the answer. If sources are incomplete or ambiguous, the case is passed to me instead of receiving an automated reply. This reduces the risk of sending incorrect instructions.\n\nI can update the knowledge base as the application develops. Adding a feature description or a new set of instructions expands the support coverage without retraining the model."
+    }
+  ]
+}

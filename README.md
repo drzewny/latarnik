@@ -83,3 +83,17 @@ npm run test:e2e
 ```
 
 Testy sprawdzają szerokości 320–1440 px, trasy, stan pustych kolekcji, menu mobilne, formularz (z zaślepką Turnstile i endpointu) oraz publikowanie wpisów CMS. Favicony (`favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, ikony 192/512 i `site.webmanifest` w `public/`) odtwarza znak „l.” z sekcji kontaktu; po zmianie nazwy lub kolorów przebuduj je poleceniem `npm run favicons`. Lokalna czcionka Inter jest objęta licencją SIL OFL dołączoną w `public/fonts/OFL.txt`.
+
+## Wersje językowe
+
+Polski pozostaje pod obecnymi adresami, a pełna wersja angielska pod `/en/`. Język wynika z adresu: nie ma przekierowań według IP, przeglądarki ani zapisanej preferencji. Przełącznik PL/EN znajduje się w menu stopki i zachowuje podstronę, parametry i kotwicę. Na polskich stronach główny język przeglądarki inny niż polski powoduje pokazanie propozycji wersji angielskiej.
+
+Adresy stron bez końcowego ukośnika (np. `/en`) są przez serwery Vite dev i preview przekierowywane na odpowiednik z ukośnikiem (`/en/`), z zachowaniem parametrów i kotwicy. Dzięki temu oba zapisy otwierają tę samą wersję językową. Nieistniejące strony zwracają 404 zamiast polskiej strony głównej.
+
+Wyłącznie kliknięcie wyboru Polski/English zapisuje `localStorage['latarnik-language']` jako `pl` albo `en`. Zapis wyłącza kolejne podpowiedzi, pozostaje do usunięcia przez użytkownika i nie jest przekazywany do analityki ani serwera. Samo zamknięcie podpowiedzi niczego nie zapisuje. Mechanizm języków nie korzysta z cookies. Bez JavaScript lub przy zablokowanym zapisie nadal działają zwykłe odnośniki między wersjami.
+
+Polskie treści są w dotychczasowych plikach `content/`, a angielskie tłumaczenia w `content/en/`. W Pages CMS angielskie pozycje mają oznaczenie `(EN)`. Tłumaczenia zawierają tylko teksty; obrazy, ikony, adresy, dane kontaktowe, datę polityki, kolejność i stan publikacji pobieramy z PL. Slugi usług są stałymi identyfikatorami wspólnymi dla obu języków. Po zmianie kolejności usług tłumaczenia są nadal dopasowywane według sluga. Pozostałe listy (np. sekcje opisów) muszą mieć zgodną strukturę i kolejność.
+
+Nowy projekt wymaga tłumaczenia w `content/en/cases/` **o identycznej nazwie pliku jak polski projekt**. Podczas tworzenia tłumaczenia w CMS wpisz tę nazwę w polu nazwy pliku, zamiast pozostawiać nazwę utworzoną z angielskiego tytułu. Przed publikacją uzupełnij oba języki. Brak pliku, pusty wymagany tekst lub różna liczba sekcji zatrzymuje build z informacją o brakującym tłumaczeniu. Szkice i wyłączone artykuły nie wymagają tłumaczenia. Testy generatora używają kopii treści w katalogach tymczasowych.
+
+Formularz wysyła dodatkowo `language=pl|en`; brak lub inna wartość oznacza polski. Format odpowiedzi JSON pozostaje ten sam. Przy wdrażaniu tej zmiany uruchom najpierw workflow backendu, a następnie workflow witryny. Nowy backend obsługuje również dotychczasowy formularz bez pola języka.

@@ -46,7 +46,7 @@ test('filtry i historia zachowują wybór oraz komunikują wyniki', async ({ pag
   await expect(all).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.pf-card h3')).toHaveText([
     'Musiał i Wspólnicy', 'Prawnik dla Rolnika',
-    'Wiem i Powiem — strona internetowa', 'Wiem i Powiem — aplikacja dla sygnalistów',
+    'Wiem i Powiem', 'Wiem i Powiem — aplikacja dla sygnalistów',
     'Musiał i Wspólnicy — aplikacja wewnętrzna',
     'Latarnik — automatyzacja wsparcia użytkowników', 'Latarnik — baza wiedzy RAG i AI',
   ]);
@@ -80,10 +80,10 @@ test('filtry i historia zachowują wybór oraz komunikują wyniki', async ({ pag
 
 for (const project of [
   {
-    title: 'Wiem i Powiem — strona internetowa',
+    title: 'Wiem i Powiem',
     path: '/uslugi/strony-internetowe/wiem-i-powiem/',
     parent: '/portfolio/?category=website#projekty',
-    headings: ['Usługa dla firm objętych ustawą o sygnalistach', 'Od pytania „czy muszę?” do zamówienia', 'Blog o obowiązkach pracodawcy', 'Projekt graficzny klienta'],
+    headings: [],
     image: '/assets/portfolio/wiem-i-powiem.webp',
     imageAlt: 'Zrzut strony głównej Wiem i Powiem z ofertą obsługi zgłoszeń sygnalistów.',
   },
@@ -91,7 +91,7 @@ for (const project of [
     title: 'Wiem i Powiem — aplikacja dla sygnalistów',
     path: '/portfolio/wiem-i-powiem-aplikacja/',
     parent: '/portfolio/?category=web-app#projekty',
-    headings: ['Internetowy kanał zgłoszeń', 'Formularz zgłoszenia', 'Połączenie z systemem kancelarii', 'Terminy wynikające z ustawy', 'Nowa usługa na istniejącym oprogramowaniu'],
+    headings: [],
     image: '/assets/portfolio/wiem-i-powiem-logo.png',
     imageAlt: 'Logo Wiem i Powiem',
   },
@@ -104,7 +104,7 @@ for (const project of [
     await expect(page.getByRole('heading', { name: project.title, level: 1, exact: true })).toBeVisible();
     await expect(page.locator('.detail-content h2')).toHaveText(project.headings);
     if (project.path.startsWith('/portfolio/')) {
-      await expect(page.locator('.detail-content')).toContainText('moduł do zarządzania zgłoszeniami');
+      await expect(page.locator('.detail-content')).toContainText('Zgłoszenie z formularza trafia bezpośrednio do systemu');
     }
     await expect(page.locator('.live-site-link')).toHaveAttribute('href', 'https://www.wiemipowiem.pl/');
     await expect(page.locator('.live-site-link')).toHaveAttribute('target', '_blank');
@@ -152,12 +152,10 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(page).toHaveURL(path);
     await expect(page.getByRole('heading', { name: title, level: 1, exact: true })).toBeVisible();
     await expect(page).toHaveTitle(`${title} — latarnik.`);
-    await expect(page.locator('.detail-content h2')).toHaveText([
-      'Kancelaria pracująca na cyfrowych aktach', 'Automatyzacja i jeden sposób pracy', 'Efekt: do 80% mniej czasu', 'Rozwój moduł po module',
-    ]);
+    await expect(page.locator('.detail-content h2')).toHaveCount(0);
     await expect(page.locator('.detail-content')).toContainText('Klient zgłasza, że niektóre czynności zajmują teraz o 80% mniej czasu');
-    await expect(page.locator('.detail-content')).toContainText('kolejne moduły dodaję wtedy, gdy kancelaria zgłasza nową potrzebę');
-    await expect(page.locator('.detail-result')).toContainText('80%');
+    await expect(page.locator('.detail-content')).toContainText('Kolejne moduły dodawane są, gdy kancelaria zgłasza nową potrzebę');
+    await expect(page.locator('.detail-result')).toHaveCount(0);
     await expect(page.locator('.live-site-link')).toHaveCount(0);
     await expectContainedLogo(page.locator('.detail-cover--logo'));
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);

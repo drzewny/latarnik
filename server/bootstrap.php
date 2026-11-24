@@ -13,7 +13,7 @@ if (!is_file($autoload) || !is_file($configFile)) {
     error_log('[kontakt] Brak server/vendor (uruchom composer install) lub server/config.php.');
     http_response_code(500);
     header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['ok' => false, 'error' => 'Formularz jest chwilowo niedostępny.'], JSON_UNESCAPED_UNICODE);
+    echo json_encode(['ok' => false, 'error' => ($_POST['language'] ?? '') === 'en' ? 'The contact form is temporarily unavailable.' : 'Formularz jest chwilowo niedostępny.'], JSON_UNESCAPED_UNICODE);
     exit;
 }
 

@@ -12,6 +12,26 @@ final class ContactForm
     private const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
     private const TURNSTILE_ACTION = 'contact';
     private const MAX_BODY_BYTES = 32_768;
+    private const MESSAGES_EN = [
+        'Formularz przyjmuje tylko wysyłkę metodą POST.' => 'This form only accepts POST requests.',
+        'Wiadomość wysłano z niedozwolonej strony.' => 'The message was sent from an unauthorised website.',
+        'Wiadomość jest za długa.' => 'The message is too long.',
+        'Popraw zaznaczone pola.' => 'Please correct the highlighted fields.',
+        'Wysłano zbyt wiele wiadomości. Spróbuj ponownie za kilkanaście minut.' => 'Too many messages have been sent. Try again in about 15 minutes.',
+        'Weryfikacja zabezpieczenia nie powiodła się. Zaznacz ją ponownie i wyślij formularz.' => 'The security check failed. Complete it again and resubmit the form.',
+        'Nie udało się wysłać wiadomości.' => 'Your message could not be sent.',
+        ' Napisz bezpośrednio na ' => ' Please email ',
+        'To pole jest wymagane.' => 'This field is required.',
+        'Wpisz co najmniej 2 znaki.' => 'Enter at least 2 characters.',
+        'Wpisz maksymalnie 100 znaków.' => 'Enter no more than 100 characters.',
+        'Podaj poprawny adres e-mail.' => 'Enter a valid email address.',
+        'Wpisz co najmniej 10 znaków.' => 'Enter at least 10 characters.',
+        'Wpisz maksymalnie 5000 znaków.' => 'Enter no more than 5000 characters.',
+        'Zaznacz zgodę, aby wysłać wiadomość.' => 'Please give your consent to send the message.',
+        'Imię zawiera niedozwolone znaki.' => 'The name contains invalid characters.',
+        'Wiadomość zawiera niedozwolone znaki.' => 'The message contains invalid characters.',
+    ];
+
 
     /** @param array<string, mixed> $config */
     public function __construct(
@@ -308,6 +328,14 @@ final class ContactForm
     /** @param array<string, mixed> $body */
     private function respond(int $status, array $body): never
     {
+        if ($this->input('language') === 'en') {
+            if (isset($body['error'])) {
+                $body['error'] = strtr($body['error'], self::MESSAGES_EN);
+            }
+            if (isset($body['fields'])) {
+                $body['fields'] = array_map(static fn (string $text): string => strtr($text, self::MESSAGES_EN), $body['fields']);
+            }
+        }
         http_response_code($status);
         echo json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         exit;

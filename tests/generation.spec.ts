@@ -24,6 +24,10 @@ test('generator publikuje tylko zatwierdzone treści CMS', () => {
       image: '/assets/portfolio/integracja.webp', imagePresentation: 'logo',
       portfolioImage: '/assets/portfolio/integracja.webp', portfolioImageAlt: 'Integracja narzędzi firmy',
     }));
+    for (const slug of ['potwierdzony-projekt', 'integracja-testowa']) {
+      const source = readFileSync(join(fixture, `content/cases/${slug}.json`), 'utf8');
+      writeFileSync(join(fixture, `content/en/cases/${slug}.json`), source);
+    }
     writeFileSync(join(fixture, 'content/cases/ukryty-projekt.json'), JSON.stringify({ ...entry, title: 'Ukryty projekt', published: false }));
     writeFileSync(join(fixture, 'content/articles/pierwszy-artykul.json'), JSON.stringify({ ...entry, title: 'Pierwszy artykuł', date: '2026-10-01' }));
     writeFileSync(join(fixture, 'content/articles/szkic.json'), JSON.stringify({ ...entry, title: 'Szkic', published: false }));
@@ -119,6 +123,60 @@ test('portfolio obsługuje pustą kolekcję i edycję treści CMS', () => {
     expect(html).toContain('href="https://example.com/kontakt"');
     expect(html).not.toContain('data-project-category=');
     expect(html).toContain('data-portfolio-empty>');
+  } finally {
+    rmSync(fixture, { recursive: true, force: true });
+  }
+});
+
+test('brak lub niekompletne tłumaczenie opublikowanej strony zatrzymuje generowanie', () => {
+  const fixture = mkdtempSync(join(tmpdir(), 'latarnik-translation-'));
+  const generate = () => execFileSync(process.execPath, ['--import', 'tsx', resolve('scripts/generate.ts')], {
+    cwd: resolve('.'), env: { ...process.env, LATARNIK_ROOT: fixture }, stdio: 'pipe',
+  });
+  try {
+    cpSync(resolve('content'), join(fixture, 'content'), { recursive: true });
+    const path = join(fixture, 'content/en/cases/musial-i-wspolnicy.json');
+    const original = readFileSync(path, 'utf8');
+    generate();
+    const lastHome = readFileSync(join(fixture, '.generated/index.html'), 'utf8');
+    rmSync(path);
+    expect(generate).toThrow('Brak tłumaczenia EN: content/en/cases/musial-i-wspolnicy.json');
+    const incomplete = JSON.parse(original);
+    incomplete.summary = '';
+    writeFileSync(path, JSON.stringify(incomplete));
+    expect(generate).toThrow('Niekompletne tłumaczenie EN: content/en/cases/musial-i-wspolnicy.json');
+    expect(readFileSync(join(fixture, '.generated/index.html'), 'utf8')).toBe(lastHome);
+    const sourcePath = join(fixture, 'content/cases/musial-i-wspolnicy.json');
+    const source = JSON.parse(readFileSync(sourcePath, 'utf8'));
+    writeFileSync(sourcePath, JSON.stringify({ ...source, published: false }));
+    rmSync(path);
+    expect(generate).not.toThrow();
+    expect(existsSync(join(fixture, '.generated/en/services/websites/musial-i-wspolnicy/index.html'))).toBe(false);
+  } finally {
+    rmSync(fixture, { recursive: true, force: true });
+  }
+});
+
+test('EN korzysta ze wspólnych danych PL, a usługi łączy po stałym identyfikatorze', () => {
+  const fixture = mkdtempSync(join(tmpdir(), 'latarnik-shared-'));
+  try {
+    cpSync(resolve('content'), join(fixture, 'content'), { recursive: true });
+    const projectPath = join(fixture, 'content/en/cases/musial-i-wspolnicy.json');
+    const project = JSON.parse(readFileSync(projectPath, 'utf8'));
+    writeFileSync(projectPath, JSON.stringify({ ...project, image: '/assets/nonexistent.jpg', externalUrl: 'https://wrong.example/', published: false }));
+    const homePath = join(fixture, 'content/home.json');
+    const home = JSON.parse(readFileSync(homePath, 'utf8'));
+    home.services.items.reverse();
+    writeFileSync(homePath, JSON.stringify(home));
+    execFileSync(process.execPath, ['--import', 'tsx', resolve('scripts/generate.ts')], {
+      cwd: resolve('.'), env: { ...process.env, LATARNIK_ROOT: fixture }, stdio: 'pipe',
+    });
+    const html = readFileSync(join(fixture, '.generated/en/services/websites/musial-i-wspolnicy/index.html'), 'utf8');
+    expect(html).toContain('href="https://www.musial.pl/"');
+    expect(html).toContain('src="/assets/case-musial.jpg"');
+    expect(html).not.toContain('wrong.example');
+    const englishHome = readFileSync(join(fixture, '.generated/en/index.html'), 'utf8');
+    expect(englishHome.indexOf('<h3>AI integrations</h3>')).toBeLessThan(englishHome.indexOf('<h3>Websites</h3>'));
   } finally {
     rmSync(fixture, { recursive: true, force: true });
   }

@@ -250,3 +250,249 @@ content:
         fields:
           - { name: heading, label: Śródtytuł, type: string }
           - { name: text, label: Akapit, type: text, required: true }
+
+  # Tłumaczenia: obrazy, adresy, dane kontaktowe i publikacja pochodzą z PL.
+  - name: site_en
+    label: Ustawienia SEO (EN)
+    type: file
+    path: content/en/site.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - {"name": "description", "label": "Opis / SEO", "type": "text", "required": true}
+  - name: home_en
+    label: Strona główna (EN)
+    type: file
+    path: content/en/home.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - name: hero
+        label: "Hero"
+        type: object
+        fields:
+          - {"name": "eyebrow", "label": "Nadtytuł", "type": "string", "required": true}
+          - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+          - {"name": "accent", "label": "Wyróżniona część nagłówka (opcjonalnie)", "type": "string"}
+          - {"name": "lead", "label": "Wstęp", "type": "text", "required": true}
+          - {"name": "note", "label": "Notatka przy obrazie", "type": "string", "required": true}
+      - name: services
+        label: "Usługi"
+        type: object
+        fields:
+          - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+          - {"name": "intro", "label": "Wstęp", "type": "text", "required": true}
+          - name: items
+            label: "Elementy"
+            type: object
+            list: true
+            fields:
+              - {"name": "slug", "label": "Stały identyfikator usługi (taki jak w PL)", "type": "select", "required": true, "options": {"values": ["strony-internetowe", "aplikacje-na-miare", "automatyzacja", "ai"]}}
+              - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+              - {"name": "description", "label": "Opis / SEO", "type": "text", "required": true}
+      - name: about
+        label: "O mnie"
+        type: object
+        fields:
+          - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+          - {"name": "paragraphs", "label": "Akapity", "type": "text", "list": true}
+          - {"name": "principles", "label": "Zasady współpracy", "type": "text", "list": true}
+      - name: benefits
+        label: "Korzyści"
+        type: object
+        fields:
+          - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+          - {"name": "intro", "label": "Wstęp", "type": "text", "required": true}
+          - name: items
+            label: "Elementy"
+            type: object
+            list: true
+            fields:
+              - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+              - {"name": "description", "label": "Opis / SEO", "type": "text", "required": true}
+      - name: contact
+        label: "Kontakt"
+        type: object
+        fields:
+          - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+          - {"name": "intro", "label": "Wstęp", "type": "text", "required": true}
+  - name: portfolio_en
+    label: Portfolio (EN)
+    type: file
+    path: content/en/portfolio.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+      - {"name": "description", "label": "Opis / SEO", "type": "text", "required": true}
+      - name: hero
+        label: "Hero"
+        type: object
+        fields:
+          - {"name": "eyebrow", "label": "Nadtytuł", "type": "string", "required": true}
+          - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+          - {"name": "description", "label": "Opis / SEO", "type": "text", "required": true}
+          - {"name": "actionLabel", "label": "Przycisk kontaktu", "type": "string", "required": true}
+          - {"name": "processLabel", "label": "Link do procesu", "type": "string", "required": true}
+      - name: projects
+        label: "Projekty"
+        type: object
+        fields:
+          - {"name": "eyebrow", "label": "Nadtytuł", "type": "string", "required": true}
+          - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+          - {"name": "description", "label": "Opis / SEO", "type": "text", "required": true}
+          - {"name": "emptyText", "label": "Komunikat pustej kategorii", "type": "string", "required": true}
+          - {"name": "resetLabel", "label": "Przycisk resetu", "type": "string", "required": true}
+      - name: process
+        label: "Proces współpracy"
+        type: object
+        fields:
+          - {"name": "eyebrow", "label": "Nadtytuł", "type": "string", "required": true}
+          - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+          - name: steps
+            label: "Kroki"
+            type: object
+            list: true
+            fields:
+              - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+              - {"name": "description", "label": "Opis / SEO", "type": "text", "required": true}
+      - name: contact
+        label: "Kontakt"
+        type: object
+        fields:
+          - {"name": "eyebrow", "label": "Nadtytuł", "type": "string", "required": true}
+          - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+          - {"name": "description", "label": "Opis / SEO", "type": "text", "required": true}
+          - {"name": "actionLabel", "label": "Przycisk kontaktu", "type": "string", "required": true}
+  - name: privacy_en
+    label: Polityka prywatności (EN)
+    type: file
+    path: content/en/privacy.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+      - {"name": "description", "label": "Opis / SEO", "type": "text", "required": true}
+      - {"name": "lead", "label": "Wstęp", "type": "text", "required": true}
+      - name: sections
+        label: "Sekcje"
+        type: object
+        list: true
+        fields:
+          - {"name": "heading", "label": "Nagłówek sekcji (opcjonalnie)", "type": "string"}
+          - {"name": "text", "label": "Treść", "type": "text", "required": true}
+  - name: service_automatyzacja_pl
+    label: Usługa — Automatyzacja (PL)
+    type: file
+    path: content/services/automatyzacja.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - {"name": "lead", "label": "Wstęp", "type": "text", "required": true}
+      - name: sections
+        label: "Sekcje"
+        type: object
+        list: true
+        fields:
+          - {"name": "heading", "label": "Nagłówek sekcji (opcjonalnie)", "type": "string"}
+          - {"name": "text", "label": "Treść", "type": "text", "required": true}
+  - name: service_aplikacje_na_miare_pl
+    label: Usługa — Aplikacje na miarę (PL)
+    type: file
+    path: content/services/aplikacje-na-miare.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - {"name": "lead", "label": "Wstęp", "type": "text", "required": true}
+      - name: sections
+        label: "Sekcje"
+        type: object
+        list: true
+        fields:
+          - {"name": "heading", "label": "Nagłówek sekcji (opcjonalnie)", "type": "string"}
+          - {"name": "text", "label": "Treść", "type": "text", "required": true}
+  - name: service_ai_pl
+    label: Usługa — Integracje AI (PL)
+    type: file
+    path: content/services/ai.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - {"name": "lead", "label": "Wstęp", "type": "text", "required": true}
+      - name: sections
+        label: "Sekcje"
+        type: object
+        list: true
+        fields:
+          - {"name": "heading", "label": "Nagłówek sekcji (opcjonalnie)", "type": "string"}
+          - {"name": "text", "label": "Treść", "type": "text", "required": true}
+  - name: service_automatyzacja_en
+    label: Usługa — Automatyzacja (EN)
+    type: file
+    path: content/en/services/automatyzacja.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - {"name": "lead", "label": "Wstęp", "type": "text", "required": true}
+      - name: sections
+        label: "Sekcje"
+        type: object
+        list: true
+        fields:
+          - {"name": "heading", "label": "Nagłówek sekcji (opcjonalnie)", "type": "string"}
+          - {"name": "text", "label": "Treść", "type": "text", "required": true}
+  - name: service_aplikacje_na_miare_en
+    label: Usługa — Aplikacje na miarę (EN)
+    type: file
+    path: content/en/services/aplikacje-na-miare.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - {"name": "lead", "label": "Wstęp", "type": "text", "required": true}
+      - name: sections
+        label: "Sekcje"
+        type: object
+        list: true
+        fields:
+          - {"name": "heading", "label": "Nagłówek sekcji (opcjonalnie)", "type": "string"}
+          - {"name": "text", "label": "Treść", "type": "text", "required": true}
+  - name: service_ai_en
+    label: Usługa — Integracje AI (EN)
+    type: file
+    path: content/en/services/ai.json
+    format: json
+    operations: { delete: false }
+    fields:
+      - {"name": "lead", "label": "Wstęp", "type": "text", "required": true}
+      - name: sections
+        label: "Sekcje"
+        type: object
+        list: true
+        fields:
+          - {"name": "heading", "label": "Nagłówek sekcji (opcjonalnie)", "type": "string"}
+          - {"name": "text", "label": "Treść", "type": "text", "required": true}
+  - name: cases_en
+    label: Portfolio — tłumaczenia wdrożeń (EN)
+    type: collection
+    path: content/en/cases
+    format: json
+    filename:
+      template: "{primary}.json"
+      field: create
+    operations: { rename: false }
+    view:
+      primary: title
+    fields:
+      - {"name": "category", "label": "Kategoria — opis", "type": "string", "required": true}
+      - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
+      - {"name": "summary", "label": "Opis karty", "type": "text", "required": true}
+      - {"name": "portfolioImageAlt", "label": "Opis alternatywny obrazu", "type": "string", "required": true}
+      - name: blocks
+        label: "Opis projektu"
+        type: object
+        list: true
+        fields:
+          - {"name": "heading", "label": "Nagłówek sekcji (opcjonalnie)", "type": "string"}
+          - {"name": "text", "label": "Treść", "type": "text", "required": true}
+      - {"name": "result", "label": "Potwierdzony wynik (opcjonalnie)", "type": "string"}
+      - {"name": "resultLabel", "label": "Opis wyniku (opcjonalnie)", "type": "string"}

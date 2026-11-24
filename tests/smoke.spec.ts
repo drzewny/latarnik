@@ -42,7 +42,7 @@ test('kafelki usług, wdrożenia i dawne adresy prowadzą do właściwych stron'
   await page.goto('/portfolio/?category=website#projekty');
   await expect(page.getByRole('button', { name: 'Strony internetowe', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.pf-card:visible h3')).toHaveText([
-    'Musiał i Wspólnicy', 'Prawnik dla Rolnika', 'Wiem i Powiem — strona internetowa',
+    'Musiał i Wspólnicy', 'Prawnik dla Rolnika', 'Wiem i Powiem',
   ]);
   await page.getByRole('link', { name: 'Zobacz projekt: Musiał i Wspólnicy', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Musiał i Wspólnicy' })).toBeVisible();
@@ -160,13 +160,13 @@ test('polityka prywatności jest dostępna z formularza, ale nie z menu ani stop
   await page.goto('/');
   const link = page.locator('[data-contact-form]').getByRole('link', { name: 'polityką prywatności' });
   await expect(link).toHaveAttribute('href', '/polityka-prywatnosci/');
-  await expect(page.locator('header a[href*="polityka-prywatnosci"], footer a[href*="polityka-prywatnosci"]')).toHaveCount(0);
+  await expect(page.locator('header a[href*="polityka-prywatnosci"]:not([data-language-choice]), footer a[href*="polityka-prywatnosci"]:not([data-language-choice])')).toHaveCount(0);
   await link.click();
   await expect(page).toHaveURL(/\/polityka-prywatnosci\/$/);
   await expect(page.getByRole('heading', { name: 'Polityka Prywatności', level: 1, exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Administrator danych osobowych', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'zasady prywatności Umami' })).toHaveAttribute('href', 'https://umami.is/privacy');
-  await expect(page.locator('header a[href*="polityka-prywatnosci"], footer a[href*="polityka-prywatnosci"]')).toHaveCount(0);
+  await expect(page.locator('header a[href*="polityka-prywatnosci"]:not([data-language-choice]), footer a[href*="polityka-prywatnosci"]:not([data-language-choice])')).toHaveCount(0);
   await page.screenshot({ path: testInfo.outputPath('privacy-1440.png'), fullPage: true });
   await page.setViewportSize({ width: 375, height: 800 });
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

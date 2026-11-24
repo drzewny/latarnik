@@ -1,0 +1,12 @@
+{
+  "category": "Application",
+  "title": "Wiem i Powiem — whistleblowing application",
+  "summary": "A whistleblowing reporting application connected to the system used to review and handle reports.",
+  "portfolioImageAlt": "Wiem i Powiem logo",
+  "blocks": [
+    {
+      "heading": "",
+      "text": "With Wiem i Powiem, whistleblowers can report a breach in three ways: online, by phone or by post. The application handles the online reporting channel.\n\nA report submitted through the form goes directly into the system the company uses every day. Receiving a report and working on it therefore take place in a single tool."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "hero": {
+    "eyebrow": "Websites · Applications · AI · Automation",
+    "title": "Big solutions for small businesses",
+    "lead": "Use technology to help your business work faster, more simply and more efficiently. Solutions once reserved for large companies and large budgets can now be within your reach.",
+    "note": "Technology that gives you peace of mind"
+  },
+  "services": {
+    "title": "Technology built around your needs",
+    "intro": "I help small businesses put modern tools to practical use.",
+    "items": [
+      {
+        "slug": "strony-internetowe",
+        "title": "Websites",
+        "description": "A website is still the foundation of your business’s online presence. I design lightweight, responsive and fast websites that make a positive impression on your customers."
+      },
+      {
+        "slug": "aplikacje-na-miare",
+        "title": "Custom applications",
+        "description": "Small businesses do not have to settle for off-the-shelf solutions. I’ll build a tool tailored to the way your business works."
+      },
+      {
+        "slug": "automatyzacja",
+        "title": "Automation",
+        "description": "Repetitive tasks can quietly drain your time and attention. Process automation helps you focus on what matters and work more efficiently."
+      },
+      {
+        "slug": "ai",
+        "title": "AI integrations",
+        "description": "Language models can do much more than chat. Discover how you can put them to work in your business."
+      }
+    ]
+  },
+  "about": {
+    "title": "Bringing technology and business together",
+    "paragraphs": [
+      "My name is Jakub. I’m an IT specialist and software developer with many years of experience in the FMCG, pharmaceutical, fuel and legal sectors. I’ve worked in teams of all sizes, using dozens of different tools and processes. That experience has taught me how much it matters to fit technology to a business’s real needs.",
+      "I started Latarnik to bring best practices and technology once available only to large organisations to small businesses. I help business owners improve processes and introduce tools that let them work faster and more efficiently."
+    ],
+    "principles": [
+      "Direct collaboration",
+      "Years of experience",
+      "An individual approach"
+    ]
+  },
+  "benefits": {
+    "title": "Technology that makes a difference",
+    "intro": "I focus on simple solutions and clear communication at every stage.",
+    "items": [
+      {
+        "title": "Save time",
+        "description": "Less manual work means more time for what really matters."
+      },
+      {
+        "title": "Work more efficiently",
+        "description": "Better tools help organise your processes and everyday tasks."
+      },
+      {
+        "title": "Have a partner",
+        "description": "Work directly with the person who takes the time to understand your business."
+      },
+      {
+        "title": "Get a tailored solution",
+        "description": "We shape the project around your business goals and resources."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Let’s talk about your project",
+    "intro": "Have an idea for improving your business processes? Looking to build a website, an application or an automation? Let’s discuss how I can help."
+  }
+}

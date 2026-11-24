@@ -1,0 +1,12 @@
+{
+  "category": "Website",
+  "title": "Prawnik dla Rolnika",
+  "summary": "A website for a project by a Poznań-based law firm.",
+  "portfolioImageAlt": "Prawnik dla Rolnika homepage with a landscape of fields and the headline “Law rooted in Polish soil”.",
+  "blocks": [
+    {
+      "heading": "",
+      "text": "Prawnik dla Rolnika was launched by the Poznań-based law firm Musiał i Wspólnicy as an extension of one of its main areas of expertise.\n\nThe website needed to be fast, clear and easy to use, while allowing the lawyers to publish articles themselves.\n\nI built a lightweight website with a restrained colour palette, an article management system and a contact form.\n\nI wanted the technology to stay out of visitors’ way. Carefully chosen solutions provide full analytics and a form protected against bots and spam, without cookies or traditional CAPTCHA tests.\n\nVisitors can use the site without distractions from banners, pop-ups or puzzles."
+    }
+  ]
+}

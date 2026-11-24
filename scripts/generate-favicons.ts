@@ -113,4 +113,7 @@ const manifest = {
   ],
 };
 writeFileSync(resolve(out, 'site.webmanifest'), `${JSON.stringify(manifest, null, 2)}\n`);
+const englishSite = JSON.parse(readFileSync(resolve('content/en/site.json'), 'utf8')) as { description: string };
+mkdirSync(resolve(out, 'en'), { recursive: true });
+writeFileSync(resolve(out, 'en/site.webmanifest'), `${JSON.stringify({ ...manifest, description: englishSite.description, lang: 'en', start_url: '/en/' }, null, 2)}\n`);
 console.log('Favicony zapisane w public/.');

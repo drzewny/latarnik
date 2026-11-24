@@ -1,5 +1,10 @@
 import './styles.css';
 import './portfolio.css';
+import { message, type Locale, type englishMessages } from './i18n';
+
+const locale: Locale = document.documentElement.lang === 'en' ? 'en' : 'pl';
+const t = (text: keyof typeof englishMessages): string => message(text, locale);
+
 import { isPortfolioFilter, type PortfolioFilter } from './portfolio-config';
 
 const portfolio = document.querySelector<HTMLElement>('[data-portfolio]');
@@ -29,7 +34,7 @@ if (portfolio) {
     if (empty) empty.hidden = visible > 0;
     if (status) {
       const label = filters.find((filter) => filter.dataset.portfolioFilter === category)?.textContent;
-      status.textContent = `${label}. Liczba projektów: ${visible}.`;
+      status.textContent = `${label}. ${t('Liczba projektów:')} ${visible}.`;
     }
   }
 
@@ -43,6 +48,7 @@ if (portfolio) {
     if (category === 'all') url.searchParams.delete('category');
     else url.searchParams.set('category', category);
     if (url.href !== window.location.href) window.history.pushState(null, '', url);
+    syncLanguageLinks();
     applyPortfolioFilter(category, true);
   }
 
@@ -70,7 +76,7 @@ function syncHeader(): void {
 function closeMenu(returnFocus = false): void {
   if (!menuButton || !nav) return;
   menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.setAttribute('aria-label', 'Otwórz menu');
+  menuButton.setAttribute('aria-label', t('Otwórz menu'));
   document.body.classList.remove('menu-open');
   nav.inert = mobile.matches;
   if (returnFocus) menuButton.focus();
@@ -79,7 +85,7 @@ function closeMenu(returnFocus = false): void {
 function openMenu(): void {
   if (!menuButton || !nav) return;
   menuButton.setAttribute('aria-expanded', 'true');
-  menuButton.setAttribute('aria-label', 'Zamknij menu');
+  menuButton.setAttribute('aria-label', t('Zamknij menu'));
   document.body.classList.add('menu-open');
   nav.inert = false;
   nav.querySelector<HTMLAnchorElement>('a')?.focus();
@@ -103,7 +109,7 @@ if (menuButton && nav) {
       return;
     }
     if (event.key !== 'Tab') return;
-    const focusable = [menuButton, ...nav.querySelectorAll<HTMLAnchorElement>('a')];
+    const focusable = [menuButton, ...[...nav.querySelectorAll<HTMLElement>('a, summary')].filter((element) => element.getClientRects().length > 0)];
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     if (event.shiftKey && document.activeElement === first) {
@@ -149,10 +155,10 @@ let turnstileWidgetId: string | undefined;
 let turnstileLoading: Promise<void> | undefined;
 
 function errorMessage(field: FormField): string {
-  if (field.validity.valueMissing) return field.type === 'checkbox' ? 'Zaznacz zgodę, aby wysłać wiadomość.' : 'To pole jest wymagane.';
-  if (field.validity.typeMismatch) return 'Podaj poprawny adres e-mail.';
-  if (field.validity.tooShort) return `Wpisz co najmniej ${field.minLength} znaków.`;
-  return 'Sprawdź tę wartość.';
+  if (field.validity.valueMissing) return field.type === 'checkbox' ? t('Zaznacz zgodę, aby wysłać wiadomość.') : t('To pole jest wymagane.');
+  if (field.validity.typeMismatch) return t('Podaj poprawny adres e-mail.');
+  if (field.validity.tooShort) return `${t('Wpisz co najmniej')} ${field.minLength} ${t('znaków.')}`;
+  return t('Sprawdź tę wartość.');
 }
 
 function showFieldError(field: FormField, message: string): void {
@@ -179,7 +185,7 @@ function setStatus(message: string, state: 'info' | 'success' | 'error' = 'info'
 
 function setSending(sending: boolean): void {
   if (submitButton) submitButton.disabled = sending;
-  if (submitLabel) submitLabel.textContent = sending ? 'Wysyłanie…' : 'Wyślij wiadomość';
+  if (submitLabel) submitLabel.textContent = sending ? t('Wysyłanie…') : t('Wyślij wiadomość');
   form?.setAttribute('aria-busy', String(sending));
 }
 
@@ -189,11 +195,11 @@ function renderTurnstile(): void {
   turnstileWidgetId = window.turnstile.render(turnstileContainer, {
     sitekey,
     action: 'contact',
-    language: 'pl',
+    language: locale,
     theme: 'light',
     // Tryb flexible wymaga co najmniej 300 px; na najwęższych ekranach używamy kompaktowego widżetu.
     size: turnstileContainer.clientWidth < 300 ? 'compact' : 'flexible',
-    'error-callback': () => setStatus('Nie udało się wczytać zabezpieczenia. Odśwież stronę i spróbuj ponownie.', 'error'),
+    'error-callback': () => setStatus(t('Nie udało się wczytać zabezpieczenia. Odśwież stronę i spróbuj ponownie.'), 'error'),
   });
 }
 
@@ -229,13 +235,13 @@ async function submitContactForm(contactForm: HTMLFormElement): Promise<void> {
   try {
     await loadTurnstile();
   } catch {
-    setStatus('Nie udało się wczytać zabezpieczenia formularza. Sprawdź połączenie i spróbuj ponownie.', 'error');
+    setStatus(t('Nie udało się wczytać zabezpieczenia formularza. Sprawdź połączenie i spróbuj ponownie.'), 'error');
     return;
   }
 
   const token = window.turnstile?.getResponse(turnstileWidgetId);
   if (!token) {
-    setStatus('Poczekaj na weryfikację zabezpieczenia nad przyciskiem i wyślij ponownie.', 'error');
+    setStatus(t('Poczekaj na weryfikację zabezpieczenia nad przyciskiem i wyślij ponownie.'), 'error');
     return;
   }
 
@@ -255,7 +261,7 @@ async function submitContactForm(contactForm: HTMLFormElement): Promise<void> {
     if (response.ok && result.ok) {
       contactForm.reset();
       fields.forEach((field) => showFieldError(field, ''));
-      setStatus('Wiadomość wysłana. Odpowiem na podany adres e-mail.', 'success');
+      setStatus(t('Wiadomość wysłana. Odpowiem na podany adres e-mail.'), 'success');
       return;
     }
 
@@ -265,9 +271,9 @@ async function submitContactForm(contactForm: HTMLFormElement): Promise<void> {
     }
     const firstInvalid = fields.find((field) => field.hasAttribute('aria-invalid'));
     firstInvalid?.focus();
-    setStatus(result.error ?? 'Nie udało się wysłać wiadomości. Spróbuj ponownie za chwilę.', 'error');
+    setStatus(result.error ?? t('Nie udało się wysłać wiadomości. Spróbuj ponownie za chwilę.'), 'error');
   } catch {
-    setStatus('Brak połączenia z serwerem. Sprawdź internet i wyślij ponownie.', 'error');
+    setStatus(t('Brak połączenia z serwerem. Sprawdź internet i wyślij ponownie.'), 'error');
   } finally {
     setSending(false);
     resetTurnstile();
@@ -275,6 +281,8 @@ async function submitContactForm(contactForm: HTMLFormElement): Promise<void> {
 }
 
 if (form) {
+  // Show validation in the page language; native validation remains available without JS.
+  form.noValidate = true;
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
@@ -297,7 +305,73 @@ if (form) {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     if (form.getAttribute('aria-busy') === 'true') return;
-    if (!form.checkValidity()) return;
+    if (!form.checkValidity()) {
+      fields.find((field) => !field.validity.valid)?.focus();
+      return;
+    }
     void submitContactForm(form);
   });
 }
+
+
+// Language is determined by the URL. Storage only remembers an explicit choice
+// and suppresses future suggestions; it never triggers a redirect.
+const languageChoices = [...document.querySelectorAll<HTMLAnchorElement>('[data-language-choice]')];
+const languageSuggestion = document.querySelector<HTMLElement>('[data-language-suggestion]');
+const languageSelectors = [...document.querySelectorAll<HTMLDetailsElement>('[data-language-selector]')];
+
+function syncLanguageLinks(): void {
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-language-choice]')) {
+    const target = new URL(link.href);
+    target.search = window.location.search;
+    target.hash = window.location.hash;
+    link.href = target.href;
+  }
+}
+syncLanguageLinks();
+window.addEventListener('popstate', syncLanguageLinks);
+window.addEventListener('hashchange', syncLanguageLinks);
+
+let savedLanguage: string | null = null;
+try { savedLanguage = window.localStorage.getItem('latarnik-language'); } catch { /* Storage is optional. */ }
+const browserLanguage = navigator.languages?.[0] || navigator.language;
+if (languageSuggestion && locale === 'pl' && browserLanguage && !/^pl(?:-|$)/i.test(browserLanguage)
+  && savedLanguage !== 'pl' && savedLanguage !== 'en') {
+  languageSuggestion.hidden = false;
+}
+
+function dismissLanguageSuggestion(): void {
+  if (!languageSuggestion) return;
+  const hadFocus = languageSuggestion.contains(document.activeElement);
+  languageSuggestion.hidden = true;
+  if (hadFocus) {
+    header?.querySelector<HTMLElement>('.brand')?.focus({ preventScroll: true });
+  }
+}
+document.querySelector('[data-language-dismiss]')?.addEventListener('click', dismissLanguageSuggestion);
+for (const link of languageChoices) link.addEventListener('click', (event) => {
+  syncLanguageLinks();
+  const language = link.dataset.languageChoice;
+  if (language !== 'pl' && language !== 'en') return;
+  try { window.localStorage.setItem('latarnik-language', language); } catch { /* Links work even if storage is blocked. */ }
+  dismissLanguageSuggestion();
+  if (link.href === window.location.href && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
+    event.preventDefault();
+    languageSelectors.forEach((details) => { details.open = false; });
+    languageSelectors[0]?.querySelector<HTMLElement>('summary')?.focus({ preventScroll: true });
+  }
+});
+for (const details of languageSelectors) {
+  details.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !details.open) return;
+    event.preventDefault();
+    event.stopPropagation();
+    details.open = false;
+    details.querySelector<HTMLElement>('summary')?.focus();
+  });
+}
+document.addEventListener('click', (event) => {
+  for (const details of languageSelectors) {
+    if (event.target instanceof Node && !details.contains(event.target)) details.open = false;
+  }
+});

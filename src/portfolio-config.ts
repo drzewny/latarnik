@@ -1,3 +1,5 @@
+import { localizedHref, type Locale } from './i18n';
+
 export const portfolioCategories = [
   { value: 'all', label: 'Wszystkie' },
   { value: 'website', label: 'Strony internetowe' },
@@ -20,6 +22,6 @@ export const servicePortfolioCategories: Record<string, PortfolioCategory> = {
   ai: 'integration',
 };
 
-export function portfolioHref(category: PortfolioCategory): string {
-  return `/portfolio/?category=${category}#projekty`;
+export function portfolioHref(category: PortfolioCategory, locale: Locale = 'pl'): string {
+  return localizedHref(`/portfolio/?category=${category}#projekty`, locale);
 }
