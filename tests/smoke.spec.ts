@@ -26,7 +26,7 @@ test('kafelki usług, wdrożenia i dawne adresy prowadzą do właściwych stron'
   await page.goto('/');
   await expect(page.locator('.service-card')).toHaveCount(4);
   await expect(page.locator('.service-card .text-link')).toHaveCount(4);
-  await expect(page.locator('.service-card .text-link')).toHaveText(Array(4).fill('Dowiedz się więcej'));
+  await expect(page.locator('.service-card .text-link')).toHaveText(['Strony internetowe', 'Aplikacje na miarę', 'Automatyzacja', 'Integracje AI'].map((title) => `Dowiedz się więcej: ${title}`));
   await expect(page.locator('.service-card .text-link').nth(0)).toHaveAttribute('href', '/portfolio/?category=website#projekty');
   await expect(page.locator('.service-card .text-link').nth(1)).toHaveAttribute('href', '/portfolio/?category=web-app#projekty');
   await expect(page.locator('.service-card .text-link').nth(2)).toHaveAttribute('href', '/portfolio/?category=automation#projekty');

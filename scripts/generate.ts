@@ -35,6 +35,7 @@ type Entry = {
   category: string;
   title: string;
   summary: string;
+  seoDescription?: string;
   image: string;
   imagePresentation?: 'cover' | 'logo';
   blocks: Block[];
@@ -62,6 +63,8 @@ const sourcePortfolio = readJson<PortfolioContent>(join(content, 'portfolio.json
 const sourcePrivacy = readJson<PrivacyContent>(join(content, 'privacy.json'));
 const sourceCases = readEntries('cases');
 const renderedPages = new Map<string, string>();
+// Logical (Polish) routes of indexable pages; every one exists in both languages.
+const sitemapRoutes = new Set<string>();
 
 function readJson<T>(path: string): T {
   try {
@@ -224,7 +227,7 @@ function generateLocale(locale: Locale): void {
   }
 
   function languageSelector(route: string): string {
-    return `<details class="language-selector" data-language-selector><summary aria-label="${t('Wybierz język')}">PL / EN</summary><div class="language-panel"><p>${t('Zapamiętamy Twój wybór również na kolejne wizyty.')}</p><div class="language-links">${languageLinks(route)}</div></div></details>`;
+    return `<details class="language-selector" data-language-selector><summary aria-label="PL / EN — ${t('Wybierz język')}">PL / EN</summary><div class="language-panel"><p>${t('Zapamiętamy Twój wybór również na kolejne wizyty.')}</p><div class="language-links">${languageLinks(route)}</div></div></details>`;
   }
 
   function languageSuggestion(route: string): string {
@@ -315,7 +318,7 @@ function generateLocale(locale: Locale): void {
     ].filter(Boolean).join('');
     const accent = home.hero.accent ? ` <span>${esc(home.hero.accent)}</span>` : '';
     return `<section class="hero" id="start"><div class="container hero-grid"><div class="hero-copy">${eyebrow(home.hero.eyebrow)}<h1>${esc(home.hero.title)}${accent}</h1><p class="hero-lead">${esc(home.hero.lead)}</p><div class="hero-actions"><a class="button button-secondary" href="#uslugi"><span class="play-mark" aria-hidden="true">▶</span>${t('Poznaj usługi')}</a><a class="button button-primary" href="${href('/#kontakt')}">${t('Porozmawiajmy')} ${icon('arrow')}</a></div></div><div class="hero-visual"><img src="/assets/hero-laptop.webp" srcset="/assets/hero-laptop-480.webp 480w, /assets/hero-laptop.webp 680w" sizes="(max-width: 900px) 100vw, 50vw" width="680" height="424" alt="${t('Makieta aplikacji z panelem zadań i wykresami na ekranie laptopa')}" fetchpriority="high" decoding="async"><div class="hero-note" aria-hidden="true">${esc(home.hero.note)}<span>↙</span></div></div></div></section>
-    <section class="section-pad services-section" id="uslugi"><div class="container"><div class="section-top">${sectionHeading(t('Usługi'), home.services.title)}<p class="section-intro">${esc(home.services.intro)}</p></div><div class="service-grid">${home.services.items.map((item) => `<article class="service-card"><span class="service-icon">${icon(item.icon)}</span><h3>${esc(item.title)}</h3><p>${esc(item.description)}</p>${arrowLink(t('Dowiedz się więcej'), servicePortfolioHref(item.slug))}</article>`).join('')}</div></div></section>
+    <section class="section-pad services-section" id="uslugi"><div class="container"><div class="section-top">${sectionHeading(t('Usługi'), home.services.title)}<p class="section-intro">${esc(home.services.intro)}</p></div><div class="service-grid">${home.services.items.map((item) => `<article class="service-card"><span class="service-icon">${icon(item.icon)}</span><h3>${esc(item.title)}</h3><p>${esc(item.description)}</p><a class="text-link" href="${esc(servicePortfolioHref(item.slug))}">${t('Dowiedz się więcej')}<span class="sr-only">: ${esc(item.title)}</span> ${icon('arrow')}</a></article>`).join('')}</div></div></section>
     <section class="section-pad about-section" id="o-mnie"><div class="container about-grid"><div class="about-copy">${sectionHeading(t('O mnie'), home.about.title)}${home.about.paragraphs.map((p) => `<p>${esc(p)}</p>`).join('')}${arrowLink(t('Porozmawiajmy'), href('/#kontakt'))}</div><div class="about-visual"><div class="about-image"><img src="/assets/jakub-portret.jpg" width="886" height="886" alt="${t('Portret Jakuba')}" loading="lazy" decoding="async"></div><div class="principles">${home.about.principles.map((item) => `<span>${esc(item)}</span>`).join('')}</div></div></div></section>
     <section class="section-pad benefits-section"><div class="container"><div class="section-top">${sectionHeading(t('Dlaczego warto'), home.benefits.title)}<p class="section-intro">${esc(home.benefits.intro)}</p></div><div class="benefits-grid">${home.benefits.items.map((item) => `<article><span class="benefit-icon">${icon(item.icon)}</span><h3>${esc(item.title)}</h3><p>${esc(item.description)}</p></article>`).join('')}</div></div></section>
     <section class="section-pad contact-section" id="kontakt"><div class="container contact-grid"><div class="contact-copy">${sectionHeading(t('Kontakt'), home.contact.title)}${contactItems ? `<ul class="contact-list">${contactItems}</ul>` : `<p class="contact-pending">${t('Zweryfikowane dane kontaktowe pojawią się tutaj przed publikacją.')}</p>`}</div><div class="contact-form-column"><p>${esc(home.contact.intro)}</p><form class="contact-form" action="/api/kontakt.php" method="post" data-contact-form data-turnstile-sitekey="${esc(turnstileSiteKey)}"><input type="hidden" name="language" value="${locale}"><div class="form-hp" aria-hidden="true"><label for="website">${t('Strona WWW')}</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div><div class="form-row"><div class="field"><label for="name">${t('Imię i nazwisko')}</label><input id="name" name="name" autocomplete="name" required minlength="2"><span class="field-error" id="name-error" data-error-for="name"></span></div><div class="field"><label for="email">${t('Adres e-mail')}</label><input id="email" name="email" type="email" autocomplete="email" required><span class="field-error" id="email-error" data-error-for="email"></span></div></div><div class="field"><label for="message">${t('O czym chcesz porozmawiać?')}</label><textarea id="message" name="message" required minlength="10"></textarea><span class="field-error" id="message-error" data-error-for="message"></span></div><div class="form-turnstile" data-turnstile></div><div class="form-consent"><input id="consent" name="consent" type="checkbox" value="1" required><label for="consent">${esc(t('Wyrażam zgodę na kontakt w sprawie mojego zapytania i zapoznałem/am się z'))} <a href="${privacyHref}">${t('polityką prywatności')}</a>.</label><span class="field-error" id="consent-error" data-error-for="consent"></span></div><button class="button button-primary form-button" type="submit" data-form-submit><span data-submit-label>${t('Wyślij wiadomość')}</span> ${icon('arrow')}</button><p class="form-disclaimer">${t('Formularz jest chroniony przed automatycznymi zgłoszeniami.')}</p><p class="form-status" role="status" aria-live="polite" data-form-status></p></form></div></div></section>`;
@@ -356,6 +359,7 @@ function generateLocale(locale: Locale): void {
   }
   function page(route: string, title: string, description: string, body: string, current = '', portfolioPage = false): void {
     writePage(href(route).replace(/^\//, ''), documentPage(title, description, body, current, portfolioPage, route));
+    sitemapRoutes.add(route);
   }
   page('/', t('Technologia dla małych firm'), description, renderHome());
   page('/polityka-prywatnosci/', privacy.title, privacy.description, renderPrivacyPage());
@@ -367,7 +371,9 @@ function generateLocale(locale: Locale): void {
   }
   for (const entry of cases) {
     const route = entry.portfolioCategory === 'website' ? `/uslugi/strony-internetowe/${entry.slug}/` : `/portfolio/${entry.slug}/`;
-    page(route, entry.title, entry.summary, renderDetail(entry), 'portfolio');
+    // Website names are brands, identical in both languages; the category keeps each title unique.
+    const title = entry.portfolioCategory === 'website' ? `${entry.title} — ${entry.category.toLocaleLowerCase(locale)}` : entry.title;
+    page(route, title, entry.seoDescription?.trim() || entry.summary, renderDetail(entry), 'portfolio');
   }
   if (locale === 'pl') writePage('realizacje', redirectPage(portfolioHref('website'), 'Strony internetowe'));
 }
@@ -383,4 +389,10 @@ for (const [route, html] of renderedPages) {
   mkdirSync(directory, { recursive: true });
   writeFileSync(join(directory, 'index.html'), html);
 }
+const sitemapUrl = (route: string, language: Locale): string => `https://latarnik.dev${localizedHref(route, language)}`;
+const sitemapEntries = [...sitemapRoutes].flatMap((route) => (['pl', 'en'] as const).map((language) => {
+  const alternates = (['pl', 'en'] as const).map((alternate) => `<xhtml:link rel="alternate" hreflang="${alternate}" href="${esc(sitemapUrl(route, alternate))}"/>`).join('');
+  return `<url><loc>${esc(sitemapUrl(route, language))}</loc>${alternates}<xhtml:link rel="alternate" hreflang="x-default" href="${esc(sitemapUrl(route, 'pl'))}"/></url>`;
+}));
+writeFileSync(join(generated, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${sitemapEntries.join('\n')}\n</urlset>\n`);
 console.log(`Wygenerowano obie wersje językowe (${sourceCases.length} projektów).`);

@@ -1,5 +1,5 @@
 import { execFile } from 'node:child_process';
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { join, resolve, sep } from 'node:path';
 import { promisify } from 'node:util';
@@ -68,6 +68,17 @@ function contentReload(): Plugin {
   };
 }
 
+// The generator writes sitemap.xml next to the pages; the dev server serves it from the root.
+function sitemap(): Plugin {
+  return {
+    name: 'sitemap',
+    apply: 'build',
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: readFileSync(join(generatedRoot, 'sitemap.xml')) });
+    },
+  };
+}
+
 function htmlEntries(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = join(directory, entry.name);
@@ -77,7 +88,7 @@ function htmlEntries(directory: string): string[] {
 
 export default defineConfig({
   appType: 'mpa',
-  plugins: [pageRoutes(), contentReload()],
+  plugins: [pageRoutes(), contentReload(), sitemap()],
   root: generatedRoot,
   publicDir: resolve('public'),
   build: {

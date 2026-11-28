@@ -188,6 +188,7 @@ content:
       - { name: order, label: Kolejność, type: number, required: true }
       - { name: category, label: Kategoria, type: string, required: true }
       - { name: summary, label: Opis karty, type: text, required: true }
+      - { name: seoDescription, label: Opis dla wyszukiwarek (opcjonalnie; 70–160 znaków; domyślnie opis karty), type: text }
       - { name: image, label: Obraz, type: image, required: true }
       - name: portfolioCategory
         label: Filtr portfolio
@@ -486,6 +487,7 @@ content:
       - {"name": "category", "label": "Kategoria — opis", "type": "string", "required": true}
       - {"name": "title", "label": "Nagłówek", "type": "text", "required": true}
       - {"name": "summary", "label": "Opis karty", "type": "text", "required": true}
+      - {"name": "seoDescription", "label": "Opis dla wyszukiwarek (wymagany, jeśli jest w wersji PL)", "type": "text"}
       - {"name": "portfolioImageAlt", "label": "Opis alternatywny obrazu", "type": "string", "required": true}
       - name: blocks
         label: "Opis projektu"
